@@ -1,0 +1,22 @@
+\chapter{An Augmented Quantum Threshold Scheme}
+
+As we have shown above, one of the main limitations of QC comes from the no-cloning theorem. The first idea we pose attempts to circumvent this limitation. 
+
+If we already begin with two identical copies of a quantum state, then does this do anything to change the limitations surrounding the value of $t$ with respect to $n$? What if we have $k$ copies? In this section, we will explore the properties of such a scheme. We will call this scheme an augmented QTS. Let us formalize this idea and explore its consequences below:
+
+\theoremstyle{definition}
+\begin{definition}{Augmented Quantum Threshold Scheme.}
+     This is a QTS that assumes that we being with $k$ identical copies of a quantum state prepared in advance. As with the normal QTS, we need at least $t$ individuals to come together to recover the secret quantum state. We will denote an augmented QTS as $[k,t,n]$.
+\end{definition}
+
+\section{Preliminary thoughts}
+
+The simplest case that is non-trivial is to ask about a $[2,4,2]$ scheme. Using 2 identical copies of a quantum state, is it possible to implement a scheme among 4 individuals such that only 2 or more people need to come together to recover the secret? The answer is yes. We employ a strategy where we superimpose two access structures on top of one another. Let the two copies of our quantum secret be $\ket{\Psi_1}, \ket{\Psi_2}$, and let the participants be labeled $p_1, p_2, p_3, p_4$. The diagram below shows how we implement the scheme. The red edges denote authorized subsets of size 2 that are a part of the access structure $\Gamma_1$ of $\ket{\Psi_1}$. Blue corresponds to $\Gamma_2$, which is the access structure of $\ket{\Psi_2}$:
+
+% insert a diagram here, maybe use tikz or something
+
+How can we generalize this strategy? Notice that in the case of the $[2,4,2]$ scheme, we need the union $\Gamma_1 \cup \Gamma_2$ to consist of all subsets of size $t$. Each access structure still must satisfy Theorem \ref{qss2}. So, in general, a $((t,n,k))$ scheme is realizable if we can take all subsets of size $t$ of the $n$ participants and divide them into $k$ groups, where each group consists of an access structure that satisfies Theorem \ref{qss2}. We are going to 
+
+\section{Hypergraphs}
+
+
