@@ -1,15 +1,34 @@
 \chapter{An Augmented Quantum Threshold Scheme}
+\label{ch3}
 
 As we have shown above, one of the main limitations of QC comes from the no-cloning theorem. The first idea we pose attempts to circumvent this limitation. 
 
-If we already begin with two identical copies of a quantum state, then does this do anything to change the limitations surrounding the value of $t$ with respect to $n$? What if we have $k$ copies? In this section, we will explore the properties of such a scheme. We will call this scheme an augmented QTS. Let us formalize this idea and explore its consequences below:
+If we already begin with two identical copies of a quantum state, then what does this do, if anything, to change the limitations surrounding the value of $t$ with respect to $n$? What if we have $k$ copies? What schemes are realizable in this new formulation? In this section, we will explore the properties of such a scheme. We will call this an augmented quantum threshold scheme. Let us formalize this idea and explore its consequences below:
 
 \theoremstyle{definition}
 \begin{definition}{Augmented Quantum Threshold Scheme.}
-     This is a QTS that assumes that we being with $k$ identical copies of a quantum state prepared in advance. As with the normal QTS, we need at least $t$ individuals to come together to recover the secret quantum state. We will denote an augmented QTS as $[k,t,n]$.
+     This is a QTS that assumes that we being with $k$ identical copies of a quantum state prepared in advance. As with the normal QTS, we need at least $t$ individuals to come together to recover the secret quantum state. We will denote an augmented QTS as $[t,n,k]$.
 \end{definition}
 
 \section{Preliminary thoughts}
+
+Let's consider the case of $k=2$. If we consider just the consequences of the no-cloning theorem, an extension of Theorem \ref{qss-disjoint} can be posed as follows:
+
+\begin{theorem}
+    In any valid $[t,n,2]$ scheme, any three authorized subsets cannot be pair-wise disjoint.
+\end{theorem}
+
+And a generalization to the case with $k$ identical copies:
+
+\begin{theorem}
+    In any valid $[t,n,k]$ scheme, any $k+1$ authorized subsets cannot be pair-wise disjoint.
+\end{theorem}
+
+We can also extend Theorem \ref{qts} in a similar manner:
+
+
+
+The proofs of these theorems are almost identical to that of Theorem \ref{qss-disjoint}. However, these theorems present 
 
 The simplest case that is non-trivial is to ask about a $[2,4,2]$ scheme. Using 2 identical copies of a quantum state, is it possible to implement a scheme among 4 individuals such that only 2 or more people need to come together to recover the secret? The answer is yes. We employ a strategy where we superimpose two access structures on top of one another. Let the two copies of our quantum secret be $\ket{\Psi_1}, \ket{\Psi_2}$, and let the participants be labeled $p_1, p_2, p_3, p_4$. The diagram below shows how we implement the scheme. The red edges denote authorized subsets of size 2 that are a part of the access structure $\Gamma_1$ of $\ket{\Psi_1}$. Blue corresponds to $\Gamma_2$, which is the access structure of $\ket{\Psi_2}$:
 
