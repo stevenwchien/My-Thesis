@@ -109,6 +109,7 @@
 \setcounter{dbltopnumber}{9}
 \usepackage{braket}
 \usepackage{graphicx}
+\graphicspath{ {./Images/} }
 \usepackage{epstopdf}
 \usepackage[scriptsize]{subfigure}
 \usepackage{booktabs}

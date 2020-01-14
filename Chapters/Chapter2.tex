@@ -27,8 +27,6 @@ A more concrete example of an access structure for a set of participants $\mathc
 
 In 1979, Shamir developed one of the first implementations for a perfect threshold scheme based on polynomial interpolation \cite{shamir-whisper}. His scheme is a $(t,n)$-threshold secret sharing scheme. The scheme works as so. First, encode the secret as some number. Then, generate a $t-1$ degree polynomial. For each of the $n$ participants, generate a pair $i, p(i)$, where $i \in [1, \cdots, n]$, and distribute one such pair to each participants. Then, if $t$ or more participants get together and share their points, they can reconstruct the unique polynomial $p$ that generated those points, and $p(0)$ reveals the secret. Note that, having only $t-1$ or fewer points gives no information about the secret, because there would be infinitely many polynomials of degree $t-1$ passing through those number of points.
 
-
-
 \section{Quantum Computing Preliminaries}
 
 The basic unit of information in a quantum computer is the qubit, or the "quantum bit". A qubit is represented as a quantum state:
@@ -38,13 +36,10 @@ The basic unit of information in a quantum computer is the qubit, or the "quantu
     \ket{\psi} &= \sum_{i=1}^n \alpha_i\ket{i} \\ 
 \end{align*}
 
-- Quantum Operation
-
-A quantum operator is a unitary transformation $U$ that you apply to some state $\ket{\psi}$
+% talk about a quantum operation
 
 One of the most important theorems that has a large effect on quantum computing algorithms is the \textbf{no-cloning theorem}. Here, we present the no-cloning theorem with proof referencing Mermin's 2007 text \cite{merlin}.
 
-\theoremstyle{theorem}
 \begin{theorem}{No cloning theorem}
     \label{no-cloning-thm}
     Given an unknown, arbitrary quantum state $\psi$, there is no valid operator $U$ that can create an identical copy of this state. More formally there exists no operator such that $U(\ket{\psi} \ket{0}) = \ket{\psi}\ket{\psi}$.
@@ -100,13 +95,11 @@ A quantum secret sharing scheme is the quantum analogue of a (classical) secret 
     This theorem is a direct result of Theorem \ref{qss-disjoint}. If $t \leq \frac{n}{2}$, then there would exist at least two authorized subsets that are disjoint. 
 \end{proof}
 
-Note that this theorem does not guarantee the existence of a QTS if this inequality of the threshold is met, only that one cannot exist if the inequality is not met. However, we can indeed prove stronger claims. In 2000, Gottesman showed that a quantum secret sharing scheme exists for an access structure $\Gamma$ as long as $\Gamma$ is \textbf{monotone} and Theorem \ref{qss-disjoint} is satisfied \cite{Gottesman_2000}.
-
-% talk about more properties of a QTS? 
+Note that this theorem does not guarantee the existence of a QTS if this inequality of the threshold is met, only that one cannot exist if the inequality is not met. However, we can indeed prove stronger claims. In 2000, Gottesman showed that a quantum secret sharing scheme exists for an access structure $\Gamma$ as long as $\Gamma$ is monotone and Theorem \ref{qss-disjoint} is satisfied \cite{Gottesman_2000}:
 
 \begin{theorem}
     \label{monotone-gamma}
-    An access structure $\Gamma$ is possible for a QSS scheme iff the access structure is monotone.
+    A quantum secret sharing scheme exists for an access structure iff the access structure is monotonic and the no-cloning theorem is not violated.
 \end{theorem}
 
 As we can see, the no-cloning theorem imposes most of the limitations on realizable QSS schemes. In \cref{ch3}, we will explore some ideas that have the potential to relax the constraints on our QSS schemes. 
