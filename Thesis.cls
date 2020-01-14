@@ -173,7 +173,7 @@
                 {Faculty Name}}
 \FACULTY     {\texorpdfstring{\href{Faculty Web Site URL Here (include http://)}
                 {MARK ZHANDRY}}
-                {FACULTY NAME (IN BLOCK CAPITALS)}}
+
 \addresses   {}
 \subject     {}
 \keywords    {}
@@ -195,7 +195,7 @@
       \setlength{\parskip}{0pt}
       {\large\textbf{PRINCETON UNIVERSITY}\par}
       \vfill
-      {\huge \bf A Really Long Thing that I Wrote During my Senior Year in College. \par}
+      {\huge \bf Thesis Interim Report \par}
       \vfill
       {\LARGE by \par}
       \smallskip
@@ -214,7 +214,7 @@
       \bigskip
       \bigskip
       \bigskip
-      {\Large April 20th,  2020 \par}
+      {\Large January 14th,  2020 \par}
       \bigskip
     \end{center}
     \par
@@ -243,7 +243,7 @@
     \setlength{\parskip}{0pt}
     {\normalsize PRINCETON UNIVERSITY \par}
     \bigskip
-    {\huge{A Really Long Thing that I Wrote During my Senior Year in College.} \par}
+    {\huge{Thesis Interim Report} \par}
     \bigskip
     {\normalsize by Steven Chien \par}
     {\normalsize Department of Electrical Engineering \par}
