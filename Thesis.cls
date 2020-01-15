@@ -116,6 +116,7 @@
 \usepackage{rotating}
 \usepackage{listings}
 \usepackage{lstpatch}
+\usepackage{tikz}
 \lstset{captionpos=b,
         frame=tb,
         basicstyle=\scriptsize\ttfamily,
@@ -170,8 +171,9 @@
                 {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
 \faculty     {\texorpdfstring{\href{Faculty Web Site URL Here (include http://)}
                 {Mark Zhandry}}
-                {Faculty Name}}
+                {Mark Zhandry}}
 \FACULTY     {\texorpdfstring{\href{Faculty Web Site URL Here (include http://)}
+                {MARK ZHANDRY}}
                 {MARK ZHANDRY}}
 
 \addresses   {}
@@ -195,7 +197,7 @@
       \setlength{\parskip}{0pt}
       {\large\textbf{PRINCETON UNIVERSITY}\par}
       \vfill
-      {\huge \bf Thesis Interim Report \par}
+      {\huge \bf Augmenting $((t,n))$-threshold Quantum Secret Sharing Schemes \par}
       \vfill
       {\LARGE by \par}
       \smallskip
@@ -214,7 +216,7 @@
       \bigskip
       \bigskip
       \bigskip
-      {\Large January 14th,  2020 \par}
+      {\Large April 20th,  2020 \par}
       \bigskip
     \end{center}
     \par
@@ -243,7 +245,7 @@
     \setlength{\parskip}{0pt}
     {\normalsize PRINCETON UNIVERSITY \par}
     \bigskip
-    {\huge{Thesis Interim Report} \par}
+    {\huge{Augmenting $((t,n))$-threshold Quantum Secret Sharing Schemes} \par}
     \bigskip
     {\normalsize by Steven Chien \par}
     {\normalsize Department of Electrical Engineering \par}

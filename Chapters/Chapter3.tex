@@ -12,7 +12,7 @@ If we already begin with two identical copies of a quantum state, then what does
 
 \section{Preliminary thoughts}
 
-Let's consider the case of $k=2$. If we consider just the consequences of the no-cloning theorem, an extension of Theorem \ref{qss-disjoint} can be posed as follows:
+Let's consider the case of $k=2$. If we consider just the consequences of the no-cloning theorem, an extension of Theorem \ref{thm:qss-disjoint} can be posed as follows:
 
 \begin{theorem}
     In any valid $((t,n,2))$ scheme, any three authorized subsets cannot be pair-wise disjoint.
@@ -36,80 +36,85 @@ We can also extend Theorem \ref{qts} in a similar manner:
 	A QTS $((t,n, k))$ exists only if $t > \frac{n}{k+1}$.
 \end{theorem}
 
-Each of the proofs of these theorems are almost identical to that of Theorem \ref{qss-disjoint}. However, these theorems only present to us what \textbf{could} be possible. Realizability is a differnet question. It is not immediately obvious that Gottesman's Theorem \ref{monotone-gamma}
+Each of the proofs of these theorems are almost identical to that of Theorem \ref{thm:qss-disjoint}. However, these theorems only present to us what \textbf{could} be possible. Realizability is a differnet question. It is not immediately obvious that Gottesman's Theorem \ref{monotone-gamma}
 
 The simplest case that is non-trivial is to ask about a $[2,4,2]$ scheme. Using 2 identical copies of a quantum state, is it possible to implement a scheme among 4 individuals such that only 2 or more people need to come together to recover the secret? The answer is yes. We employ a strategy where we superimpose two access structures on top of one another. Let the two copies of our quantum secret be $\ket{\psi_1}, \ket{\psi_2}$, and let the participants be labeled $p_1, p_2, p_3, p_4$. The diagram below shows how we implement the scheme. Each node corresponds to one participant, and the red edges denote authorized subsets of size 2 that are a part of the access structure $\Gamma_1$ of $\ket{\psi_1}$. Blue edges correspond to $\Gamma_2$, which is the access structure of $\ket{\psi_2}$:
 
 
-\begin{figure}[h]
-	\label{fig:2-4-2}
+\begin{figure}[ht]
 	\begin{center}
 		\includegraphics[width=0.5\textwidth]{Images/ch3-fig1.png}
 	\end{center}
 	\caption{An image of the access structure for a $((2,4,2))$ threshold scheme, using two copies of the quantum secret.}
+	\label{fig:2-4-2}
 \end{figure}
 
 
-The scheme is as follows: $\Gamma_1 = \{p_1p_2,p_2p_3,p_3p_1\}$ and $\Gamma_2 = \{p_1p_4,p_2p_4,p_3p_4\}$. Notice that in each case, we satisfy Theorem \ref{qss-disjoint}.
+The scheme is as follows: $\Gamma_1 = \{p_1p_2,p_2p_3,p_3p_1\}$ and $\Gamma_2 = \{p_1p_4,p_2p_4,p_3p_4\}$. Notice that in each case, we satisfy Theorem \ref{thm:qss-disjoint}.
 
-How can we generalize this strategy? Notice that in the case of the $((2,4,2))$ scheme, we need the union $\Gamma_1 \cup \Gamma_2$ to consist of all subsets of size 2. Each of these access structures must satisfy Theorem \ref{qss-disjoint}. So, in general, a $((t,n,k))$ scheme is realizable if we can take all subsets of size $t$ of the $n$ participants and divide them into $k$ groups, where each group consists of an access structure that satisfies Theorem \ref{qss-disjoint}. 
+\section{A Better Graphical Representation}
+
+How can we generalize this strategy? Notice that in the case of the $((2,4,2))$ scheme, we need the union $\Gamma_1 \cup \Gamma_2$ to consist of all subsets of size 2. Each of these access structures must satisfy Theorem \ref{thm:qss-disjoint}. So, in general, a $((t,n,k))$ scheme is realizable if we can take all subsets of size $t$ of the $n$ participants and divide them into $k$ groups, where each group consists of an access structure that satisfies Theorem \ref{thm:qss-disjoint}. 
 
 Let's dive deeper into augmented threshold schemes of the form: $((t,n,2))$. What would be helpful to us is a representation of this problem that allows us to better reason about the authorized subsets contained in the access structures. So, instead of having a formulation like the one above where the vertices are individual participants and the edges are the authorized subsets, let's make each authorized subset a vertex, and use the edges between those vertices to represent some relationship between the authorized subsets.
 
 One option would be to draw an edge between two vertices if they have a non-empty intersection. However, we will opt for the complement of this: we will \textbf{draw an edge between two vertices, representing two authorized subsets, if they are disjoint}. We should give a name to this representation:
 
-\theoremstyle{definition}
 \begin{definition}{Access Structure Graph.}
 	We define an \textbf{access structure graph} of $\Gamma$ to be the graph $G = (V,E)$, where there is a vertex $v \in V$ for each authorized subset $A \in \Gamma$. The edgeset $E$ contains an edge between each pair of vertices if their corresponding authorized subsets are disjoint.
 \end{definition}
 
-Let's show the access structure graph respresentation for Figure 3.1:
+Let's show the access structure graph representation for \fref{fig:2-4-2}:
 
-\begin{figure}[h]
-	\label{2-4-2-label}
+\begin{figure}[ht]
 	\begin{center}
 		\includegraphics[width=0.8\textwidth]{Images/ch3-fig2.png}
 	\end{center}
-	\caption{First, we label the edges and show us grouping vertices into their respective authorized subsets. Each edge represents an authorized subset.}
+	\caption{Illustrating that each edge represents an authorized subset in the graph.}
+	\label{fig:2-4-2-edge}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\label{2-4-2-graph}
 	\begin{center}
 		\includegraphics[width=0.3\textwidth]{Images/ch3-fig3.png}
 	\end{center}
-	\caption{In this figure, we have turned each authorized subset into a vertex, and have drawn an edge between disjoint authorized subsets.}
+	\caption{The access structure graph representation for a $((2,4,2))$ scheme.}
 \end{figure}
 
-\begin{remark}
-	Observe that we have actually done two graphical transformations on Figure 3.1. First, we take the Line Graph of Figure 3.1, then we take the complement of that resulting graph. This formulation works best for cases where the authorized susbets are of size 2, but it is interesting to note nontheless.
-\end{remark}
-
-The representation illustrated in Figure 3.3 is useful to us because properties of the graph now give reveal properties of the realizability of their corresponding quantum threshold schemes. Before we get to that, let's talk about graph-coloring:
-
-\theoremstyle{definition}
-\begin{definition}{Chromatic Color}
-	The \textbf{chromatic color} of a graph $\chi(G)$ is the maximum number of colors needed in order to color the vertices of the graph in such a way that vertices of the same color are not adjacent.
-\end{definition}
+In \fref{fig:2-4-2-edge}, we label each edge, and illustrate how each edge is actually a grouping of two vertices. This visual interpretation is useful when we consider authorized subsets of size 3 and greater. In general, we can use the idea of the \textbf{hyperedge}, which was defined in Definition \ref{defn:hyperedge}, to represent authorized subsets, where the vertices are individual participants.
 
 \begin{remark}
-	Observe that the chromatic color of the access structure graph of $\Gamma$ must be 2 for $((t,n,2))$- threshold quantum secret sharing schemes.
+	Observe that we have actually done two graphical transformations on \fref{fig:2-4-2}. First, we take the \textbf{line graph} of \fref{fig:2-4-2}, then we take the \textbf{complement} of that resulting graph. This formulation works best for cases where the authorized susbets are of size 2, but it is interesting to note nontheless.
 \end{remark}
 
-What is even better for $((t,n,2))$ schemes is the fact that another name for graphs with $\chi(G)=2$ is \textbf{bipartite}.
+The representation illustrated in Figure 3.3 is useful to us because properties of the graph now give reveal properties of the realizability of their corresponding quantum threshold schemes. Let's bring in the idea of graph coloring introduced in Definition \ref{defn:colors}.
 
-\theoremstyle{definition}
-\begin{definition}{Bipartite Graph}
-	A \textbf{bipartite graph} is one in which the vertices can be separated into two groups. There are no edges between the vertices in any one group.
-\end{definition}
+\begin{remark}
+	Observe that the chromatic color of the access structure graph of $\Gamma$ is 2 if and only if a $((t,n,2))$-threshold quantum secret sharing scheme is valid.
+\end{remark}
 
-A quick look at Figure 3.3 reveals that the graph is indeed bipartite, again verifying that $((2,4,2))$ is a valid scheme. A well-known result in graph theory is as follows:
+What is even better for $((t,n,2))$ schemes is the fact that another name for graphs with $\chi(G)=2$ is \textbf{bipartite}, which we introduce in Definition \ref{defn:bipartite}.
+
+A quick look at Figure 3.3 reveals that the graph is indeed bipartite, again verifying that $((2,4,2))$ is a valid scheme. A well-known result in graph theory is stated below:
 
 \begin{theorem}
 	\label{bipartite}
 	A graph $G$ is bipartite if and only if $G$ does not contain any odd cycles.
 \end{theorem}
 
-We can use Theorem \ref{bipartite} to also show that $((3,6,2))$ is also a valid scheme, but that $((2,5,2))$ and $((3,7,2))$ are \textbf{not} valid schemes.
+We can use Theorem \ref{bipartite} to also show that $((3,6,2))$ is also a valid scheme, but that $((2,5,2))$ and $((3,7,2))$ are \textbf{not} valid schemes. 
+
+For the $((3,6,2))$ scheme, we show the access structure graph representation of the access structure, and we can see immediately that it is bipartite. We color the vertices so that this is more clear:
+
+% insert the image here, maybe use tikz
+
+For the $((2,5,2))$ scheme, rather than try to draw an access structure, let's try to find an odd cycle in the access structure graph by listing an ordering of vertices that have edges connecting them: $(1,2), (3,4), (5,1), (2,3), (4,5), (1,2)$. Each integer represents an individual, and each pairing of integers represents an size-2 subset. We find that this path with 5 edges is a cycle, so there is an odd-cycle. Therefore, the graph is not bipartite, so $((2,5,2))$ does not represent a valid augmented quantum threshold scheme. We take a similar approach for $((3,7,2))$, and come to the same conclusion.
+
+Let's see if we can find a better approach to classifying these schemes than by simply listing authorized subsets and manually finding odd cycles. 
+
+\section{Generalization Using Graphical Methods}
+
+Let's continue to consider schemes of the form $((t,n,2))$. The number of subsets of size $t$ in a group of $n$ participants is ${t \choose n}$. 
 
 

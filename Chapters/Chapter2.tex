@@ -72,13 +72,13 @@ One of the most important theorems that has a large effect on quantum computing 
 
 A quantum secret sharing scheme is the quantum analogue of a (classical) secret sharing scheme. In these schemes, the secret to be shared takes the form of a quantum state $\ket{\psi}$. This idea was first introduced by Hillery et al. in 1998 \cite{Hillery_1999}. In their paper, they give an example of using GHZ states to implement a $((2,3))$-threshold quantum secret sharing scheme. This was then extended by the work of Cleve, Gottesman, and Lo \cite{Cleve_1999}. In their paper, they introduce the idea of a quantum access structure, and propose implementation for a general threshold schemes.
 
-\theoremstyle{definition}
 \begin{definition}{Quantum Threshold Scheme.}
+    \label{defn:qts}
     A quantum threshold scheme (QTS) is a threshold secret sharing scheme applied to a quantum secret. This secret is denoted as $\ket{\psi}$. As in the classical case, we take a quantum secret and divide it into shares to distribute among a set of individuals. We will denote a QTS among $n$ individuals with a threshold of $t$ as $((t,n))$, using double parentheses to denote that the scheme is quantum.
 \end{definition}
 
 \begin{theorem}
-    \label{qss-disjoint}
+    \label{thm:qss-disjoint}
     A QSS scheme exists for a general access structure $\Gamma$ only if for every $A_1, A_2 \in \Gamma$, $A_1 \cap A_2 \neq \emptyset$.
 \end{theorem}
 
@@ -92,10 +92,10 @@ A quantum secret sharing scheme is the quantum analogue of a (classical) secret 
 \end{theorem}
 
 \begin{proof}
-    This theorem is a direct result of Theorem \ref{qss-disjoint}. If $t \leq \frac{n}{2}$, then there would exist at least two authorized subsets that are disjoint. 
+    This theorem is a direct result of Theorem \ref{thm:qss-disjoint}. If $t \leq \frac{n}{2}$, then there would exist at least two authorized subsets that are disjoint. 
 \end{proof}
 
-Note that this theorem does not guarantee the existence of a QTS if this inequality of the threshold is met, only that one cannot exist if the inequality is not met. However, we can indeed prove stronger claims. In 2000, Gottesman showed that a quantum secret sharing scheme exists for an access structure $\Gamma$ as long as $\Gamma$ is monotone and Theorem \ref{qss-disjoint} is satisfied \cite{Gottesman_2000}:
+Note that this theorem does not guarantee the existence of a QTS if this inequality of the threshold is met, only that one cannot exist if the inequality is not met. However, we can indeed prove stronger claims. In 2000, Gottesman showed that a quantum secret sharing scheme exists for an access structure $\Gamma$ as long as $\Gamma$ is monotone and Theorem \ref{thm:qss-disjoint} is satisfied \cite{Gottesman_2000}:
 
 \begin{theorem}
     \label{monotone-gamma}
@@ -105,21 +105,65 @@ Note that this theorem does not guarantee the existence of a QTS if this inequal
 As we can see, the no-cloning theorem imposes most of the limitations on realizable QSS schemes. In \cref{ch3}, we will explore some ideas that have the potential to relax the constraints on our QSS schemes. 
 
  
-\section{Hypergraph Formulation}
+\section{Graphs and Hypergraphs}
 
-Access structures lend themselves naturally to graphical representations. One way of representing access structures is using a \textit{hypergraph}.
+Access structures lend themselves naturally to graphical representations. Let's define some common terms from graph theory, as they will become useful later in this paper. 
 
-\theoremstyle{definition}
+\begin{definition}{Graph.}
+    \label{graph}
+    A \textbf{graph} $G=(V,E)$ is composed of a set of vertices and a set of edges. Each edge is incident to two vertices.
+\end{definition}
+
+\begin{definition}{Complement.}
+    \label{defn:complement}
+    The \textbf{complement} of a graph $G = (V,E)$ is the graph $G^c = (V,E^c)$. The set of vertices in each graph is the same. If two vertices in $G$ are not adjacent, then they are adjacent in $G^c$, and vice-versa.
+\end{definition}
+
+\begin{definition}{Line Graph.}
+    \label{defn:line-graph}
+    The \textbf{line graph} $L(G)$ of a graph $G$ is the graph where each vertex of $L(G)$ corresponds to one edge in $G$. Two vertices in $L(G)$ are adjacent if they are incident to the same vertex in $G$. 
+\end{definition}
+
+\begin{definition}{Chromatic Color.}
+    \label{defn:colors}
+	The \textbf{chromatic color} of a graph $\chi(G)$ is the maximum number of colors needed in order to color the vertices of the graph in such a way that vertices of the same color are not adjacent.
+\end{definition}
+
+\begin{definition}{Bipartite Graph.}
+    \label{defn:bipartite}
+	A \textbf{bipartite graph} is a graph in which the vertices can be separated into two independent and disjoint sets $U,V$. There are no edges between the vertices in any one set of vertices, and every edge in the graph connects a vertex in $U$ with a vertex in $V$.
+\end{definition}
+
+So how might we go about representing an access structure $\Gamma$ as a graph $G$? One idea might be to have each participant in $\mathcal{P}$ be a vertex in a graph, and use an edge to connect them if they are in the same authorized subset. Here's an example. Let $p_1,p_2,p_3$ be the participants, and let $\Gamma$ represent a (2,3)-threshold scheme (it doesn't matter whether it is quantum or not). Then the graphical representation would be:
+
+% TODO:show a triangle, a (2,3) threshold scheme
+\begin{figure}[ht]
+    \centering
+    yelo
+    \caption{Graphical representation of a (2,3) scheme.}
+    \label{fig:2-3-scheme}
+\end{figure}
+
+% end tikz diagram
+
+Obviously, such an approach only works if the authorized subsets are of size 2. It doesn't even generalize well to subsets of size 1! So, we introduce the idea of a \textbf{hyperedge}, \textbf{hypergraph}, and other related concepts, which is defined below: 
+
+\begin{definition}{Hyperedge.}
+    \label{defn:hyperedge}
+    A \textbf{hyperedge} is an extension of a normal edge. A hyperedge can have any non-zero number of incident vertices.
+\end{definition}
+
 \begin{definition}{Hypergraph.}
-    A hypergraph $H$ is a pair $(V,E)$ that specify a set of vertices $V$ and a set of hyperedges $E$. A hyperedge is the extension of a normal edge where the edge can have any number of non-zero endpoints, up to the number of vertices in the graph.
+    \label{defn:hypergraph}
+    A \textbf{hypergraph} $H$ is a pair $(V,E)$ that specify a set of vertices $V$ and a set of hyperedges $E$.
 \end{definition}
 
-\theoremstyle{definition}
 \begin{definition}{Hypercycles.}
-    A hypercycle $H$ is a hypergraph $H = (V,E)$ where there exists an ordering of hyperedges: $(E_1, E_2, \cdots, E_{m-1})$ such that $E_{i} \cap E_{(i+1) m o d m} \neq \emptyset$ for $i = 1,2,\cdots,m-1$.
+    A \textbf{hypercycle} $H$ is a hypergraph $H = (V,E)$ where there exists an ordering of hyperedges: $(E_1, E_2, \cdots, E_{m-1})$ such that $E_{i} \cap E_{(i+1) m o d m} \neq \emptyset$ for $i = 1,2,\cdots,m-1$.
 \end{definition}
 
-\theoremstyle{definition}
 \begin{definition}{Hyperstars.}
-    A hyperstar is a hypergraph $H = (V,E)$ where the intersection of all the hyperedges $\bigcap_{E_{i} \in E} E_{i} \neq \varnothing$.
+    A \textbf{hyperstar} is a hypergraph $H = (V,E)$ where the intersection of all the hyperedges $\bigcap_{E_{i} \in E} E_{i} \neq \varnothing$.
 \end{definition}
+
+Now, we can use the same representation as before, but we replace the edges with hyperedges: a set of vertices are incident to the same hyperedge if they are in the same authorized subset. We will see that this formulation is also not enough. More to come in the next chapter.
