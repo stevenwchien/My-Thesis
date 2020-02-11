@@ -6,18 +6,27 @@ In this section we will describe secret sharing schemes and talk about some of i
 
 \theoremstyle{definition}
 \begin{definition}{Access Structure.}
+    \label{defn:access-structure}
     An \textbf{access structure} is often denoted as $\Gamma$. An access structure specifies the set of all authorized subsets of users that are able to recover the secret.
 \end{definition}
 
 \theoremstyle{definition}
-\begin{definition}{Monotonic Access Structure.}
-    An access structure $\Gamma$ is \textbf{monotonic} if $B \in \Gamma$ and $B \subseteq C$ implies $C \in \Gamma$.
+\begin{definition}{Monotone Access Structure.}
+    \label{defn:monotone}
+    An access structure $\Gamma$ is \textbf{monotone} if $B \in \Gamma$ and $B \subseteq C$ implies $C \in \Gamma$.
 \end{definition}
 
-This is a particularly useful definition. Essentially, if some subset satisfies the access structure, then larger groups that contain that subset must also satisfy the access structure. We will see later on that the property of monotonicity for an access structure leads to strong claims within quantum secret sharing schemes. For now, and for the sake of simplicity, we will assume that our access structures are monotone. When we describe an access structure, we will do so using its \textbf{minimal} authorized subsets. These are the subsets $A_0, A_1... \in \Gamma$ whose proper subsets are not in $\Gamma$. The set of minimal authorized subsets completely defines an access structure. 
+\theoremstyle{definition}
+\begin{definition}{Minimal Access Structure.}
+    \label{defn:minimal}
+    An access structure $\Gamma$ is \textbf{minimal} if $A \in \Gamma$ implies for every $A' \in \Gamma \setminus \{A\}$, $A' \not\subset A$. Another name for this is an access structure's \textbf{basis}.
+\end{definition}
+
+\defref{defn:monotone} is particularly useful to us. Essentially, if some set of participants satisfies the access structure, then all supersets of that set should also satisfy the access structure. We will see later on that the property of monotonicity for an access structure leads to strong claims within the realizability of quantum secret sharing schemes. For now, and for the sake of simplicity, we will assume that all of the access structures we are talking about are monotone. Therefore, when we describe an access structure, we only need to do so using its \textbf{minimal} access structure or basis. 
 
 \theoremstyle{definition}
 \begin{definition}{Threshold Scheme.}
+    \label{defn:threshold-scheme}
     A \textbf{$(t,n)$-threshold secret sharing scheme} is a secret sharing scheme among $n$ individuals such that at least $t$ of those individuals must work together to access the secret. The access structure for this scheme is composed of every subset of $\mathcal{P}$ of size $t$.
 \end{definition}
 
@@ -25,23 +34,54 @@ We say that $A$ is authorized if $A \in \Gamma$. So, for our $(t,n)$ threshold s
 
 A more concrete example of an access structure for a set of participants $\mathcal{P} = \{p_1,p_2,p_3\}$ might be $\Gamma = \{p_1p_2,p_2p_3,p_3p_1\}$. This access structure describes a $(2,3)$ threshold scheme.
 
-In 1979, Shamir developed one of the first implementations for a perfect threshold scheme based on polynomial interpolation \cite{shamir-whisper}. His scheme is a $(t,n)$-threshold secret sharing scheme. The scheme works as so. First, encode the secret as some number. Then, generate a $t-1$ degree polynomial. For each of the $n$ participants, generate a pair $i, p(i)$, where $i \in [1, \cdots, n]$, and distribute one such pair to each participants. Then, if $t$ or more participants get together and share their points, they can reconstruct the unique polynomial $p$ that generated those points, and $p(0)$ reveals the secret. Note that, having only $t-1$ or fewer points gives no information about the secret, because there would be infinitely many polynomials of degree $t-1$ passing through those number of points.
+As we mentioned above, Shamir developed one of the first implementations for a perfect threshold scheme based on polynomial interpolation \cite{shamir}. His scheme is a $(t,n)$-threshold secret sharing scheme. The scheme works as so. First, encode the secret as some number. Then, generate a $t-1$ degree polynomial. For each of the $n$ participants, generate a pair $i, p(i)$, where $i \in [1, \cdots, n]$, and distribute one such pair to each participants. Then, if $t$ or more participants get together and share their points, they can reconstruct the unique polynomial $p$ that generated those points, and $p(0)$ reveals the secret. Note that, having only $t-1$ or fewer points gives no information about the secret, because there would be infinitely many polynomials of degree $t-1$ passing through those number of points.
 
 \section{Quantum Computing Preliminaries}
 
-The basic unit of information in a quantum computer is the qubit, or the "quantum bit". A qubit is represented as a quantum state:
+The basic unit of information in a quantum computer is the qubit, or the "quantum bit". A qubit is represented as a \textbf{quantum state}:
 
 % flesh out this definition
 \begin{align*}
     \ket{\psi} &= \sum_{i=1}^n \alpha_i\ket{i} \\ 
 \end{align*}
 
-% talk about a quantum operation
+A \textbf{quantum operation} is a unitary operator $U$ that acts on a quantum state $\ket{\psi}$.
+
+\begin{definition}{Unitary Operator}
+    A \textbf{unitary operator} $U;\mathcal{H} \to \mathcal{H}$ is a linear operator on a Hilbert space $\mathcal{H}$ that satisfies:
+    
+    \begin{align*}
+        U^*U = UU^* = I \\ 
+    \end{align*}
+    
+    Where $U^*$ is the adjoint of $U$.
+\end{definition}
+
+Examples of some commonly used operators are the 4 Pauli operators:
+
+\begin{align*}
+    I &= \begin{pmatrix}
+        1 & 0 \\ 
+        0 & 1 \\ 
+    \end{pmatrix} \\ 
+    X &= \begin{pmatrix}
+        0 & 1 \\ 
+        1 & 0 \\ 
+    \end{pmatrix} \\ 
+    Y &= \begin{pmatrix}
+        0 & i \\ 
+        -i & 0 \\ 
+    \end{pmatrix} \\ 
+    Z &= \begin{pmatrix}
+        1 & 0 \\ 
+        0 & -1 \\ 
+    \end{pmatrix} \\ 
+\end{align*}
 
 One of the most important theorems that has a large effect on quantum computing algorithms is the \textbf{no-cloning theorem}. Here, we present the no-cloning theorem with proof referencing Mermin's 2007 text \cite{merlin}.
 
-\begin{theorem}{No cloning theorem}
-    \label{no-cloning-thm}
+\begin{theorem}{No-Cloning Theorem.}
+    \label{thm:no-cloning-thm}
     Given an unknown, arbitrary quantum state $\psi$, there is no valid operator $U$ that can create an identical copy of this state. More formally there exists no operator such that $U(\ket{\psi} \ket{0}) = \ket{\psi}\ket{\psi}$.
 \end{theorem}
 
@@ -50,32 +90,35 @@ One of the most important theorems that has a large effect on quantum computing 
     
     \begin{align*}
         U(\alpha \ket{\psi} + \beta \ket{\phi})\otimes\ket{0} &= (\alpha \ket{\psi} + \beta \ket{\phi})\otimes (\alpha \ket{\psi} + \beta \ket{\phi}) \\ 
-        &= \alpha^2\braket{\phi|\phi} + \beta^2\braket{\psi|\psi} + \alpha \beta \braket{\phi|\psi} + \alpha \beta \braket{\psi|\phi} \numberthis \label{no-clone-1}\\ 
+        &= \alpha^2\braket{\phi|\phi} + \beta^2\braket{\psi|\psi} + \alpha \beta \braket{\phi|\psi} + \alpha \beta \braket{\psi|\phi} \numberthis \label{eqn:no-clone-1}\\ 
     \end{align*}
     
     But by linearity, we also have:
     
     \begin{align*}
         U(\alpha \ket{\psi} + \beta \ket{\phi})\otimes\ket{0} &= \alpha U \ket{\psi}\ket{0} + \beta U \ket{\phi}\ket{0} \\ 
-        &= \alpha \ket{\psi}\ket{\psi} + \beta \ket{\phi}\ket{\phi} \numberthis \label{no-clone-2}\\ 
+        &= \alpha \ket{\psi}\ket{\psi} + \beta \ket{\phi}\ket{\phi} \numberthis \label{eqn:no-clone-2}\\ 
     \end{align*}
     
-    Equation \ref{no-clone-1} and equation \ref{no-clone-2} can only be the same if one of $\alpha$ or $\beta$ is equal to 0, which contradicts the assumption that $\ket{\psi}, \ket{\phi}$ are arbitrary.
+    \eqnref{eqn:no-clone-1} and \eqnref{eqn:no-clone-2} can only be the same if one of $\alpha$ or $\beta$ is equal to 0, which contradicts the assumption that $\ket{\psi}, \ket{\phi}$ are arbitrary.
 \end{proof}
 
 \theoremstyle{remark}
 \begin{remark}
-    Note that the theorem statement can also be made with any state $\ket{e}$ instead of $\ket{0}$. What is important is that there is no unitary operator that acts as a "general purpose copier", where the relation between the state that is to be copied and the state that is being overwritten is arbitrary. For example, it would be easy to create an operator that can copy a state $\ket{\phi}$ if we know for a fact that the state is either $\ket{0}$ or $\ket{1}$.
+    Note that the theorem statement can also be made with any state $\ket{e}$ instead of $\ket{0}$. What is important is that there is no unitary operator that acts as a "general purpose copier", where the relation between the state that is to be copied and the state that is being overwritten is arbitrary. For example, it would be easy to create an operator that can copy a state $\ket{\phi}$ if we know for a fact that the state is either $\ket{0}$ or $\ket{1}$ \cite{merlin}.
 \end{remark}
 
 \section{Quantum Secret Sharing}
 
-A quantum secret sharing scheme is the quantum analogue of a (classical) secret sharing scheme. In these schemes, the secret to be shared takes the form of a quantum state $\ket{\psi}$. This idea was first introduced by Hillery et al. in 1998 \cite{Hillery_1999}. In their paper, they give an example of using GHZ states to implement a $((2,3))$-threshold quantum secret sharing scheme. This was then extended by the work of Cleve, Gottesman, and Lo \cite{Cleve_1999}. In their paper, they introduce the idea of a quantum access structure, and propose implementation for a general threshold schemes.
+% quantum secret sharing scheme
+A quantum secret sharing scheme is the quantum analogue of a (classical) secret sharing scheme. In these schemes, the secret to be shared takes the form of a quantum state $\ket{\psi}$. This idea was first introduced by Hillery et al. in 1998 \cite{Hillery_1999}. In their paper, they give an example of a $((2,3))$-threshold quantum secret sharing scheme implemented using GHZ states. This was then extended by the work of Cleve, Gottesman, and Lo \cite{Cleve_1999}. In their paper, they introduce the idea of a quantum access structure, and propose implementation for a general threshold schemes.
 
 \begin{definition}{Quantum Threshold Scheme.}
     \label{defn:qts}
     A quantum threshold scheme (QTS) is a threshold secret sharing scheme applied to a quantum secret. This secret is denoted as $\ket{\psi}$. As in the classical case, we take a quantum secret and divide it into shares to distribute among a set of individuals. We will denote a QTS among $n$ individuals with a threshold of $t$ as $((t,n))$, using double parentheses to denote that the scheme is quantum.
 \end{definition}
+
+As with classical secret sharing, quantum threshold schemes are a specific class of quantum secret sharing schemes--ones with a certain access structure. Note that additional restrictions apply to secret sharing schemes applied to quantum information.
 
 \begin{theorem}
     \label{thm:qss-disjoint}
@@ -83,26 +126,44 @@ A quantum secret sharing scheme is the quantum analogue of a (classical) secret 
 \end{theorem}
 
 \begin{proof}
-    Let's assume, for the sake of contradiction, that there exist two disjoint subsets such that each recover the secret. Then, we would have two copies of the quantum state, which violates Theorem \ref{no-cloning-thm}. 
+    Let's assume, for the sake of contradiction, that there exist two disjoint subsets such that each recover the secret. Then, we would have two copies of the quantum state, which violates \thmref{thm:no-cloning-thm}. 
 \end{proof}
 
 \begin{theorem}
-    \label{qts}
+    \label{thm:qts}
     A QTS $((t,n))$ exists only if $t > \frac{n}{2}$.
 \end{theorem}
 
 \begin{proof}
-    This theorem is a direct result of Theorem \ref{thm:qss-disjoint}. If $t \leq \frac{n}{2}$, then there would exist at least two authorized subsets that are disjoint. 
+    This theorem is a direct result of \thmref{thm:qss-disjoint}. If $t \leq \frac{n}{2}$, then there would exist at least two authorized subsets that are disjoint. 
 \end{proof}
 
-Note that this theorem does not guarantee the existence of a QTS if this inequality of the threshold is met, only that one cannot exist if the inequality is not met. However, we can indeed prove stronger claims. In 2000, Gottesman showed that a quantum secret sharing scheme exists for an access structure $\Gamma$ as long as $\Gamma$ is monotone and Theorem \ref{thm:qss-disjoint} is satisfied \cite{Gottesman_2000}:
+Note that this theorem does not guarantee the existence of a QTS if this inequality of the threshold is met, only that one cannot exist if the inequality is not met. However, we can indeed prove stronger claims. In 2000, Gottesman showed that a quantum secret sharing scheme exists for an access structure $\Gamma$ as long as $\Gamma$ is monotone and \thmref{thm:qss-disjoint} is satisfied \cite{gottesman_theory_2000}:
 
 \begin{theorem}
-    \label{monotone-gamma}
+    \label{thm:monotone-gamma}
     A quantum secret sharing scheme exists for an access structure iff the access structure is monotonic and the no-cloning theorem is not violated.
 \end{theorem}
 
-As we can see, the no-cloning theorem imposes most of the limitations on realizable QSS schemes. In \cref{ch3}, we will explore some ideas that have the potential to relax the constraints on our QSS schemes. 
+As we can see, the no-cloning theorem imposes most of the limitations on realizable QSS schemes. 
+
+% talk about using a classical key to encrypt a quantum secret
+In 2001, Nascimento presented a scheme that uses a mixture of quantum and classical data to implement secret sharing schemes \cite{nascimento_improving_2001}. His idea combines a method of encrypting quantum data using classical data with the idea of \textit{improvable secret sharing schemes}. The hybrid encryption is presented by Mosca, Tapp, and Wolf \cite{mosca2000private}. They use a classical key $K$ that uses $2n$ bits, where $n$ is the number of qubits in the secret. We encode the state $\ket{\Psi}$ as so. Each pair of bits corresponds to a unitary operator performed on the corresponding qubit. A $00$ means that we apply the $I$ operator, $01$ means $X$, $10$ means $Y$ and $11$ means $Z$. We can then apply a classical secret sharing scheme on the classical key $K$, and a quantum secret sharing scheme on the encrypted quantum state $\ket{\Psi '}$.
+
+% talk about improvable scheme here
+Nascimento defines an improvable quantum secret sharing scheme as follows:
+
+\begin{definition}{Improvable Secret Sharing Scheme.}
+    \label{defn:improvable}
+    An improvable secret sharing scheme is a quantum secret sharing scheme that can be implemented with fewer quantum shares than the number of participants in $\mathcal{P}$.
+\end{definition}
+
+The main idea of ann improvable secret sharing scheme is one where the number of quantum shares distributed is less than the number of participants.
+
+% hybrid schemes
+He shows that these hybrid schemes are able to implement more schemes. In 2016, Bai publishes two papers. The first presents a generalized information theoretic model for quantum secret sharing, and the second uses that model to analyze access structures \cite{bai_generalized_2016} \cite{bai_quantum_2017}. In 2017, Xu presents an extension to Nascimento's work using Bai's generalized model \cite{xu_new_2017}. Xu is able to implement any secret sharing scheme using this generalized hybrid model, which he calls a New Improving Secret Sharing Scheme. 
+
+In \cref{ch3}, we will explore some ideas that have the potential to relax the constraints on our QSS schemes. 
 
  
 \section{Graphs and Hypergraphs}
@@ -110,7 +171,7 @@ As we can see, the no-cloning theorem imposes most of the limitations on realiza
 Access structures lend themselves naturally to graphical representations. Let's define some common terms from graph theory, as they will become useful later in this paper. 
 
 \begin{definition}{Graph.}
-    \label{graph}
+    \label{defn:graph}
     A \textbf{graph} $G=(V,E)$ is composed of a set of vertices and a set of edges. Each edge is incident to two vertices.
 \end{definition}
 
@@ -134,20 +195,6 @@ Access structures lend themselves naturally to graphical representations. Let's 
 	A \textbf{bipartite graph} is a graph in which the vertices can be separated into two independent and disjoint sets $U,V$. There are no edges between the vertices in any one set of vertices, and every edge in the graph connects a vertex in $U$ with a vertex in $V$.
 \end{definition}
 
-So how might we go about representing an access structure $\Gamma$ as a graph $G$? One idea might be to have each participant in $\mathcal{P}$ be a vertex in a graph, and use an edge to connect them if they are in the same authorized subset. Here's an example. Let $p_1,p_2,p_3$ be the participants, and let $\Gamma$ represent a (2,3)-threshold scheme (it doesn't matter whether it is quantum or not). Then the graphical representation would be:
-
-% TODO:show a triangle, a (2,3) threshold scheme
-\begin{figure}[ht]
-    \centering
-    yelo
-    \caption{Graphical representation of a (2,3) scheme.}
-    \label{fig:2-3-scheme}
-\end{figure}
-
-% end tikz diagram
-
-Obviously, such an approach only works if the authorized subsets are of size 2. It doesn't even generalize well to subsets of size 1! So, we introduce the idea of a \textbf{hyperedge}, \textbf{hypergraph}, and other related concepts, which is defined below: 
-
 \begin{definition}{Hyperedge.}
     \label{defn:hyperedge}
     A \textbf{hyperedge} is an extension of a normal edge. A hyperedge can have any non-zero number of incident vertices.
@@ -159,11 +206,11 @@ Obviously, such an approach only works if the authorized subsets are of size 2. 
 \end{definition}
 
 \begin{definition}{Hypercycles.}
+    \label{defn:hypercycle}
     A \textbf{hypercycle} $H$ is a hypergraph $H = (V,E)$ where there exists an ordering of hyperedges: $(E_1, E_2, \cdots, E_{m-1})$ such that $E_{i} \cap E_{(i+1) m o d m} \neq \emptyset$ for $i = 1,2,\cdots,m-1$.
 \end{definition}
 
 \begin{definition}{Hyperstars.}
+    \label{defn:hyperstar}
     A \textbf{hyperstar} is a hypergraph $H = (V,E)$ where the intersection of all the hyperedges $\bigcap_{E_{i} \in E} E_{i} \neq \varnothing$.
 \end{definition}
-
-Now, we can use the same representation as before, but we replace the edges with hyperedges: a set of vertices are incident to the same hyperedge if they are in the same authorized subset. We will see that this formulation is also not enough. More to come in the next chapter.

@@ -1,4 +1,25 @@
 \chapter{General Augmented Quantum Threshold Schemes}
 \label{ch4}
 
-Yuhhh
+In general, a $((t,n,k))$ scheme is possible if its corresponding access structure graph is $k$-colorable. This is a generalization of \thmref{thm:2-color-access}.
+
+\begin{theorem}
+    \label{thm:k-color-access}
+    The access structure graph of an access structure corresponding to $\Gamma$ of the scheme $((t,n,k))$ must be $k$-colorable.
+\end{theorem}
+
+Let's consider an example with $k=3$. Drawing from previous examples, note that a scheme like $((2,5,3))$ would be possible. This is a better $(t,n)$ compared to $((2,4,2))$. One way that we could go about this would be to take our scheme for $((2,4,2))$, add an extra state to it, and another player $p_5$, and have the access structure of that state cover all authorized subsets that contain $p_5$. By construction, this forms a valid augmented quantum threshold scheme, assuming the scheme upon it was built was valid to begin with. This is a result that we can generalize.
+
+\begin{theorem}
+    \label{} 
+    Any scheme of the form $((t,2t-1+k,k))$ is a valid augmented quantum threshold scheme.
+\end{theorem}
+
+In an attempt to realize better schemes, we decide to approach this problem by considering the regular nature of these access structure graphs. Most notably, they will have $\binom{n}{t}$ vertices. Let's explore some substructures present in these graphs.
+
+When considering $((t,n,k))$ schemes, one possibility would be to look for cliques of size $k+1$. If we found these, then it would be trivial to show that the graph would not be $k$-colorable. However, we would only find such cliques if there were $k+1$ pairwise disjoint sets, which is ruled out by \thmref{thm:k-authorized}. 
+
+
+\section{The Equivalence of Augmented Quantum Threshold Schemes with Improvable Hybrid Secret Sharing Schemes}
+
+In this section, we are going to connect Nascimento's improvable secret sharing schemes with our augmented quantum secret sharing schemes. 
