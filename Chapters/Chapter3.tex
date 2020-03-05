@@ -41,7 +41,7 @@ We can also extend \thmref{thm:qts} in a similar manner:
 
 Each of the proofs of these theorems are almost identical to that of \thmref{thm:qss-disjoint}. However, these theorems only present to us what schemes are not immediately ruled out by the no-cloning theorem. Figuring out methods of realizing these schemes is a different question. It is not immediately obvious that Gottesman's \thmref{thm:monotone-gamma} applies to augmented threshold schemes.
 
-\section{An Access Structure Union Approach}
+\section{A Union of Access Structures Approach}
 
 The simplest case that is non-trivial is to consider a $((2,4,2))$ scheme. Using 2 identical copies of a quantum state, is it possible to implement a scheme among 4 individuals such that only 2 or more people need to come together to recover the secret? The answer is yes.
 
@@ -77,41 +77,16 @@ How can we generalize this strategy? Notice that in the case of the $((2,4,2))$ 
 
 Let's dive deeper into augmented threshold schemes of the form: $((t,n,2))$. What would be useful for us is a representation of this problem that allows us to better reason about the authorized subsets contained in the access structures. The formulation we use in \fref{fig:2-4-2} is a natural one: where each node represents a participant, and the edges represent authorized subsets. However, we run into the problem where we can only properly represent authorized subsets of size 2.
 
-To generalize this approach, we take inspiration from Di Crescenzo and Galdi \cite{di_crescenzo_hypergraph_2009}. They use a \textbf{hypergraph} representation, where we generalize the idea of an edge to that of a \textbf{hyperedge}, as defined in \defref{defn:hyperedge}. \fref{fig:2-4-2-edge} shows what it would look like to depict \fref{fig:2-4-2} as a hypergraph.
+So, instead of representing the participants as vertices and the authorized subsets as edges, we take inspiration from Singh and Srikanth's \cite{singh_assisted_2004} AS graph representation, which we defined in \defref{defn:access-structure-graph}. We \textbf{make each authorized subset a vertex}, and have the edges denote some relationship between the authorized sets. However, we make one modification from their representation. Instead of having an edge between any two authorized sets that overlap, we place an edge between them if they \textbf{do not overlap}. In other words, this is the \textit{complement} of the AS graph.
 
-\begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}[scale=3,auto=left,every
-	node/.style={circle,fill=white}]
-      \node [draw] (n1) at (0,1) {1};
-      \node [draw] (n2) at (1,1) {2};
-      \node [draw] (n3) at (0,0) {3};
-      \node [draw] (n4) at (1,0) {4};
-      
-      \draw [blue] (n1) -- (n2) node [midway] {$E_1$};
-      \draw [blue] (n3) -- (n2) node [near end] {$E_3$};
-      \draw [blue] (n1) -- (n3) node [midway,left] {$E_2$};
-      \draw [red] (n1) -- (n4) node [near end] {$E_4$};
-      \draw [red] (n2) -- (n4) node [midway] {$E_5$};
-      \draw [red] (n3) -- (n4) node [midway,below] {$E_6$};
-    \end{tikzpicture}
-    \caption{Labelling each edge in \fref{fig:2-4-2}. Each hyperedge represents an authorized subset in the access structure.}
-    \label{fig:2-4-2-edge}
-\end{figure}
-
-Although this approach helps us generalize to authorized subsets of different sizes, it is still not the most useful to us, if we would like to apply graphical methods.
-
-So, instead of representing the participants as vertices and the authorized subsets as edges, we \textbf{make each authorized subset a vertex}, and use the edges between those vertices to represent some relationship between the authorized subsets.
-
-One option would be to draw an edge between two vertices if they have a non-empty intersection. However, we will opt for the complement of this: we will \textbf{draw an edge between two vertices, representing two authorized subsets, if they are disjoint}. We should give a name to this representation:
-
-\begin{definition}{Access Structure Graph.}
+\begin{definition}{Access Structure Graph Complement.}
+    \label{defn:access-structure-graph-complement}
 	We define an \textbf{access structure graph} of $\Gamma$ to be the graph $G = (V,E)$, where there is a vertex $v \in V$ for each authorized subset $A \in \Gamma$. The edgeset $E$ contains an edge between each pair of vertices if their corresponding authorized subsets are disjoint.
 \end{definition}
 
-The access structure graph representation for \fref{fig:2-4-2} is shown in \fref{fig:2-4-2-graph}:
+The access structure graph complement for \fref{fig:2-4-2} is shown in \fref{fig:2-4-2-graph}. Later in this section, we will explore why using the complement of the AS graph can be beneficial to us:
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
 	\begin{tikzpicture}[scale=3,every
 	node/.style={circle,fill=white}]
@@ -130,15 +105,11 @@ The access structure graph representation for \fref{fig:2-4-2} is shown in \fref
     \label{fig:2-4-2-graph}
 \end{figure}
 
-\begin{remark}
-	Observe that we have actually done two graphical transformations on \fref{fig:2-4-2} in order to transform it into \fref{fig:2-4-2-graph}. First, we take the \textbf{line graph} of \fref{fig:2-4-2}, then we take the \textbf{complement} of that resulting graph. Thinking of this formulation in terms of these graph transformations only works for cases where the authorized susbets are of size 2, but it is interesting to note nontheless.
-\end{remark}
-
 The representation illustrated in \fref{fig:2-4-2-graph} is useful to us because properties of the graph now reveal properties of the realizability of their corresponding quantum threshold schemes. Let's bring in the idea of graph coloring introduced in \defref{defn:colors}.
 
 \begin{theorem}
     \label{thm:2-color-access}
-	Observe that the chromatic color of the access structure graph of $\Gamma$ is 2 if and only if a $((t,n,2))$-threshold quantum secret sharing scheme is valid.
+    The chromatic color of the access structure graph of $\Gamma$ is 2 if and only if a $((t,n,2))$-threshold quantum secret sharing scheme is valid.
 \end{theorem}
 
 This is true because it implies that there does not exist 3 or more authorized subsets that are pairwise-disjoint.

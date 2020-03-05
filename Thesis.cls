@@ -120,6 +120,7 @@
 \usepackage{lstpatch}
 \usepackage{tikz}
 \usepackage{subcaption}
+\usepackage{float}
 \lstset{captionpos=b,
         frame=tb,
         basicstyle=\scriptsize\ttfamily,

@@ -1,8 +1,5 @@
 \chapter{Introduction}
 
-Picture this: It's Sunday night, 9pm. You are sitting on your couch watching your favorite show while sipping on a Natural Light's Naturdays.
-
-% TODO: cite shamir
 Secret sharing is a cryptographic procedure by which we take some sensitive data or a "secret" and distribute it among individual parties in such a way that access to the secret requires sufficiently large subsets of those parties to come together. One of the first secret sharing schemes was introduced by Shamir \cite{shamir}. In his paper, he presents an efficient implementation of a \textit{($t,n$) threshold scheme}, which allows the secret to be easily retrieved if $t$ or more people come together, but $t-1$ or fewer people have no additional information about the secret. Applications of such schemes are numerous, but some examples include giving a group of bank executives  access to a vault, requiring multiple officials to launch nuclear warheads, and voting procedures on a board of directors.
 
 The threshold scheme is a naturally symmetric example of a secret sharing scheme, but it is not the only kind. In general, we can define an \textit{access structure} for a secret sharing scheme, which defines the set of subsets of individuals that are authorized to recover the secret. Not every access structure is possible. One of the main restrictions is that an access structure must be \textit{monotone}. A \textit{monotone access structure} satisfies the condition that any subset of a set not in the access structure is also not in the access structure. This is intuitive. If this were not true, then the larger unauthorized set that contains the authorized one could gain access to the secret simply by using one of its own subsets. 
