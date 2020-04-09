@@ -1,9 +1,7 @@
 \chapter{An Augmented Quantum Threshold Scheme}
 \label{ch3}
 
-As we have shown above, one of the main limitations of QC comes from the no-cloning theorem. The first idea we pose attempts to circumvent this limitation. 
-
-If we begin with two identical copies of a quantum state, then what does this do, if anything, to change the limitations surrounding the value of $t$ with respect to $n$? What if we have $k$ copies? What schemes are realizable in this new formulation? In this section, we will explore the properties of such a scheme. We will call this an augmented quantum threshold scheme. Let us formalize this idea and explore its consequences below:
+In this section, we pose our own idea to circumvent the no-cloning theorem, starting by posing the following question: What, if anything, can we do if we were to start with two identical copies of a quantum state? Is there any way we can propose a scheme that circumvents the limitations imposed by the no-cloning theorem? What if we have $k$ copies? What schemes are realizable in this new formulation? In this section, we will explore the properties of such a scheme. We will call this an \textit{augmented quantum threshold scheme}. Let us formalize this idea and explore its consequences below:
 
 \theoremstyle{definition}
 \begin{definition}{Augmented Quantum Threshold Scheme.}
@@ -11,7 +9,7 @@ If we begin with two identical copies of a quantum state, then what does this do
      This is a QTS that assumes that we being with $k$ identical copies of a quantum state prepared in advance. As with the normal QTS, we need at least $t$ individuals to come together to recover the secret quantum state. We will denote an augmented QTS as $((t,n,k))$.
 \end{definition}
 
-\section{Preliminary thoughts}
+\section{A Loose Upper Bound}
 
 Let's consider the case of $k=2$. If we consider just the consequences of the no-cloning theorem, an extension of \thmref{thm:qss-disjoint} can be posed as follows:
 
@@ -31,12 +29,12 @@ We can also extend \thmref{thm:qts} in a similar manner:
 
 \begin{theorem}
 	\label{thm:qts2}
-	A QTS $((t,n, 2))$ exists only if $t > \frac{n}{3}$.
+	A QTS $((t,n, 2))$ can exist only if $t > \frac{n}{3}$.
 \end{theorem}
 
 \begin{theorem}
 	\label{thm:qtsk}
-	A QTS $((t,n, k))$ exists only if $t > \frac{n}{k+1}$.
+	A QTS $((t,n, k))$ can exist only if $t > \frac{n}{k+1}$.
 \end{theorem}
 
 Each of the proofs of these theorems are almost identical to that of \thmref{thm:qss-disjoint}. However, these theorems only present to us what schemes are not immediately ruled out by the no-cloning theorem. Figuring out methods of realizing these schemes is a different question. It is not immediately obvious that Gottesman's \thmref{thm:monotone-gamma} applies to augmented threshold schemes.

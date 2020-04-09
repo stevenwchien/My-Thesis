@@ -207,11 +207,11 @@
       \smallskip
       {\LARGE \textbf{Steven Chien} \par}
       \vfill
-      {\large Submitted in partial fulfillment \par}
-      {\large of the requirements for the degree of \par}
-      {\large Bachelor of Science in Engineering \par}
-      {\large Department of Electrcal Engineering \par}
-      {\large Princeton University \par}
+      {\large \textsc{Submitted in partial fulfillment} \par}
+      {\large \textsc{of the requirements for the degree of} \par}
+      {\large \textsc{Bachelor of Science in Engineering} \par}
+      {\large \textsc{Department of Electrcal Engineering} \par}
+      {\large \textsc{Princeton University} \par}
       \bigskip
       \bigskip
       {\large Advised by \par}

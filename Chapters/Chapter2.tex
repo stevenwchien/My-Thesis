@@ -2,12 +2,18 @@
 
 \section{Classical Secret Sharing}
 
-In this section we will describe secret sharing schemes and talk about some of its properties and definitions. A secret sharing scheme allows some \textit{secret} $\mathcal{S}$ to be divided into shares and distributed by some \textit{dealer} $\mathcal{D}$ to a set of \textit{participants} $\mathcal{P}$. Each secret sharing scheme has a corresponding \textit{access structure} denoted by $\Gamma$. $\Gamma$ defines the set of \textit{authorized subsets} of participants that have access to the secret. A subset of participants $A \in \Gamma$ should be able to reconstruct the original secret, but a a set $B \notin \Gamma$ should have \textbf{no} information about the secret, in the sense that all possible values of the secret are equally likely. Let us present some more formalized definitions:
+In this section we will describe secret sharing schemes and talk about some of its properties and definitions. A secret sharing scheme allows some \textit{secret} $\mathcal{S}$ to be divided into shares and distributed by some \textit{dealer} $\mathcal{D}$ to a set of \textit{participants} or \textit{players} $\mathcal{P}$. Each secret sharing scheme has a corresponding \textit{access structure} denoted by $\Gamma$. $\Gamma$ defines the set of \textit{authorized subsets} of $\mathcal{P}$ that have access to the secret. A subset of participants $A \in \Gamma$ should be able to reconstruct the original secret in its entirety, but a a set $B \notin \Gamma$ should have \textbf{no} information about the secret, in the sense that all possible values of the secret are equally likely. Let us present some more formalized definitions:
 
 \theoremstyle{definition}
 \begin{definition}{Access Structure.}
     \label{defn:access-structure}
-    An \textbf{access structure} is often denoted as $\Gamma$. An access structure specifies the set of all authorized subsets of users that are able to recover the secret.
+    An \textbf{access structure} is often denoted as $\Gamma$. An access structure specifies the set of all authorized subsets of players that are able to recover the secret.
+\end{definition}
+
+\theoremstyle{definition}
+\begin{definition}{Authorized Set.}
+    \label{defn:authorized-set}
+    An \textbf{authorized set} is a subset $A \subseteq \mathcal{P}$ such that $A \in \Gamma$ for an access structure $\Gamma$.
 \end{definition}
 
 \theoremstyle{definition}
@@ -16,98 +22,30 @@ In this section we will describe secret sharing schemes and talk about some of i
     An access structure $\Gamma$ is \textbf{monotone} if $B \in \Gamma$ and $B \subseteq C$ implies $C \in \Gamma$.
 \end{definition}
 
+\defref{defn:monotone} is particularly useful to us. Essentially, if some subset of participants satisfies the access structure, then all supersets of that subset should also satisfy the access structure. For the task of secret sharing, this definition is intuitive, if not necessary. Indeed, it would be difficult to imagine a procedure that implements an access structure that is \textit{not} monotone. Later on, we will see that the property of monotonicity is not only necessary for the realizability of an access structure, but it is also one of two sufficient conditions.
+
 \theoremstyle{definition}
 \begin{definition}{Minimal Access Structure.}
     \label{defn:minimal}
     An access structure $\Gamma$ is \textbf{minimal} if $A \in \Gamma$ implies for every $A' \in \Gamma \setminus \{A\}$, $A' \not\subset A$. Another name for this is an access structure's \textbf{basis}.
 \end{definition}
 
-\defref{defn:monotone} is particularly useful to us. Essentially, if some set of participants satisfies the access structure, then all supersets of that set should also satisfy the access structure. We will see later on that the property of monotonicity for an access structure leads to strong claims within the realizability of quantum secret sharing schemes. For now, and for the sake of simplicity, we will assume that all of the access structures we are talking about are monotone. Therefore, when we describe an access structure, we only need to do so using its \textbf{minimal} access structure or basis. 
+Observe that any monotone access structure has a \textbf{unique minimal access structure}. If we assume that all of the access structures we are talking about are monotone, then we can simplify our discussion by also assuming that we are working only with minimal access structures.
 
 \theoremstyle{definition}
 \begin{definition}{Threshold Scheme.}
     \label{defn:threshold-scheme}
-    A \textbf{$(t,n)$-threshold secret sharing scheme} is a secret sharing scheme among $n$ individuals such that at least $t$ of those individuals must work together to access the secret. The access structure for this scheme is composed of every subset of $\mathcal{P}$ of size $t$.
+    A \textbf{$(t,n)$-threshold secret sharing scheme}, or just "threshold scheme" is a secret sharing scheme among $n$ players such that at least $t$ of those players must combine their respective shares in order to access the secret. The access structure for this scheme is composed of every subset of $\mathcal{P}$ of size $t$. This is also referred to as the set of all $t$-subsets of $n$.
 \end{definition}
 
-We say that $A$ is authorized if $A \in \Gamma$. So, for our $(t,n)$ threshold scheme defined above, the access structure can be defined more formally as such: $\Gamma = \{A | A \subseteq \mathcal{P} , |A| = t\}$.
+So, for our $(t,n)$ threshold scheme defined above, the \textit{access structure} can be defined more formally as such: $\Gamma = \{A | A \subseteq \mathcal{P} , |A| = t\}$.
 
-A more concrete example of an access structure for a set of participants $\mathcal{P} = \{p_1,p_2,p_3\}$ might be $\Gamma = \{p_1p_2,p_2p_3,p_3p_1\}$. This access structure describes a $(2,3)$ threshold scheme.
+\begin{example}
+    Take the set of participants $\mathcal{P} = \{p_1,p_2,p_3\}$ might be $\Gamma = \{p_1p_2,p_2p_3,p_3p_1\}$. This access structure describes a $(2,3)$-threshold scheme.
+\end{example}
 
-As we mentioned above, Shamir developed one of the first implementations for a perfect threshold scheme based on polynomial interpolation \cite{shamir}. His scheme is a $(t,n)$-threshold secret sharing scheme. The scheme works as so. First, encode the secret as some number. Then, generate a $t-1$ degree polynomial. For each of the $n$ participants, generate a pair $i, p(i)$, where $i \in [1, \cdots, n]$, and distribute one such pair to each participants. Then, if $t$ or more participants get together and share their points, they can reconstruct the unique polynomial $p$ that generated those points, and $p(0)$ reveals the secret. Note that, having only $t-1$ or fewer points gives no information about the secret, because there would be infinitely many polynomials of degree $t-1$ passing through those number of points.
-
-\section{Quantum Computing Preliminaries}
-
-The basic unit of information in a quantum computer is the qubit, or the "quantum bit". A qubit is represented as a \textbf{quantum state}:
-
-% flesh out this definition
-\begin{align*}
-    \ket{\psi} &= \sum_{i=1}^n \alpha_i\ket{i} \\ 
-\end{align*}
-
-A \textbf{quantum operation} is a unitary operator $U$ that acts on a quantum state $\ket{\psi}$.
-
-% flesh out this definition
-\begin{definition}{Unitary Operator.}
-    A \textbf{unitary operator} $U;\mathcal{H} \to \mathcal{H}$ is a linear operator on a Hilbert space $\mathcal{H}$ that satisfies:
-    
-    \begin{align*}
-        U^*U = UU^* = I \\ 
-    \end{align*}
-    
-    Where $U^*$ is the adjoint of $U$.
-\end{definition}
-
-Examples of some commonly used operators are the 4 Pauli operators:
-
-\begin{align*}
-    I &= \begin{pmatrix}
-        1 & 0 \\ 
-        0 & 1 \\ 
-    \end{pmatrix} \\ 
-    X &= \begin{pmatrix}
-        0 & 1 \\ 
-        1 & 0 \\ 
-    \end{pmatrix} \\ 
-    Y &= \begin{pmatrix}
-        0 & i \\ 
-        -i & 0 \\ 
-    \end{pmatrix} \\ 
-    Z &= \begin{pmatrix}
-        1 & 0 \\ 
-        0 & -1 \\ 
-    \end{pmatrix} \\ 
-\end{align*}
-
-One of the most important theorems that has a large effect on quantum computing algorithms is the \textbf{no-cloning theorem}. Here, we present the no-cloning theorem with proof referencing Mermin's 2007 text \cite{merlin}.
-
-\begin{theorem}{No-Cloning Theorem.}
-    \label{thm:no-cloning-thm}
-    Given an unknown, arbitrary quantum state $\psi$, there is no valid operator $U$ that can create an identical copy of this state. More formally there exists no operator such that $U(\ket{\psi} \ket{0}) = \ket{\psi}\ket{\psi}$.
-\end{theorem}
-
-\begin{proof}
-    Assume for the sake of contradiction that there is such an operator. Then $U(\ket{\psi} \ket{0}) = \ket{\psi}\ket{\psi}$ and $U(\ket{\phi} \ket{0}) = \ket{\phi}\ket{\phi}$, for arbitrary quantum states $\ket{\psi}, \ket{\phi}$. Then:
-    
-    \begin{align*}
-        U(\alpha \ket{\psi} + \beta \ket{\phi})\otimes\ket{0} &= (\alpha \ket{\psi} + \beta \ket{\phi})\otimes (\alpha \ket{\psi} + \beta \ket{\phi}) \\ 
-        &= \alpha^2\braket{\phi|\phi} + \beta^2\braket{\psi|\psi} + \alpha \beta \braket{\phi|\psi} + \alpha \beta \braket{\psi|\phi} \numberthis \label{eqn:no-clone-1}\\ 
-    \end{align*}
-    
-    But by linearity, we also have:
-    
-    \begin{align*}
-        U(\alpha \ket{\psi} + \beta \ket{\phi})\otimes\ket{0} &= \alpha U \ket{\psi}\ket{0} + \beta U \ket{\phi}\ket{0} \\ 
-        &= \alpha \ket{\psi}\ket{\psi} + \beta \ket{\phi}\ket{\phi} \numberthis \label{eqn:no-clone-2}\\ 
-    \end{align*}
-    
-    \eqnref{eqn:no-clone-1} and \eqnref{eqn:no-clone-2} can only be the same if one of $\alpha$ or $\beta$ is equal to 0, which contradicts the assumption that $\ket{\psi}, \ket{\phi}$ are arbitrary.
-\end{proof}
-
-\theoremstyle{remark}
-\begin{remark}
-    Note that the theorem statement can also be made with any state $\ket{e}$ instead of $\ket{0}$. What is important is that there is no unitary operator that acts as a "general purpose copier", where the relation between the state that is to be copied and the state that is being overwritten is arbitrary. For example, it would be easy to create an operator that can copy a state $\ket{\phi}$ if we know for a fact that the state is either $\ket{0}$ or $\ket{1}$ \cite{merlin}.
-\end{remark}
+% do I need to define perfect?
+As we mentioned above, Shamir developed one of the first implementations for a perfect threshold scheme based on polynomial interpolation \cite{shamir}. His scheme is a $(t,n)$-threshold scheme. The scheme works as so. First, encode the secret as some number. Then, randomly generate a $(t-1)$-degree polynomial such that the constant term is number which encodes the secret. For each of the $n$ players, generate and distribute one of the pairs $i, p(i)$, where $i \in [1, \cdots, n]$. Each pair acts as a player's "share" of the secret. If $t$ or more players get together and pool together their shares, they can reconstruct the unique $(t-1)-$degree polynomial $p$ that generated those pairs, and then $p(0)$ reveals the secret. Note that having only $t-1$ or fewer pairs gives no information about the secret, because there would be infinitely many polynomials of degree $t-1$ passing through those $t-1$ or fewer pairs.
 
 \section{Graphs and Hypergraphs Preliminaries}
 
@@ -163,17 +101,91 @@ Access structures lend themselves naturally to graphical representations. Let's 
     A \textbf{hyperstar} is a hypergraph $H = (V,E)$ where the intersection of all the hyperedges $\bigcap_{E_{i} \in E} E_{i} \neq \varnothing$.
 \end{definition}
 
+\section{Quantum Computing Preliminaries}
+
+The basic unit of information in a quantum computer is the qubit, or the "quantum bit". A qubit is represented as a \textbf{quantum state}:
+
+\begin{align*}
+    \ket{\psi} &= \sum_{i=1}^n \alpha_i\ket{i} \\ 
+\end{align*}
+
+The states $\ket{i}$ for $i \in \{1,...,n\}$ represent an orthonormal basis, and the constants $\alpha_1,...,\alpha_n$ are complex numbers normalized such that $\sum_{i=1}^n \alpha_i = 1$.
+
+A \textbf{quantum operation} is a unitary operator $U$ that acts on a quantum state $\ket{\psi}$.
+
+% flesh out this definition
+\begin{definition}{Unitary Operator.}
+    A \textbf{unitary operator} $U;\mathcal{H} \to \mathcal{H}$ is a linear operator on a Hilbert space $\mathcal{H}$ that satisfies:
+    
+    \begin{align*}
+        U^*U = UU^* = I \\ 
+    \end{align*}
+    
+    Where $U^*$ is the adjoint of $U$.
+\end{definition}
+
+Examples of some commonly used operators are the 4 Pauli operators:
+
+\begin{align*}
+    I &= \begin{pmatrix}
+        1 & 0 \\ 
+        0 & 1 \\ 
+    \end{pmatrix} \\ 
+    X &= \begin{pmatrix}
+        0 & 1 \\ 
+        1 & 0 \\ 
+    \end{pmatrix} \\ 
+    Y &= \begin{pmatrix}
+        0 & i \\ 
+        -i & 0 \\ 
+    \end{pmatrix} \\ 
+    Z &= \begin{pmatrix}
+        1 & 0 \\ 
+        0 & -1 \\ 
+    \end{pmatrix} \\ 
+\end{align*}
+
+One of the most important theorems that has a significant effect on quantum computing algorithms is the \textbf{no-cloning theorem}. Here, we present the no-cloning theorem with proof referencing Mermin's 2007 text \cite{merlin}.
+
+\begin{theorem}{No-Cloning Theorem.}
+    \label{thm:no-cloning-thm}
+    Given an unknown, arbitrary quantum state $\psi$, there is no valid operator $U$ that can create an identical copy of this state. More formally there exists no operator such that $U(\ket{\psi} \ket{0}) = \ket{\psi}\ket{\psi}$.
+\end{theorem}
+
+\begin{proof}
+    Assume for the sake of contradiction that there is such an operator. Then $U(\ket{\psi} \ket{0}) = \ket{\psi}\ket{\psi}$ and $U(\ket{\phi} \ket{0}) = \ket{\phi}\ket{\phi}$, for arbitrary quantum states $\ket{\psi}, \ket{\phi}$. Then:
+    
+    \begin{align*}
+        U(\alpha \ket{\psi} + \beta \ket{\phi})\otimes\ket{0} &= (\alpha \ket{\psi} + \beta \ket{\phi})\otimes (\alpha \ket{\psi} + \beta \ket{\phi}) \\ 
+        &= \alpha^2\braket{\phi|\phi} + \beta^2\braket{\psi|\psi} + \alpha \beta \braket{\phi|\psi} + \alpha \beta \braket{\psi|\phi} \numberthis \label{eqn:no-clone-1}\\ 
+    \end{align*}
+    
+    But by linearity, we also have:
+    
+    \begin{align*}
+        U(\alpha \ket{\psi} + \beta \ket{\phi})\otimes\ket{0} &= \alpha U \ket{\psi}\ket{0} + \beta U \ket{\phi}\ket{0} \\ 
+        &= \alpha \ket{\psi}\ket{\psi} + \beta \ket{\phi}\ket{\phi} \numberthis \label{eqn:no-clone-2}\\ 
+    \end{align*}
+    
+    \eqnref{eqn:no-clone-1} and \eqnref{eqn:no-clone-2} can only be the same if one of $\alpha$ or $\beta$ is equal to 0, which contradicts the assumption that $\ket{\psi}, \ket{\phi}$ are arbitrary.
+\end{proof}
+
+\theoremstyle{remark}
+\begin{remark}
+    Note that the theorem statement can also be made replacing $\ket{0}$ with an arbitrary state $\ket{e}$. What is important is that there is no unitary operator that acts as a "general purpose copier". For example, it would be easy to create an operator that can copy a state $\ket{\phi}$ if we know for a fact that the state is either $\ket{0}$ or $\ket{1}$ \cite{merlin}.
+\end{remark}
+
 \section{Quantum Secret Sharing}
 
 % quantum secret sharing scheme
-A quantum secret sharing scheme is the quantum analogue of a (classical) secret sharing scheme. In these schemes, the secret to be shared takes the form of a quantum state $\ket{\psi}$. This idea was first introduced by Hillery et al. in 1998 \cite{Hillery_1999}. In their paper, they give an example of a $((2,3))$-threshold quantum secret sharing scheme implemented using GHZ states. This was then extended by the work of Cleve, Gottesman, and Lo \cite{Cleve_1999}. In their paper, they introduce the idea of a quantum access structure, and propose implementation for a general threshold schemes.
+A quantum secret sharing scheme is the quantum analogue of a normal (classical) secret sharing scheme. In these schemes, the information to be shared is quantum, and takes the form of a quantum state $\ket{\psi}$. This idea was first introduced by Hillery et al. in 1998 \cite{Hillery_1999}. In their paper, they give an example of a $((2,3))$-threshold quantum secret sharing scheme implemented using GHZ states. This was then extended by the work of Cleve, Gottesman, and Lo \cite{Cleve_1999}. They introduce the idea of a quantum access structure, and propose implementations for a general quantum secret sharing schemes.
 
 \begin{definition}{Quantum Threshold Scheme.}
     \label{defn:qts}
-    A quantum threshold scheme (QTS) is a threshold secret sharing scheme applied to a quantum secret. This secret is denoted as $\ket{\psi}$. As in the classical case, we take a quantum secret and divide it into shares to distribute among a set of individuals. We will denote a QTS among $n$ individuals with a threshold of $t$ as $((t,n))$, using double parentheses to denote that the scheme is quantum.
+    A quantum threshold scheme (QTS) is a threshold secret sharing scheme applied to a quantum secret. This secret is denoted as $\ket{\psi}$. As in the classical case, we take a quantum secret and divide it into shares to distribute among a set of individuals. We will denote a QTS among $n$ players with a threshold of $t$ as $((t,n))$, using double parentheses to denote that the scheme is quantum.
 \end{definition}
 
-As with classical secret sharing, quantum threshold schemes are a specific class of quantum secret sharing schemes--ones with a certain access structure. Note that additional restrictions apply to secret sharing schemes applied to quantum information.
+As with classical secret sharing, a QTS is a specific class of a quantum secret sharing schemes--one with a very symmetric access structure. As he hinted on earlier, observe that additional restrictions apply to quantum secret sharing schemes that do not apply to classical secret sharing schemes.
 
 \begin{theorem}
     \label{thm:qss-disjoint}
@@ -181,28 +193,28 @@ As with classical secret sharing, quantum threshold schemes are a specific class
 \end{theorem}
 
 \begin{proof}
-    Let's assume, for the sake of contradiction, that there exist two disjoint subsets such that each recover the secret. Then, we would have two copies of the quantum state, which violates \thmref{thm:no-cloning-thm}. 
+    Let's assume, for the sake of contradiction, that there exist two disjoint subsets such that each recover the secret. Then, we would have the possibility of two disjoint groups each obtaining their own copy of the secret, in a sense, creating a way to copy a general quantum state. This violates \thmref{thm:no-cloning-thm}.
 \end{proof}
 
 \begin{theorem}
     \label{thm:qts}
-    A QTS $((t,n))$ exists only if $t > \frac{n}{2}$.
+    A QTS $((t,n))$ is valid only if $t > \frac{n}{2}$.
 \end{theorem}
 
 \begin{proof}
-    This theorem is a direct result of \thmref{thm:qss-disjoint}. If $t \leq \frac{n}{2}$, then there would exist at least two authorized subsets that are disjoint. 
+    This is a direct result of \thmref{thm:qss-disjoint}. If $t \leq \frac{n}{2}$, then there would exist at least two authorized subsets that are disjoint. 
 \end{proof}
 
-Note that this theorem does not guarantee the existence of a QTS if this inequality of the threshold is met, only that one cannot exist if the inequality is not met. However, we can indeed prove stronger claims. In 2000, Gottesman showed that a quantum secret sharing scheme exists for an access structure $\Gamma$ as long as $\Gamma$ is monotone and \thmref{thm:qss-disjoint} is satisfied \cite{gottesman_theory_2000}:
+Note that this theorem presents only a necessary condition for the existence of a QTS, not a sufficient one. However, we can indeed prove stronger claims. In 2000, Gottesman showed that a quantum secret sharing scheme exists for an access structure $\Gamma$ as long as $\Gamma$ is monotone and \thmref{thm:qss-disjoint} is satisfied \cite{gottesman_theory_2000}:
 
 \begin{theorem}
     \label{thm:monotone-gamma}
     A quantum secret sharing scheme exists for an access structure iff the access structure is monotonic and the no-cloning theorem is not violated.
 \end{theorem}
 
-As we can see, the no-cloning theorem imposes most of the limitations on realizable QSS schemes. This can actually be a pretty serious issue in terms of the applicability of QSS schemes. To see why, think about what an access structure that satisfies the no-cloning theorem actually looks like. Each authorized set must intersect \textbf{every} other authorized set. Or in other terms, each pair of authorized sets must have at least one individual in common. This is not exactly a property that you would expect in a group where secret sharing is useful. It is much more common to have situations where there is more trust within a group of people, and almost no trust with people outside of that group.
+As we can see, the no-cloning theorem imposes our most strict limitation on the existence of QSS schemes, and this can pose practical limitations to implementing secret sharing schemes in quantum computing. To see why, consider a valid access structure that satisfies the no-cloning theorem. In such an access structure, each authorized set must intersect \textbf{every} other authorized set. Or in other terms, each pair of authorized sets must have at least one player in common. This is a pretty unnatural constraint to impose on an access structure, and can limit the usefulness of the procedure.
 
-In the next section, we will explore some of the methods that researches have used in the past to try to realize secret sharing schemes without violating the no-cloning theorem.
+In the next section, we will explore some of the methods that researches have used in the past to try to realize more quantum secret sharing schemes without violating the no-cloning theorem.
 
 \section{Circumventing the No-Cloning Theorem}
 
@@ -244,15 +256,14 @@ For the sake of visualization, Singh and Srikanth depict their access structure 
     Let $\Gamma = \{A_1,A_2,\dots,A_r\}$ be the access structure. If $\Gamma$ satisfies the no-cloning theorem, then the AS graph of $\Gamma$ must be a complete graph.
 \end{theorem}
 
-However, if we don't have a complete graph, then that is fine. We separate the graph into a set of cliques, or as Singh and Srikanth call it, \textit{partially linked classes}. Each clique represents a subset of $\Gamma$ that satisfies the no-cloning theorem alone. Let's say that we can separate the graph into $\lambda$ partially linked classes. Then we only need $\lambda - 1$ resident shares to realize the original access structure.
+However, if we don't have a complete graph, then that is fine. We separate the graph into sets of cliques, or as Singh and Srikanth call them, \textit{partially linked classes}. Each clique represents a subset of $\Gamma$ that satisfies the no-cloning theorem alone. Let's say that we can separate the graph into $\lambda$ partially linked classes. Then we only need $\lambda - 1$ resident shares to realize the original access structure. Actually computing the minimum number of resident shares needed to implement a given assisted quantum threshold scheme is equivalent to the minimum clique-cover problem in graph theory, and is NP-hard.
 
-\subsection{Compressing Secret Sharing Scheme}
+%spirit of the game here:
+We take a couple problems with this approach. The first is that the paper does not address the problem of finding the minimum number of resident shares needed, and so it is not that useful taken by itself. It relies heavily on a dealer with all of the power and all of the information. 
 
-\subsection{Inflating Secret Sharing Scheme}
+We ask, why not add the dealer as an additional player to every single authorized set, so the dealer has one share for every subset in the access structure. This might not be the most optimal in terms of number of shares in the procedure, but it would be the simplest, and it is the same in spirit as the procedure proposed by Singh and Srikanth. Without presenting an efficient way to find the minimum number of shares that must reside with the dealer, simply arguing that such a minimum exists is trivial and useless. But, there are other problems with this procedure as well, and that is the very idea of involving the dealer at all.
 
-\subsection{Twin-Threhold}
-
-
+An extreme version of a scheme where the dealer is involved in reconstruction would be a procedure in which a group of players that would like to access the secret go to the dealer together. Then, the dealer checks to see if that group of players is present in the access structure. If it is, it simply returns the quantum state, and if it is not, then it does nothing. There is nothing inherently quantum about the procedure, and in a sense, it goes against the spirit of the game.
 
 \subsection{New Improvable Quantum Secret Sharing Schemes}
 
