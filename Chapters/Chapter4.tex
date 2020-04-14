@@ -1,26 +1,9 @@
-\chapter{General Augmented Quantum Threshold Schemes}
-\label{ch4}
+%either toss this chapter or fit it in somehow
+\Chapter{4}
+\label{ch:4}
 
-% TODO: proof-read this
-In this chapter, we are going to generalize our findings from the previous chapter in an attempt to make stronger claims about the realizability of augmented quantum threshold schemes.
 
-\begin{theorem}
-    \label{thm:k-color-access}
-    The access structure graph corresponding to the access structure $\Gamma$ of the scheme $((t,n,k))$ is $k$-colorable if and only if $((t,n,k))$ is a valid augmented quantum threshold scheme.
-\end{theorem}
-
-The theorem above is a generalization of \thmref{thm:2-color-access} from the previous chapter. This result is easy to see, as it implies that there does not exist any set of $k+1$ mutually disjoint authorized sets.
-
-Let's consider an example with $k=3$. Drawing from previous examples, note that a scheme like $((2,5,3))$ would be possible. This is $(t,n)$ pair that wouldn't be possible with $k \leq 2$. One way that we could realize this scheme would be to take our scheme for $((2,4,2))$, and add an extra copy of the state and a another player $p_5$, and have the access structure of the newly added state contain all authorized subsets that contain $p_5$. Since our original scheme was valid, then by construction, this new scheme is valid as well! 
-
-\begin{theorem}
-    \label{thm:build-scheme} 
-    Any scheme of the form $((t,2t-2+k,k))$ is a valid augmented quantum threshold scheme.
-\end{theorem}
-
-\begin{proof}
-    We have shown in \thmref{thm:t-2t-2} that schemes of the form $((t, 2t, 2))$ are realizable. For our inductive step, we will assume that all schemes of the form $((t, 2t - 2 + i, i))$ are valid augmented quantum threshold schemes. Now, let's consider the scheme $((t, 2t-1+i, i+1))$. The access structure of the $(i+1)$-th copy of the quantum state contains all of the authorized subsets that contain the $2t-1+i$-th player. The access structures of all of the other quantum states remain unchanged. In this way, all of the access structures satisfy the no-cloning theorem, so $((t, 2t-1+i, i+1))$ is a valid augmented quantum threshold scheme.
-\end{proof}
+\section{Generalizing Augmenting Threshold Scheme}
 
 Although we have a more general result, the question still remains of whether or not we can do better. Unfortunately, the result is in the negative. To see this, we bring in Kneser's Conjecture, and Kneser graphs, which were introduced by Lova\'{s}z in order to prove Kneser's Conjecture. A proof of this conjecture was first given by Lov\'asz in 1978, then by Martou\u{s}ek in 2000.
 
@@ -50,6 +33,9 @@ So, using Kneser's Conjecture, we can prove the following theorem:
 \end{proof}
 
 In general, introducing an extra copy of the quantum state only allows us to realize just one more threshold scheme for every group size $n$. Additionally, in order to implement an augmented quantum threshold scheme $((t,n,k))$, for $n \geq 2t$, we need $k = n - 2t + 2$.
+
+% this is sad:
+This is a bit disappointing, but could be expected, in a way. With our strategy, there is nothing inherently quantum about it. As you increase the number of people, the number of authorized sets increases dramatically, so it makes sense that 
 
 \section{Assisted Quantum Secret Sharing and Augmented Quantum Secret Sharing}
 

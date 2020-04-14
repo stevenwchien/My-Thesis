@@ -95,6 +95,7 @@
 \newcommand{\eref}[1]{Equation~\ref{#1}}
 \newcommand{\cref}[1]{Chapter~\ref{#1}}
 \newcommand{\sref}[1]{Section~\ref{#1}}
+\newcommand{\ssref}[1]{Subsection~\ref{#1}}
 \newcommand{\aref}[1]{Appendix~\ref{#1}}
 \newcommand{\thmref}[1]{Theorem~\ref{#1}}
 \newcommand{\defref}[1]{Definition~\ref{#1}}
