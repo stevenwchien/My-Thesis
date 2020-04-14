@@ -107,19 +107,22 @@ A\$AP Ant
 %\lhead{\emph{List of Tables}}  % Set the left side page header to "List of Tables"
 %\listoftables  % Write out the List of Tables
 
-\lhead{\emph{Symbols}}  % Set the left side page header to "Symbols"
+\lhead{\emph{Symbols and Abbrevations}}  % Set the left side page header to "Symbols"
 \listofnomenclature{lll}  % Include a list of Symbols (a three column table)
 {
 % symbol & name \\
 $\mathcal{D}$ & dealer \\
 $\mathcal{S}$ & secret \\
+$\mathcal{P}$ & players \\ 
 $\Gamma$ & access structure \\
 $\ket{\Psi}$ & quantum state \\
 $U$ & unitary operator \\
-$H$ & hypergraph \\
 $G$ & graph \\ 
-$L(G)$ & line graph \\ 
 $G^c$ & complement of graph \\ 
+$K(a,b)$ & Kneser graph \\ 
+$\omega(G)$ & chromatic color of $G$ \\ 
+ \textbf{QSS} & Quantum Secret Sharing \\ 
+ \textbf{QTS} & Quantum Threshold Scheme \\ 
 }
 %% ----------------------------------------------------------------
 % End of the pre-amble, contents and lists of things
@@ -141,15 +144,9 @@ $G^c$ & complement of graph \\
 
 \input{Chapters/Chapter2.tex} % Background Theory 
 
-\input{Chapters/Chapter3.tex} % Introducing the Augmented Threshold Scheme
+\input{Chapters/Chapter3.tex} % The Augmented Quantum Threshold Scheme
 
-%\input{Chapters/Chapter4.tex} % General Schemes
-
-%\input{Chapters/Chapter5} % An information Theoretic Approach
-
-%\input{Chapters/Chapter6} % Future Work
-
-%\input{Chapters/Chapter7} % Conclusion
+\input{Chapters/Chapter4.tex} % Conclusion
 
 %% ----------------------------------------------------------------
 % Now begin the Appendices, including them as separate files

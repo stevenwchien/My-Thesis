@@ -344,7 +344,7 @@
 \begin{longtable}[c]{#1}#2\end{longtable}\par
     \cleardoublepage
 }
-\newcommand\listnomenclature{Symbols}
+\newcommand\listnomenclature{Symbols and Abbreviations}
 \usepackage{longtable}
 \newcommand\listofnomenclature[2]{
 \btypeout{\listnomenclature}
