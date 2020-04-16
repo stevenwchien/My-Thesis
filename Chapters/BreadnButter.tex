@@ -1,5 +1,5 @@
 \chapter{An Augmented Quantum Threshold Scheme}
-\label{ch3}
+\label{ch:good-stuff}
 
 In this section, we present our own idea to circumvent the no-cloning theorem, beginning with the following questions: What, if anything, can we do if we were to start with two identical copies of a quantum state? Is there any way we can propose a scheme that circumvents the limitations imposed by the no-cloning theorem? What if we have $k$ copies? What schemes are realizable in this new formulation? In this section, we will explore the properties of such a scheme. We will call this an \textit{augmented quantum threshold scheme}. Let us formalize this idea and explore its consequences below:
 
@@ -29,24 +29,26 @@ The proof for this theorem, as is the proof for the next one, are very similar t
 
 Using these two theorems, we can immediately propose an initial lower bound on the value of $t$ with respect to $n$ and $k$ in the case of threshold schemes. We give the case for $k=2$ as well as the more general case:
 
-\begin{theorem}
-	\label{thm:qts2}
+\begin{corollary}
+	\label{cor:qts2}
 	An augmented QTS of the form $((t,n, 2))$ can exist only if $t > \frac{n}{3}$.
-\end{theorem}
+\end{corollary}
 
-\begin{theorem}
-	\label{thm:qtsk}
+\begin{corollary}
+	\label{cor:qtsk}
 	An augmented QTS of the form $((t,n, k))$ can exist only if $t > \frac{n}{k+1}$.
-\end{theorem}
+\end{corollary}
 
-Just as Theorems \ref{thm:three-authorized} and \ref{thm:k-authorized} extend \thmref{thm:qss-disjoint}, these Theorems extend \thmref{thm:qts}. These claims are a good start to our analysis, but they only provide to us what schemes are not immediately ruled out by the no-cloning theorem. Figuring out methods of realizing these schemes is a different question, and that is what we consider in the following section.
+Just as Theorems \ref{thm:three-authorized} and \ref{thm:k-authorized} extend \thmref{thm:qss-disjoint}, these Corollaries extend \corref{cor:qts}. These claims are a good start to our analysis, but they only provide to us what schemes are not immediately ruled out by the no-cloning theorem. Figuring out methods of realizing these schemes is a different question, and that is what we consider in the following section.
 
 \section{A Union of Access Structures Approach}
 \label{sec:union-access-structures}
 
 The simplest non-trivial case to implement is a $((2,4,2))$ scheme. Using 2 identical copies of a quantum state, we ask the question of whether or not it is possible to implement a scheme among 4 individuals such that only 2 or more people need to come together to recover the secret. The answer is yes.
 
-To construct this scheme, our approach will be to take the union of two valid access structures, each using only one quantum state each. Note that we use the word valid to mean any access structure that is monotone and satisfies the no-cloning theorem, and we use \thmref{thm:monotone-gamma} to assume that we have an implementation of a quantum secret sharing scheme that corresponds to that valid access structure. Let the two copies of our quantum secret be $\ket{\psi_1}, \ket{\psi_2}$, and let the participants be labeled $p_1, p_2, p_3, p_4$. \fref{fig:2-4-2} shows how we implement the scheme. Each node corresponds to one participant, and the blue edges denote authorized subsets of size 2 that are a part of the access structure $\Gamma_1$ of $\ket{\psi_1}$. Red edges correspond to $\Gamma_2$, which is the access structure of $\ket{\psi_2}$.
+To construct this scheme, we will use the following approach: we take the access structure that we want to implement and split it up into two smaller access structures. Each of these are valid access structures, which means that on their own, they are monotone and satisfy the no-cloning theorem. By \thmref{thm:monotone-gamma}, we assume that there exists an implementation of a quantum secret sharing scheme that corresponds to our valid access structures, and we assign one copy to each of them. We will call this procedure the union of access structures approach.
+
+Let the two copies of our quantum secret be $\ket{\psi_1}, \ket{\psi_2}$, and let the participants be labeled $p_1, p_2, p_3, p_4$. \fref{fig:2-4-2} shows how we implement the scheme. Each node corresponds to one participant, and the blue edges denote authorized subsets of size 2 that are a part of the access structure $\Gamma_1$ of $\ket{\psi_1}$. Red edges correspond to $\Gamma_2$, which is the access structure of $\ket{\psi_2}$.
 
 
 \begin{figure}[H]
@@ -71,7 +73,7 @@ To construct this scheme, our approach will be to take the union of two valid ac
 
 The two access structures are as follows: $\Gamma_1 = \{p_1p_2,p_2p_3,p_3p_1\}$ and $\Gamma_2 = \{p_1p_4,p_2p_4,p_3p_4\}$. Observe that each access structure satisfies is monotone and satisfies the no-cloning theorem, so a $((2,4,2))$ scheme exists. Also, note that in this scheme, it would be possible for, say, players 1 and 2 to recover the secret together \textbf{AND} players 3 and 4 to recover the secret together, and for the two pairs to do so separately. This is allowed. Each pair would recover a different copy of the state, and there is no way for the two pairs to recover the same copy, which satisfies the no-cloning theorem.
 
-We have shown that we can implement a QTS that would otherwise not be possible in the normal construction. This is exciting!
+We have shown that we can implement a QTS that would otherwise not be possible in the normal construction. Note that we will call any augmented QTS that can be implemented in this way a valid scheme.
 
 \subsection{A Graphical Representation}
 \label{ssec:graphical-rep}
@@ -89,10 +91,6 @@ So, instead of representing the participants as vertices and the authorized subs
 
 \subsection{Generalization of $((t,n,2))$ Schemes}
 \label{ssec:generalize-t-n-2}
-
-% TODO: is it worth it to include the analysis of 2 identical copies, if we can consider the general case already?
-
-% TODO:worth it to show the generalization to coloring -> and then Kneser's
 
 In the following subsection, we will explore the results that we can reach when $k=2$ by using our new formulation. The access structure graph complement for \fref{fig:2-4-2} is shown in \fref{fig:2-4-2-graph}:
 
@@ -117,10 +115,10 @@ In the following subsection, we will explore the results that we can reach when 
 
 The representation illustrated in \fref{fig:2-4-2-graph} is useful to us because properties of the graph can tell us not only if a particular scheme is realizable, but why it is realizable. Let's bring in the idea of graph coloring introduced in \defref{defn:colors}.
 
-\begin{theorem}
-    \label{thm:2-color-access}
+\begin{lemma}
+    \label{lem:2-color-access}
     Let a $((t,n,2))$-threshold augmented quantum secret sharing scheme have the corresponding access structure $\Gamma$. Then, this scheme is valid if and only if the access structure graph complement of $\Gamma$ is 2-colorable.
-\end{theorem}
+\end{lemma}
 
 \begin{proof}
     ($\rightarrow$) Another term for 2-colorable graphs are bipartite graphs. If the AS graph of an access structure $\Gamma$ is bipartite, then we can separate the graph into two stable sets. Every pair of authorized sets in the same stable set has a non-empty intersection. So, we can assign one copy of the quantum state to each of these sets, and implement a QSS scheme that realizes the access structure corresponding to each particular subset of authorized sets. By construction, we have a valid augmented QTS.
@@ -135,14 +133,14 @@ In order to aid in our analysis, we bring in a well known result from graph theo
 	A graph $G$ is bipartite if and only if $G$ does not contain any odd cycles.
 \end{theorem}
 
-By combining \thmref{thm:bipartite} with \thmref{thm:2-color-access}, we get the following claim:
+By combining \lemref{lem:2-color-access} and \thmref{thm:bipartite}, we get the following claim:
 
-\begin{theorem}
-    \label{thm:oddcycle-valid}
+\begin{corollary}
+    \label{cor:oddcycle-valid}
     A $((t,n,2))$ augmented QTS is valid if and only if its corresponding AS graph complement has no odd cycles.
-\end{theorem}
+\end{corollary}
 
-We can use \thmref{thm:oddcycle-valid} to also show that $((3,6,2))$ is also a valid scheme, but that $((2,5,2))$ and $((3,7,2))$ are \textbf{not} valid schemes.
+We can use \corref{cor:oddcycle-valid} to also show that $((3,6,2))$ is also a valid scheme, but that $((2,5,2))$ and $((3,7,2))$ are \textbf{not} valid schemes.
 
 For the $((2,5,2))$ scheme, rather than try to draw an access structure, we find an odd cycle in the access structure graph by listing an ordering of vertices that have edges connecting them: $(1,2), (3,4), (5,1), (2,3), (4,5), (1,2)$. Each integer represents an individual, and each pairing of integers represents an size-2 subset. This cycle has length 5, so the graph is not bipartite. Therefore, $((2,5,2))$ does not represent a valid augmented quantum threshold scheme. A similar approach with $((3,7,2))$ leads us to the same conclusion.
 
@@ -152,14 +150,13 @@ From the simple cases we have studied so far, we notice a pattern beginning to e
     Note that if a QTS $((t,n_1))$ is not valid because it violates the no-cloning theorem, then any QTS $((t,n_2))$ where $n_2 > n_1$ can never be valid because it must also violate the no-cloning theorem. To see this, consider the QTS $((t,n_2))$. We argue that the access structure for this scheme must be a superset of the access structure for $((t,n_1))$, if $n_2 > n_1$. In fact, we can construct the smaller access structure by selecting $n_2-n_1$ players, and removing any authrozied set with which they are associated from $\Gamma_2$ to form $\Gamma_1$.
 \end{remark}
 
-% TODO: still consider this wording...do we use it enough to justify throwing it out here?
 \begin{theorem}
     \label{thm:t-2t-2}
     Any augmented quantum threshold scheme of the form $((t,2t,2))$ is valid using our union of access structures strategy.
 \end{theorem}
 
 \begin{proof}
-    We are given an augmented quantum threshold scheme of the form $((t,2t,2))$ where $t \geq 1$. We will show that any scheme of this form cannot have any odd cycles in its access structure graph complement. And then, by \thmref{thm:oddcycle-valid}, we are done. Consider one of the authorized sets, and without loss of generality, let this set have the participants: $\{p_1,\dots,p_t\}$. Then, there is only one possible authorized set that is disjoint from this one: $\{p_{t+1},\dots,p_{2t}\}$. Note that this is true for every single authorized set (of size $t$). Therefore in the AS graph complement, each vertex has degree exactly equal to 1. Such a graph must be bipartite, and therefore cannot have any odd cycles.
+    We are given an augmented quantum threshold scheme of the form $((t,2t,2))$ where $t \geq 1$. We will show that any scheme of this form cannot have any odd cycles in its access structure graph complement. And then, by \corref{cor:oddcycle-valid}, we are done. Consider one of the authorized sets, and without loss of generality, let this set have the participants: $\{p_1,\dots,p_t\}$. Then, there is only one possible authorized set that is disjoint from this one: $\{p_{t+1},\dots,p_{2t}\}$. Note that this is true for every single authorized set (of size $t$). Therefore in the AS graph complement, each vertex has degree exactly equal to 1. Such a graph must be bipartite, and therefore cannot have any odd cycles.
 \end{proof}
 
 \begin{theorem}
@@ -182,7 +179,7 @@ From the simple cases we have studied so far, we notice a pattern beginning to e
         &\{p_1,\dots,p_{t}\} \\ 
     \end{align*}
     
-    How many edges are in this cycle? Observe that $t$ and $2t+1$ are relatively prime, because $t \geq 2$. This means that there must be $2t+1$ edges in this cycle, so we have an odd cycle. By \thmref{thm:oddcycle-valid}, the scheme is not valid.
+    How many edges are in this cycle? Observe that $t$ and $2t+1$ are relatively prime, because $t \geq 2$. This means that there must be $2t+1$ edges in this cycle, so we have an odd cycle. By \corref{cor:oddcycle-valid}, the scheme is not valid.
 \end{proof}
 
 \section{Generalizing the Union of Access Structures Approach}
@@ -191,12 +188,12 @@ In the previous section, we determined an upper bound on the value of $n$ with r
 
 At this point, there is hardly a pattern associated with the effect of $k$, the number of copies of our quantum state, and the bounds on the values of $n$ and $t$. The approach that worked for us in the previous section was posing this problem as a graph coloring problem, and indeed, that is the approach that we will take in this section as well. Unfortunately, there does not exist a general theorem on the $c$-colorability of arbitrary graphs for $c > 3$ like there is for $2$. This problem is NP-hard. Nevertheless, it does not hurt to state clearly the following theorem:
 
-\begin{theorem}
-    \label{thm:k-color-access}
+\begin{lemma}
+    \label{lem:k-color-access}
     The access structure graph complement corresponding to the augmented QTS $((t,n,k))$ is $k$-colorable if and only if $((t,n,k))$ is a valid augmented quantum threshold scheme.
-\end{theorem}
+\end{lemma}
 
-This theorem and its proof are straightforward generalizations of those of \thmref{thm:2-color-access} from the previous section. In essence, the $k$-colorability of the graph ensures that we can separate it into at least $k$ stable sets, each of which can be assigned to one of the copies of the quantum state.
+This theorem and its proof are straightforward generalizations of those of \thmref{lem:2-color-access} from the previous section. In essence, the $k$-colorability of the graph ensures that we can separate it into at least $k$ stable sets, each of which can be assigned to one of the copies of the quantum state.
 
 To continue our analysis, let's consider an example with $k=3$. Drawing on previous examples, we can show that a scheme like $((2,5,3))$ is possible. What is interesting is that this $(t,n)$ pair that would \textbf{not} be possible with $k \leq 2$. One way that we could implement this scheme would be to take our scheme for $((2,4,2))$, and add an extra copy of the state and a another player $p_5$. Then, the access structure for the newly added state contains all authorized subsets that include $p_5$. Since our original scheme was valid, then by construction, this new scheme is valid as well. We can extend this specific construction indefinitely:
 
@@ -205,7 +202,6 @@ To continue our analysis, let's consider an example with $k=3$. Drawing on previ
     Any scheme of the form $((t,2t-2+k,k))$ is a valid augmented quantum threshold scheme.
 \end{theorem}
 
-% TODO: either here or later, put that each access structure does not intersect? is this necessary?
 \begin{proof}
     We have shown in \thmref{thm:t-2t-2} that schemes of the form $((t, 2t, 2))$ are realizable. Assume, as an inductive hypothesis, that $((t, 2t - 2 + i, i))$ are valid augmented quantum threshold schemes. Now, let's consider the scheme $((t, 2t-1+i, i+1))$. By our construction, we will have an access structure $\Gamma = \Gamma_1 \cup \Gamma_2 \cup ... \cup \Gamma_i \cup \Gamma_{i+1}$, where $\Gamma_r$ is the access structure corresponding to $\ket{\Psi}_r$ for $i \in {1,...,i}$. Let $\Gamma_1, ..., \Gamma_i$ remain unchanged from the scheme $((t, 2t - 2 + i, i))$. Then, we simply define $\Gamma_{i+1}$ to contain all of the authorized subsets that include the $2t-1+i$-th player. Then, this new access structure satisfies the no-cloning theorem, and by the IH, all of the access structures satisfy the no-cloning theorem. So $((t, 2t-1+i, i+1))$ is a valid augmented quantum threshold scheme.
 \end{proof}
@@ -232,6 +228,7 @@ RAISE YOUR HAND IF YOU HAVE BEEN PAYING ATTENTION. Ok good, because we are almos
 
 The above theorem, stated as a set theoretical result, is equivalent to the following result on Kneser graphs:
 
+% TODO: provide the shortest of proofs
 \begin{corollary}
     \label{cor:no}
     Let $k=j+1$. $K(2t+k-1,t)$ \textbf{is not} $k$-colorable.
@@ -245,25 +242,32 @@ So, using Kneser's Conjecture, we can prove the following theorem:
 \end{theorem}
 
 \begin{proof}
-    The complement of the AS graph for the access structure corresponding to the threshold scheme $((t,2t-1+k,k))$ is a $K(2t-1+k,t)$, or a Kneser Graph on a set of $2t-1+k$ elements, with subsets of size $t$. Then by \thmref{thm:kneser-conjecture}, the corresponding graph is not $k$-colorable. By \thmref{thm:k-color-access}, schemes of the form $((t,2t-1+k,k))$ are not valid augmented quantum threshold schemes.
+    The complement of the AS graph for the access structure corresponding to the threshold scheme $((t,2t-1+k,k))$ is a $K(2t-1+k,t)$, or a Kneser Graph on a set of $2t-1+k$ elements, with subsets of size $t$. Then by \thmref{thm:kneser-conjecture}, the corresponding graph is not $k$-colorable. By \thmref{lem:k-color-access}, schemes of the form $((t,2t-1+k,k))$ are not valid augmented quantum threshold schemes.
 \end{proof}
 
 So, this is the best that we can do with $k$ copies of a quantum state, using our union of access structures approach. More specifically, we have shown that for every extra copy of the quantum state that we begin with, we are only able to implement one additional threshold scheme for a fixed group size $n$. The good news is that we have a closed form answer for the question: how many copies of the quantum state do we need to implement an augmented quantum threshold scheme $((t,n,k))$? For $n \geq 2t$, we need $k = n - 2t + 2$.
 
 In all honesty, this result is a bit disappointing, but in a way, expected for the amount of time I put into this thesis. But, another reason might be that the number of authorized sets in the access structure increases exponentially for every new person added, so it makes sense that the access structures that we can implement are constrained so tightly by the number of copies.
 
-% TODO: ok left off here
+% TODO: a section about security
+\section{Security Considerations}
+
+% TODO: left off here, finish off this last section
 \section{Assisted Quantum Secret Sharing and Augmented Quantum Secret Sharing}
 \label{sec:aqss-and-aqss}
 
 Before I bid you farewell, we close with an extension of our results to Assisted QSS. Recall the assisted quantum secret sharing scheme presented by Singh and Srikanth \cite{singh_assisted_2004}. They show that, by using a system of resident shares and player shares, they are able to realize any quantum secret sharing scheme corresponding to a monotone access structure. The number of resident shares needed is $\lambda-1$, where $\lambda$ is the number of partially linked classes there are in the AS graph of the access structure $\Gamma$. However, the question that remains is finding a way to compute $\lambda$.
 
-\begin{theorem}
+\begin{proposition}
     \label{thm:chrom-clique}
     The minimum clique cover of a graph $G$ is equal to the chromatic number of the complement of the graph $G'$:
     
     \[\omega(G) = \chi(G')\]
-\end{theorem}
+\end{proposition}
+
+\begin{proof}
+    Each clique in $G$ is a stable set in $G^c$. The minimum number of stable sets in a graph is the same as its chromatic number.
+\end{proof}
 
 There is actually an equivalence that can be drawn between assisted QSS and augmented QSS. When considering the AS graph of an access structure $\Gamma$, the minimum number of partially linked classes is the same as the chromatic color of the complement of the AS graph, by \thmref{thm:chrom-clique}. So, the number of copies of the quantum state that we would need to implement an augmented quantum threshold scheme is closely related to the number of resident shares needed to implement an assisted quantum threshold scheme.
 

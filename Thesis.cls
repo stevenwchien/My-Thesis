@@ -99,6 +99,9 @@
 \newcommand{\aref}[1]{Appendix~\ref{#1}}
 \newcommand{\thmref}[1]{Theorem~\ref{#1}}
 \newcommand{\defref}[1]{Definition~\ref{#1}}
+\newcommand{\corref}[1]{Corollary~\ref{#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{#1}}
+\newcommand{\propref}[1]{Proposition~\ref{#1}}
 \newcommand{\eqnref}[1]{Equation~\ref{#1}}
 \newcommand\numberthis{\addtocounter{equation}{1}\tag{\theequation}}
 \renewcommand{\topfraction}{0.85}

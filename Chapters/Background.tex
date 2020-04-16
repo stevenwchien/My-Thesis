@@ -1,5 +1,5 @@
 \chapter{Background}
-\label{ch2}
+\label{ch:background}
 
 \section{Classical Secret Sharing}
 \label{sec:css}
@@ -59,10 +59,10 @@ Access structures lend themselves naturally to graphical representations. Let's 
     A \textbf{graph} $G=(V,E)$ is composed of a set of vertices and a set of edges. Each edge is incident to two vertices.
 \end{definition}
 
-\begin{definition}{Line Graph.}
-    \label{defn:line-graph}
-    The \textbf{line graph} $L(G)$ of a graph $G$ is the graph where each vertex of $L(G)$ corresponds to one edge in $G$. Two vertices in $L(G)$ are adjacent if they are incident to the same vertex in $G$. 
-\end{definition}
+% \begin{definition}{Line Graph.}
+%     \label{defn:line-graph}
+%     The \textbf{line graph} $L(G)$ of a graph $G$ is the graph where each vertex of $L(G)$ corresponds to one edge in $G$. Two vertices in $L(G)$ are adjacent if they are incident to the same vertex in $G$. 
+% \end{definition}
 
 \begin{definition}{Chromatic Color.}
     \label{defn:colors}
@@ -77,6 +77,11 @@ Access structures lend themselves naturally to graphical representations. Let's 
 \begin{definition}{Complete Graph.}
     \label{defn:clique}
     A \textbf{complete graph} is a graph where each node has an edge with every single other node. A complete graph with $n$ nodes is often denoted as $K_n$. These graphs are also called cliques. A clique with $n$ nodes might be called an $n$-clique.
+\end{definition}
+
+\begin{definition}{Stable Set.}
+    \label{defn:stable-set}
+    A \textbf{stable set} in a graph $G(V,E)$ is a subset of vertices $V_s \subseteq  V$ where there are no edges $e \in E$ that have both endpoints in $V_s$.
 \end{definition}
 
 \section{Quantum Computing Preliminaries}
@@ -172,13 +177,13 @@ As with classical secret sharing, a QTS is a specific class of a quantum secret 
 \end{theorem}
 
 \begin{proof}
-    Let's assume, for the sake of contradiction, that there exist two disjoint subsets such that each recover the secret. Then, we would have the possibility of two disjoint groups each obtaining their own copy of the secret, in a sense, creating a way to copy a general quantum state. This violates \thmref{thm:no-cloning-thm}.
+    Let's assume, for the sake of contradiction, that there exist two disjoint subsets such that each recover the secret. Then, we would have the possibility of two disjoint groups each obtaining their own copy of the secret, in a sense, creating a way to copy a general quantum state. This violates the no-cloning theorem.
 \end{proof}
 
-\begin{theorem}
-    \label{thm:qts}
+\begin{corollary}
+    \label{cor:qts}
     A QTS $((t,n))$ is valid only if $t > \frac{n}{2}$.
-\end{theorem}
+\end{corollary}
 
 \begin{proof}
     This is a direct result of \thmref{thm:qss-disjoint}. If $t \leq \frac{n}{2}$, then there would exist at least two authorized subsets that are disjoint. 
@@ -195,12 +200,13 @@ As we can see, the no-cloning theorem imposes our most strict limitation on the 
 
 In the next section, we will explore some of the methods that researches have used in the past to try to realize more quantum secret sharing schemes without violating the no-cloning theorem.
 
+% TODO: possibly cut some of these, if they are not relevant
 \section{Circumventing the No-Cloning Theorem}
 
 \subsection{Improvable Secret Sharing}
 \label{ssec:improvable}
 
-In 2001, Nascimento presented a scheme that uses a mixture of quantum and classical data to implement secret sharing schemes \cite{nascimento_improving_2001}. His idea combines a method of encrypting quantum data using classical data with the idea of \textit{improvable secret sharing schemes}. The hybrid encryption is presented by Mosca, Tapp, and Wolf \cite{mosca2000private}. They use a classical key $K$ that uses $2n$ bits, where $n$ is the number of qubits in the secret. We encode the state $\ket{\Psi}$ as so. Each pair of bits corresponds to a unitary operator performed on the corresponding qubit. A $00$ means that we apply the $I$ operator, $01$ means $X$, $10$ means $Y$ and $11$ means $Z$. We can then apply a classical secret sharing scheme on the classical key $K$, and a quantum secret sharing scheme on the encrypted quantum state $\ket{\Psi '}$.
+In 2001, Nascimento presented a scheme that uses a mixture of quantum and classical data to implement secret sharing schemes \cite{nascimento_improving_2001}. His idea combines a method of encrypting quantum data using classical data with the idea of \textit{improvable secret sharing schemes}. The hybrid encryption is presented by Mosca, Tapp, and Wolf \cite{mosca2000private}. They use a classical key $K$ that uses $2n$ bits, where $n$ is the number of qubits in the secret. We encode the state $\ket{\Psi}$ as so. Each pair of bits corresponds to a unitary operator performed on the corresponding qubit. A $00$ means that we apply the $I$ operator, $01$ means $X$, $10$ means $Y$ and $11$ means $Z$. We can then apply a classical secret sharing scheme on the classical key $K$, and a quantum secret sharing scheme on the encrypted quantum state $\ket{\Psi'}$.
 
 Nascimento defines an improvable quantum secret sharing scheme as follows:
 
@@ -211,7 +217,6 @@ Nascimento defines an improvable quantum secret sharing scheme as follows:
 
 Let's say that you would like to implement the access structure $\Gamma$. If possible, restrict the access structure $\Gamma$ to a set of players $B \subsetneq \mathcal{P}$. He uses a clever construction where you take the secret $\ket{\psi}$ and encode it using the classical key $K$ and the encryption we describe above to get an encrypted state $\ket{\widetilde{\psi}}$. We use a classical secret sharing scheme to realize $\Gamma$, and a quantum secret sharing scheme to realize $\Gamma |_B$. Now, an authorized set $A \in \Gamma$ can access the key $K$, and the set $A \cap B$ can access the encrypted quantum state. Putting these together allows reconstruction of the original secret $\ket{\psi}$. This scheme only requires $|B|$ quantum shares. While this construction does not immediately lend itself to being able to implement schemes that violate the no-cloning theorem, we will see that it can become useful later.
 
-% TODO: must finish up these definitions
 \subsection{Assisted Quantum Secret Sharing}
 \label{ssec:aqss}
 
@@ -219,21 +224,23 @@ In 2004, Singh and Srikanth introduced a new scheme called the assisted quantum 
 
 \begin{definition}{Assisted Quantum Secret Sharing Scheme.}
     \label{defn:aqss}
+    This is a quantum secret sharing procedure which involves the dealer in reconstruction. The dealer retains a number of 
 \end{definition}
 
 Using this scheme, they showed that the only restriction that existed for quantum secret sharing schemes was monotonicity of the access structure. Their scheme uses the idea of \textit{resident shares} and \textit{player shares}. Resident shares reside with the dealer whom we assume to be trustworthy. The player shares are the ones distributed to the players/participants. In this way, we can realize access structures that would otherwise violate the no-cloning theorem if implemented as a normal QSS scheme. 
 
 For the sake of visualization, Singh and Srikanth depict their access structure as a graph. They term this graph an \textit{access structure graph} (AS graph), which we define below:
 
+% TODO: this definition has to be finished, and address the theorem as well
 \begin{definition}{Access Structure Graph.}
     \label{defn:access-structure-graph}
     An \textbf{access structure graph} (or AS graph) is a graph $G = (V,E)$ where $V = \Gamma$ and $E = \{(A_i \cap A_j \neq \emptyset) \forall\:i,j,i\neq j\}$.
 \end{definition}
 
-\begin{theorem}
-    \label{thm:complete-as-graph}
+\begin{proposition}
+    \label{prop:complete-as-graph}
     Let $\Gamma = \{A_1,A_2,\dots,A_r\}$ be the access structure. If $\Gamma$ satisfies the no-cloning theorem, then the AS graph of $\Gamma$ must be a complete graph.
-\end{theorem}
+\end{proposition}
 
 However, if we don't have a complete graph, then that is fine. We separate the graph into sets of cliques, or as Singh and Srikanth call them, \textit{partially linked classes}. Each clique represents a subset of $\Gamma$ that satisfies the no-cloning theorem alone. Let's say that we can separate the graph into $\lambda$ partially linked classes. Then we only need $\lambda - 1$ resident shares to realize the original access structure. Actually computing the minimum number of resident shares needed to implement a given assisted quantum threshold scheme is equivalent to the minimum clique-cover problem in graph theory, and is NP-hard.
 
@@ -244,6 +251,7 @@ We ask, why not add the dealer as an additional player to every single authorize
 
 An extreme version of a scheme where the dealer is involved in reconstruction would be a procedure in which a group of players that would like to access the secret go to the dealer together. Then, the dealer checks to see if that group of players is present in the access structure. If it is, it simply returns the quantum state, and if it is not, then it does nothing. There is nothing inherently quantum about the procedure, and in a sense, it goes against the spirit of the game.
 
+% TODO: refresh on this, and possibly add more clarity/explain why this is relevant or necessary (might not be)
 \subsection{New Improvable Quantum Secret Sharing Schemes}
 \label{ssec:niqss}
 
