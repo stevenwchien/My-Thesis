@@ -78,16 +78,23 @@
 \if@twocolumn\hbox{}\newpage\fi\fi\fi}
 \usepackage{amsmath,amsfonts,amssymb,amscd,amsthm,xspace}
 \theoremstyle{plain}
-\newtheorem{example}{Example}[chapter]
-\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{nonumtheorem}{Theorem}
+\newtheorem*{noclonetheorem}{No-Cloning Theorem}
+\newtheorem*{kneserconjecture}{Kneser's Conjecture}
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}[theorem]{Proposition}
 \newtheorem{axiom}[theorem]{Axiom}
+
 \theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{example}{Example}[section]
+
 \theoremstyle{remark}
-\newtheorem{remark}[theorem]{Remark}
+\newtheorem*{remark}{Remark}
+
 \usepackage[centerlast,small,sc]{caption}
 \setlength{\captionmargin}{20pt}
 \newcommand{\fref}[1]{Figure~\ref{#1}}
