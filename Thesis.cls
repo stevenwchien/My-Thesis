@@ -132,6 +132,7 @@
 \usepackage{tikz}
 \usepackage{subcaption}
 \usepackage{float}
+\usepackage{color}
 \lstset{captionpos=b,
         frame=tb,
         basicstyle=\scriptsize\ttfamily,
@@ -149,7 +150,8 @@
 \pdfstringdefDisableCommands{
    \let\\\space
 }
-\newcommand*{\supervisor}[1]{\def\supname{#1}}
+\newcommand*{\deftitle}[1]{\def\titlename{#1}}
+\newcommand*{\secondreader}[1]{\def\secondreadername{#1}}
 \newcommand*{\examiner}[1]{\def\examname{#1}}
 \newcommand*{\degree}[1]{\def\degreename{#1}}
 \newcommand*{\authors}[1]{\def\authornames{#1}}
@@ -164,36 +166,22 @@
 \newcommand*{\FACULTY}[1]{\def\FACNAME{#1}}
 \newcommand*{\subject}[1]{\def\subjectname{#1}}
 \newcommand*{\keywords}[1]{\def\keywordnames{#1}}
-\supervisor  {}
-\examiner    {}
-\degree      {}
-\authors     {}
-\university  {\texorpdfstring{\href{University Web Site URL Here (include http://)}
-                {Princeton University}}
-                {Princeton University}}
-\UNIVERSITY  {\texorpdfstring{\href{University Web Site URL Here (include http://)}
-                {PRINCETON UNIVERSITY}}
-                {PRINCETON UNIVERSITY}}
-\department  {Department of Electrical Engineering}
-\DEPARTMENT  {\texorpdfstring{\href{Department or School Web Site URL Here (include http://)}
-                {DEPARTMENT OF ELECTRICAL ENGINEERING}}
-                {DEPARTMENT OF ELECTRICAL ENGINEERING}}
-\group       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
-                {Zhandry Group}}
-                {Zhandry Group}}
-\GROUP       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
-                {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
-                {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
-\faculty     {\texorpdfstring{\href{Faculty Web Site URL Here (include http://)}
-                {Mark Zhandry}}
-                {Mark Zhandry}}
-\FACULTY     {\texorpdfstring{\href{Faculty Web Site URL Here (include http://)}
-                {MARK ZHANDRY}}
-                {MARK ZHANDRY}}
+
+\deftitle      {Augmenting \texorpdfstring{$((t,n))$}{((t,n))}-threshold Quantum Secret Sharing Schemes}
+\secondreader  {Andrew Houck}
+\examiner      {}
+\degree        {Bachelor of Science in Engineering}
+\authors       {Steven Chien}
+\university    {Princeton University}
+\UNIVERSITY    {PRINCETON UNIVERSITY}
+\department    {Department of Electrical Engineering}
+\DEPARTMENT    {DEPARTMENT OF ELECTRICAL ENGINEERING}
+\faculty       {Mark Zhandry}
+\FACULTY       {MARK ZHANDRY}
 
 \addresses   {}
-\subject     {}
-\keywords    {}
+\subject     {Quantum Cryptography}
+\keywords    {Quantum Computing, Quantum Secret Sharing, Quantum Threshold Scheme, Quantum Cryptography}
 \renewcommand\maketitle{
   \btypeout{Title Page}
   \hypersetup{pdftitle={\@title}}
@@ -210,28 +198,28 @@
     \vskip 60\p@
     \begin{center}
       \setlength{\parskip}{0pt}
-      {\large\textbf{PRINCETON UNIVERSITY}\par}
+      {\large\textbf{\UNIVNAME}\par}
       \vfill
-      {\huge \bf Augmenting $((t,n))$-threshold Quantum Secret Sharing Schemes \par}
+      {\huge \bf \titlename \par}
       \vfill
       {\LARGE by \par}
       \smallskip
-      {\LARGE \textbf{Steven Chien} \par}
+      {\LARGE \textbf{\authornames} \par}
       \vfill
       {\large \textsc{Submitted in partial fulfillment} \par}
       {\large \textsc{of the requirements for the degree of} \par}
-      {\large \textsc{Bachelor of Science in Engineering} \par}
-      {\large \textsc{Department of Electrcal Engineering} \par}
-      {\large \textsc{Princeton University} \par}
+      {\large \textsc{\degreename} \par}
+      {\large \textsc{\deptname} \par}
+      {\large \textsc{\univname} \par}
       \bigskip
       \bigskip
       {\large Advised by \par}
-      {\large \textbf{Mark Zhandry} \par}
+      {\large \textbf{\facname} \par}
       
       \bigskip
       \bigskip
       \bigskip
-      {\Large April 20th,  2020 \par}
+      {\Large May 4th,  2020 \par}
       \bigskip
     \end{center}
     \par

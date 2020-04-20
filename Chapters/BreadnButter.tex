@@ -89,7 +89,7 @@ So, instead of representing the participants as vertices and the authorized subs
 	We define an \textbf{access structure graph complement} of $\Gamma$ to be the graph $G = (V,E)$, where there is a vertex $v \in V$ for each authorized subset $A \in \Gamma$. The edgeset $E$ contains an edge between each pair of vertices if their corresponding authorized subsets are disjoint.
 \end{definition}
 
-\subsection{Generalization of $((t,n,2))$ Schemes}
+\subsection{Generalization of \texorpdfstring{$((t,n,2))$}{((t,n,2))} Schemes}
 \label{ssec:generalize-t-n-2}
 
 In the following subsection, we will explore the results that we can reach when $k=2$ by using our new formulation. The access structure graph complement for \fref{fig:2-4-2} is shown in \fref{fig:2-4-2-graph}:
@@ -244,19 +244,17 @@ So, using Kneser's Conjecture, we can prove the following theorem:
 \end{theorem}
 
 \begin{proof}
-    The complement of the AS graph for the access structure corresponding to the threshold scheme $((t,2t-1+k,k))$ is a $K(2t-1+k,t)$, or a Kneser Graph on a set of $2t-1+k$ elements, with subsets of size $t$. Then by \label{cor:no}, the corresponding graph is not $k$-colorable. By \thmref{lem:k-color-access}, schemes of the form $((t,2t-1+k,k))$ are not valid augmented quantum threshold schemes.
+    The complement of the AS graph for the access structure corresponding to the threshold scheme $((t,2t-1+k,k))$ is a $K(2t-1+k,t)$, or a Kneser Graph on a set of $2t-1+k$ elements, with subsets of size $t$. Then by \corref{cor:no}, the corresponding graph is not $k$-colorable. By \thmref{lem:k-color-access}, schemes of the form $((t,2t-1+k,k))$ are not valid augmented quantum threshold schemes.
 \end{proof}
 
 So, this is the best that we can do with $k$ copies of a quantum state, using our union of access structures approach. More specifically, we have shown that for every extra copy of the quantum state that we begin with, we are only able to implement one additional threshold scheme for a fixed group size $n$. The good news is that we have a closed form answer for the question: how many copies of the quantum state do we need to implement an augmented quantum threshold scheme $((t,n,k))$? For $n \geq 2t$, we need $k = n - 2t + 2$.
 
-In all honesty, this result is a bit disappointing, but in a way, expected for the amount of time I put into this thesis. But, another reason might be that the number of authorized sets in the access structure increases exponentially for every new person added, so it makes sense that the access structures that we can implement are constrained so tightly by the number of copies.
+In a way, this result might be expected with our particular construction. The number of authorized sets in the access structure increases exponentially for every new person added, so it makes sense that the access structures that we can implement are constrained so tightly by the number of copies.
 
-% TODO: a section about security
+% TODO: a section about security, still a WIP
 \section{Security Considerations}
 
-An important thing to consider is the safety. THIS SECTION IS A WIP!
-
-Because we do not explicitly implement the underlying schemes upon which the augmented QTS is built, the best that we can do is to show that an augmented QTS is no less secure than its constituent parts. That is, using our union of access structures strategy, if the QSS schemes that are used with every 
+Because we do not explicitly implement the underlying schemes upon which the augmented QTS is built, the best that we can do is to show that an augmented QTS is no less secure than its constituent parts. That is, using our union of access structures strategy, if the QSS schemes that are used with each copy of the quantum state are perfect, then the resulting scheme is perfect as well.
 
 % unauthorized subsets have no information, not even partial information of the secret....
 
