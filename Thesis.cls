@@ -100,7 +100,7 @@
 \newcommand{\fref}[1]{Figure~\ref{#1}}
 \newcommand{\tref}[1]{Table~\ref{#1}}
 \newcommand{\eref}[1]{Equation~\ref{#1}}
-\newcommand{\cref}[1]{Chapter~\ref{#1}}
+\newcommand{\chref}[1]{Chapter~\ref{#1}}
 \newcommand{\sref}[1]{Section~\ref{#1}}
 \newcommand{\ssref}[1]{Subsection~\ref{#1}}
 \newcommand{\aref}[1]{Appendix~\ref{#1}}
@@ -147,6 +147,7 @@
    bookmarksopenlevel=0,bookmarksnumbered=true,hypertexnames=false,
    colorlinks,linkcolor={blue},citecolor={blue},urlcolor={red},
    pdfstartview={FitV},unicode,breaklinks=true]{hyperref}
+\usepackage{cleveref}
 \pdfstringdefDisableCommands{
    \let\\\space
 }

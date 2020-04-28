@@ -232,8 +232,9 @@ The above conjecture, which has now been proven, is stated as a set theoretical 
     Let $k=j+1$. $K(2t-1+k,t)$ \textbf{is not} $k$-colorable.
 \end{corollary}
 
+% This will be the shortest proof ever in the history of proofs.
 \begin{proof}
-    This will be the shortest proof ever in the history of proofs. This result follows directly from the definition of a Kneser Graph. A $K(2t-1+k,t)$ has a vertex for every $t$-subset of $2t-1+k$. There is an edge between two vertices if they are disjoint. Consider a minimum coloring on this graph. If two vertices represent disjoint sets, and therefore are adjacent, then they cannot be the same color. \hyperref[thm:kneser-conjecture]{Kneser's Conjecture}  states that if we attempt to split the vertices of the graph into $k$ separate groups, then there must be at least one pair of adjacent vertices that end up in the same group. This is exactly what a $k$ coloring is, so $K(2t-1+k,t)$ is not $k$-colorable.
+     This result follows directly from the definition of a Kneser Graph. A $K(2t-1+k,t)$ has a vertex for every $t$-subset of $2t-1+k$. There is an edge between two vertices if they are disjoint. Consider a minimum coloring on this graph. If two vertices represent disjoint sets, and therefore are adjacent, then they cannot be the same color. \hyperref[thm:kneser-conjecture]{Kneser's Conjecture}  states that if we attempt to split the vertices of the graph into $k$ separate groups, then there must be at least one pair of adjacent vertices that end up in the same group. This is exactly what a $k$ coloring is, so $K(2t-1+k,t)$ is not $k$-colorable.
 \end{proof}
 
 So, using Kneser's Conjecture, we can prove the following theorem:
@@ -251,14 +252,23 @@ So, this is the best that we can do with $k$ copies of a quantum state, using ou
 
 In a way, this result might be expected with our particular construction. The number of authorized sets in the access structure increases exponentially for every new person added, so it makes sense that the access structures that we can implement are constrained so tightly by the number of copies.
 
-% TODO: a section about security, still a WIP
 \section{Security Considerations}
 
-Because we do not explicitly implement the underlying schemes upon which the augmented QTS is built, the best that we can do is to show that an augmented QTS is no less secure than its constituent parts. That is, using our union of access structures strategy, if the QSS schemes that are used with each copy of the quantum state are perfect, then the resulting scheme is perfect as well.
+Because we construct our scheme using a concatenation of access structures, all we need to do is show that an augmented QTS is no less secure than its constituent parts. That is, using our union of access structures strategy, if the QSS schemes that are used with each copy of the quantum state are perfect, then the resulting scheme is perfect as well.
 
-% unauthorized subsets have no information, not even partial information of the secret....
+\begin{theorem}
+    An augmented QTS of the form $((t,2t-2+k,k))$ is a perfect quantum threshold scheme.
+\end{theorem}
 
-% possibly introduce some things about information theory and the like here?...
+\begin{proof}
+    Because our method of constructing these schemes involves a recursive structure, we can use induction to show that the entire scheme is perfect by showing that the underlying schemes that compose it are perfect. For our base case, consider the QTS $((t,2t-1))$. Note that there is an implicit $k=1$. The minimal authorized sets of this access structure are exactly the $t$-subsets of $2t-1$. Observe that this is a maximal access structure. The complement of any authorized set must have a size of $t-1$ or smaller. Therefore, the authorized sets are exactly the complements of the unauthorized sets, which means that this scheme is perfect. 
+    
+    For our inductive hypothesis, assume that $((t,2t-2+k,k))$ is a perfect QTS. We will show that $((t,2t-1+k,k+1))$ is also a perfect QTS. Note that using our construction, the $((t,2t-1+k,k+1))$ is built by taking the original $((t,2t-2+k,k))$, and then adding one more share $\ket{\psi_{k+1}}$ and one more player $P_{2t-1+k}$. By the IH, we know that the smaller scheme is perfect. Therefore, we only need to show that the access structure corresponding to $\ket{\psi_{k+1}}$ is perfect. We will call this access structure $\Gamma_{k+1}$. Note that this access structure contains all of the $t$-subsets of $2t-1+k$ that contain $P_{2t-1+k}$. However, this access structure is not maximal. Namely, the subset of players $\mathcal{P} \setminus P_{2t-1+k} = \{P_1,...,P_{2t-2+k}\}$ is unauthorized, as well as its complement $\{P_{2t-1+k}\}$. However, we can construct this access structure out of maximal access structures using a construction presented by Gottesman in \cite{gottesman_theory_2000}.
+    
+    First, let the maximal access structure containing $\Gamma_{k+1}$ be $\Gamma^M$. Then, $\Gamma_M = \Gamma_{k+1} \cup \{P_1,...,P_{2t-2+k}\}$. This is both a minimal and maximal access structure. It contains only minimal authorized sets, but the authorized sets are exactly the complements of the unauthorized sets. Let's denote the number of minimal authorized sets in $\Gamma^M$ to be $r$. $r = {t \choose 2t-1+k} + 1$. Then, we construct a layered scheme, using a $((r,2r-1))$ scheme. Let the shares of this scheme be $S_i$ for $i \in \{1,...,2r-1\}$. For the first $r$ shares, we use a secret sharing scheme to divide shares among the authorized set. The schemes are $((l_i,l_i))$ threshold schemes, where $l_i = |A_i|$ is the size of the corresponding authorized set. The latter $r-1$ shares all have access structure equal to $\Gamma^M$. In this way, Any access structure $A_1,\dots,A_r$ will be able to recover one of the first $r$ shares, and will also be able to recover the latter $r-1$ shares. This allows that authorized set to recover the secret. However, an authorized set that is in $\Gamma^M$ but not in $\Gamma$ cannot recover enough shares to recover secret. 
+    
+    Note that any scheme of the form $((r,2r-1))$ is maximal, as is any scheme of the form $((t,t))$. The authorized sets are the complements of the unauthorized sets. So, we have found a way to construct $\Gamma_{k+1}$ using only maximal access structures. Therefore, $\Gamma_{k+1}$ is a perfect secret sharing scheme, so by induction $((t,2t-2+k,k))$ is a perfect quantum threshold scheme.
+\end{proof}
 
 \section{Assisted Quantum Secret Sharing and Augmented Quantum Secret Sharing}
 \label{sec:aqss-and-aqss}
@@ -267,16 +277,16 @@ In this section, we give a short result on that provides a closed form solution 
 
 \begin{proposition}
     \label{prop:chrom-clique}
-    The minimum clique cover of a graph $G$ is equal to the chromatic number of the complement of the graph $G'$:
+    The clique cover number of a graph $G$ is equal to the chromatic number of the complement of the graph $G'$:
     
-    \[\omega(G) = \chi(G')\]
+    \[\theta(G) = \chi(G')\]
 \end{proposition}
 
 \begin{proof}
     Each clique in $G$ is a stable set in $G^c$. The minimum number of stable sets in a graph is the same as its chromatic number.
 \end{proof}
 
-Let us consider a quantum threshold scheme $((t,n))$. How many resident shares are needed to realize this scheme? By \propref{prop:chrom-clique}, the minimum number of partially linked classes in the AS graph is the same as the chromatic color of the AS graph's complement. So, by Kneser's Conjecture, finding this for quantum threshold schemes is easy. The AS graph complement of this scheme is a Kneser graph on $n$ elements with subsets of size $t$. The chromatic color of the AS graph complement is $n-2t+2$, so $\lambda = n-2t+2$. Therefore, the minimum number of resident shares we need for an assisted quantum threshold scheme on $n$ players with threshold $t$ is $n-2t+1$.
+Let us consider a quantum threshold scheme $((t,n))$. How many resident shares are needed to realize this scheme? By \propref{prop:chrom-clique}, the minimum number of partially linked classes in the AS graph is the same as the chromatic number of the AS graph's complement. So, by Kneser's Conjecture, finding this for quantum threshold schemes is easy. The AS graph complement of this scheme is a Kneser graph on $n$ elements with subsets of size $t$. The chromatic number of the AS graph complement is $n-2t+2$, so $\lambda = n-2t+2$. Therefore, the minimum number of resident shares we need for an assisted quantum threshold scheme on $n$ players with threshold $t$ is $n-2t+1$.
 
 
 

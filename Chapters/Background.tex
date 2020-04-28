@@ -26,13 +26,27 @@ In this section we will describe secret sharing schemes and talk about some of i
 
 \defref{defn:monotone} is particularly useful to us. Essentially, if some subset of participants satisfies the access structure, then all supersets of that subset should also satisfy the access structure. For the task of secret sharing, this definition is intuitive, if not necessary. Indeed, it would be difficult to imagine a procedure that implements an access structure that is \textit{not} monotone. Later on, we will see that the property of monotonicity is not only necessary for the realizability of an access structure, but it is also one of two sufficient conditions.
 
+% TODO: include minimal authorized set???
+
 \theoremstyle{definition}
 \begin{definition}{Minimal Access Structure.}
-    \label{defn:minimal}
+    \label{defn:minimal-as}
     An access structure $\Gamma$ is \textbf{minimal} if $A \in \Gamma$ implies for every $A' \in \Gamma \setminus \{A\}$, $A' \not\subset A$. Another name for this is an access structure's \textbf{basis}.
 \end{definition}
 
-Observe that any monotone access structure has a \textbf{unique minimal access structure}. If we assume that all of the access structures we are talking about are monotone, then we can simplify our discussion by also assuming that we are working only with minimal access structures.
+\theoremstyle{definition}
+\begin{definition}{Minimal Authorized Set.}
+    \label{defn:minimal-authorized-set}
+    A \textbf{minimal authorized set} is simply one of the authorized sets in the minimal access structure.
+\end{definition}
+
+Observe that any monotone access structure has a \textbf{unique minimal access structure}. If we assume that all of the access structures we are talking about are monotone, then this gives us a much simpler way to analyze access structures.
+
+\begin{example}
+    Let $\mathcal{P} = \{A,B,C,D\}$. Let $\Gamma_1 = \{(A,B), (A,C), (A,D)\}$. Let $\Gamma_2 = \{(A,B), (A,C), (A,D), (A,B,C)\}$. Assuming both access structures are monotone, then $\Gamma_1$ and $\Gamma_2$ represent the same access structure, because $(A,C) \subset (A,B,C)$. However, $\Gamma_1$ is a minimal access structure, and in fact, it is the \textbf{unique} minimal access structure of $\Gamma_2$. We say that $\Gamma_1$ and $\Gamma_2$ each has 3 minimal authorized sets.
+\end{example}
+
+% maximal access structure
 
 \theoremstyle{definition}
 \begin{definition}{Threshold Scheme.}
@@ -65,19 +79,9 @@ Access structures lend themselves naturally to graphical representations. Let us
 %     The \textbf{line graph} $L(G)$ of a graph $G$ is the graph where each vertex of $L(G)$ corresponds to one edge in $G$. Two vertices in $L(G)$ are adjacent if they are incident to the same vertex in $G$. 
 % \end{definition}
 
-\begin{definition}{Chromatic Color.}
+\begin{definition}{Chromatic Number.}
     \label{defn:colors}
-	The \textbf{chromatic color} of a graph $\chi(G)$ is the maximum number of colors needed in order to color the vertices of the graph in such a way that vertices of the same color are not adjacent.
-\end{definition}
-
-\begin{definition}{Bipartite Graph.}
-    \label{defn:bipartite}
-	A \textbf{bipartite graph} is a graph in which the vertices can be separated into two independent and disjoint sets $U,V$. There are no edges between the vertices in any one set of vertices, and every edge in the graph connects a vertex in $U$ with a vertex in $V$.
-\end{definition}
-
-\begin{definition}{Complete Graph.}
-    \label{defn:clique}
-    A \textbf{complete graph} is a graph where each node has an edge with every single other node. A complete graph with $n$ nodes is often denoted as $K_n$. These graphs are also called cliques. A clique with $n$ nodes might be called an $n$-clique.
+	The \textbf{chromatic number} of a graph $\chi(G)$ is the maximum number of colors needed in order to color the vertices of the graph in such a way that vertices of the same color are not adjacent.
 \end{definition}
 
 \begin{definition}{Stable Set.}
@@ -85,8 +89,20 @@ Access structures lend themselves naturally to graphical representations. Let us
     A \textbf{stable set} in a graph $G(V,E)$ is a subset of vertices $V_s \subseteq  V$ where there are no edges $e \in E$ that have both endpoints in $V_s$.
 \end{definition}
 
+\begin{definition}{Bipartite Graph.}
+    \label{defn:bipartite}
+	A \textbf{bipartite graph} is a graph in which the vertices can be separated into two stable sets.
+\end{definition}
+
+\begin{definition}{Complete Graph.}
+    \label{defn:clique}
+    A \textbf{complete graph} is a graph where each node has an edge with every single other node. A complete graph with $n$ nodes is often denoted as $K_n$. These graphs are also called cliques. A clique with $n$ nodes might be called an $n$-clique.
+\end{definition}
+
 \section{Quantum Computing Preliminaries}
 \label{sec:qc}
+
+\subsection{Quantum States and Operations}
 
 The basic unit of information in a quantum computer is the qubit, or the "quantum bit". A qubit is represented as a \textbf{quantum state}:
 
@@ -95,6 +111,28 @@ The basic unit of information in a quantum computer is the qubit, or the "quantu
 \end{align*}
 
 The states $\ket{i}$ for $i \in \{1,...,n\}$ represent an orthonormal basis, and the constants $\alpha_1,...,\alpha_n$ are complex numbers normalized such that $\sum_{i=1}^n \alpha_i = 1$.
+
+We say that the quantum state $\ket{\psi}$ is in a \textbf{superposition} of the states: $\{\ket{i}\}$.
+
+
+The above formulation is known as a state vector. Another formulation that represents a quantum state is a \textbf{density operator} or \textbf{density matrix}, generally denoted as $\rho$. This is mathematically identical to the state vector formulation, but it has benefits when handling certain operations on quantum states. 
+One application where the density operator shines is in describing \textbf{mixed states}. A mixed state describes a situation where there is uncertainty in the state of the quantum system. These are also known as ensembles of pure states. Consider a system that can be in a number of states: $\{\ket{\psi_i}\}$. The corresponding probability that the system is in state $\ket{\psi}$ is $p_i$. Then, the density operator for this quantum system is:
+
+\begin{align*}
+    \rho &= \sum_{i} p_i * \ket{\psi_i}\bra{\psi_i} \\ 
+\end{align*}
+
+Note that a mixed state is different than a superposition of states. A mixed state has to do with uncertainty about which state a quantum system is in. However, if a system is known to be in a superposition state, then there is no uncertainty. That state would be a pure state.
+
+One of the most important applications of the density operator is to be able to describe quantum subsystems. Say that we have a density operator $\rho^{XY}$ that represents the composite of two quantum systems $X$ and $Y$. Then, the density operator representing just the quantum system $X$ is:
+
+\begin{align*}
+    \rho^X &= tr_Y(\rho^{XY}) \\ 
+\end{align*}
+
+This is known as the \textbf(partial trace) over system $Y$, and the resulting $\rho^X$ is known as the \textbf{reduced density operator}.
+
+Another important technique in that takes advantage of the density operator formulation is \textbf{purification}. This is a procedure by which we begin with some quantum system $A$ which is in a mixed state. We introduce a "reference" system $R$ such that the composite system $AR$ is in a pure state. Furthermore, the pure state $\ket{AR}$ reduces to $\rho^A$ when we trace over the reference system $R$.
 
 A \textbf{quantum operation} is a unitary operator $U$ that acts on a quantum state $\ket{\psi}$.
 
@@ -129,6 +167,22 @@ Examples of some commonly used operators are the 4 Pauli operators:
     \end{pmatrix} \\ 
 \end{align*}
 
+If the evolution of a closed quantum system is described by the unitary operator $U$, and the system was originally in the state $\ket{\psi}$, then we denote the evolved system as:
+
+\begin{align*}
+    \ket{\psi} \xrightarrow{U} U \ket{\psi} \\    
+\end{align*}
+
+In the density operator formulation, describing the ensemble of states where the system was originally in state $\ket{\psi_i}$ with probability, $p_i$, the evolution is described as:
+
+\begin{align*}
+    \rho = \sum_i p_i \ket{\psi_i}\bra{\psi_i} &\xrightarrow{U} \sum_i p_i U\ket{\psi_i}\bra{\psi_i}U^{\dagger} \\
+    &\xrightarrow{U} U \left(\sum_i p_i \ket{\psi_i}\bra{\psi_i} \right)U^{\dagger} \\
+    &\xrightarrow{U} U \rho U^{\dagger} \\
+\end{align*}
+
+\subsection{No Cloning}
+
 One of the most important theorems that has a significant effect on quantum computing algorithms is the \textbf{no-cloning theorem}. Here, we present the no-cloning theorem with proof referencing Mermin's 2007 text \cite{merlin}.
 
 \begin{noclonetheorem}{}
@@ -156,8 +210,92 @@ One of the most important theorems that has a significant effect on quantum comp
 
 \theoremstyle{remark}
 \begin{remark}
-    Note that the theorem statement can also be made replacing $\ket{0}$ with an arbitrary state $\ket{e}$. What is important is that there is no unitary operator that acts as a "general purpose copier". For example, it would be easy to create an operator that can copy a state $\ket{\phi}$ if we know for a fact that the state is either $\ket{0}$ or $\ket{1}$ \cite{merlin}.
+    Note that the theorem statement can also be made replacing $\ket{0}$ with an arbitrary state $\ket{e}$. What is important is that there is no unitary operator that acts as a "general purpose copier". For example, it would be easy to create an operator that can copy a state $\ket{\phi}$ if we know for a fact that the state is either $\ket{0}$ or $\ket{1}$ \cite{merlin}. In general, 
 \end{remark}
+
+\section{Quantum Information Theory}
+\label{section:qit}
+
+When designing cryptographic schemes, it is important to work with quantitative definitions and measures of information. This allows us to rigorously prove claims about the security of our procedures. An important concept in classical information theory is \textbf{entropy}. Entropy can be thought of as the amount of uncertainty you have about a quantity's value. Entropy in classical information theory is defined in probability distributions. These distributions give you the probabilities that a quantity, like a random variable, takes on certain specific values.
+
+This idea is very applicable in quantum information theory. In a way, quantum systems can be modelled as probability distributions, where the "values" that the system can take on are quantum states, and their associated probabilities are encoded in the density operator that represents the system.
+
+Classical information theory uses Shannon entropy. The quantum analogue for Shannon entropy is called von Neumann entropy, and is defined below.
+
+\begin{definition}{von Neumann Entropy.}
+    The \textbf{von Neumann Entropy} of a quantum system $\rho$ is defined as:
+    
+    \begin{align*}
+        S(\rho) = -tr(\rho \log(\rho)) \\
+    \end{align*}
+\end{definition}
+
+Because entropy is a measure of uncertainty, the von Neumann entropy of a pure state, where there is no uncertainty about the state of the system, is 0. The maximum entropy that a quantum system can have is if it is in a \textbf{maximally mixed state}, just as we would expect the Shannon entropy to be maximized on a uniform distribution. If a quantum system is in one of $d$ possible pure states, each with equal probability, then we say that it is in a \textit{maximally mixed state}. The density operator for this system is $\rho = \tfrac{1}{d}I$, and the von Neumann entropy is:
+
+\begin{align*}
+    S(\rho) &= S(\tfrac{1}{d}I) \\ 
+    &= \log(d)
+\end{align*}
+
+Just as important as it is to define a measure of information, it is important to be able to compare this measure of information. This is where relative entropy comes in. Relative entropy is a entropy-like definition that measures the closeness of two probability distributions, or in the quantum case, quantum systems. We define quantum relative entropy below:
+
+\begin{definition}{Quantum Relative Entropy.}
+    Suppose you have two density operators $\rho$ and $\sigma$. The \textbf{relative entropy} of $\rho$ to $\sigma$ is:
+    
+    \begin{align*}
+        S(\rho||\sigma) = tr(\rho \log(\rho)) - tr(\rho \log (\sigma)) \\
+    \end{align*}
+\end{definition}
+
+In quantum mechanics, we often work with two more quantum systems that interact with each other. Consider two quantum systems $X$ and $Y$. We denote the composite system of them to be $XY$, and their density operator to be $\rho^{XY}$. The entropy of the composite system is called the joint entropy:
+
+\begin{definition}{Joint Entropy.}
+    The \textbf{joint entropy} of a composite system $XY$ is simply the entropy defined on the density operator of the composite system:
+    
+    \begin{align*}
+        S(X,Y) = S(\rho^{XY}) &= -tr(\rho^{XY} \log(\rho^{XY}))
+    \end{align*}
+\end{definition}
+
+As one might expect, the joint entropy can also be defined as function of the entropies of each system separately. To talk about that, we need to provide a couple more important definitions that describe the interactions of two or more systems.
+
+\begin{definition}{Conditional Entropy.}
+    Say that we have two quantum systems $X,Y$, but we have full information about $Y$. Then we define the entropy of $X$ \textbf{conditional} on knowing $Y$ to be: 
+    
+    \begin{align*}
+        S(X|Y) = S(X,Y) - S(Y) \\
+    \end{align*}
+\end{definition}
+
+\begin{example}
+    If we have a composite system $XY$ in a product state, that is, the state of the system can be written as $\rho \otimes \sigma$, then the joint entropy is:
+\end{example}
+
+\begin{align*}
+    S(X,Y) &= S(X) + S(Y) \\ 
+\end{align*}
+
+This implies that the conditional entropy $S(X|Y) = 0$, which makes sense. If a composite system is in a product state, then there is no entanglement between the two systems. Information about one system does not give any information about the other.
+
+Another quantity that relates to the information content of two systems is the \textbf{mutual information}. This is a measure of how much information the two systems have in common. This has a relatively intuitive definition:
+
+\begin{definition}{Mutual Information}
+    The \textbf{mutual information} of two quantum systems $X,Y$ is defined as:
+    
+    \begin{align*}
+        I(X:Y) = S(X) + S(Y) - S(X,Y) \\ 
+    \end{align*}
+\end{definition}
+
+Using our definitions, one can see that the mutual information is also closely tied to the conditional entropy:
+
+\begin{align*}
+        I(X:Y) &= S(X) + S(Y) - S(X,Y) \\ 
+        &= S(X) - S(X|Y) \\ 
+        &= S(Y) - S(Y|X) \\ 
+\end{align*}
+    
+For a more detailed and rigorous treatment of quantum information theory and computation, please see \cite{}.    
 
 \section{Quantum Secret Sharing}
 \label{section:qss}
@@ -195,29 +333,58 @@ Note that this theorem presents only a necessary condition for the existence of 
 
 \begin{theorem}
     \label{thm:monotone-gamma}
-    A quantum secret sharing scheme exists for an access structure iff the access structure is monotonic and the no-cloning theorem is not violated.
+    A quantum secret sharing scheme exists for an access structure iff the access structure is monotone and the no-cloning theorem is not violated.
 \end{theorem}
 
 As we can see, the no-cloning theorem imposes our most strict limitation on the existence of QSS schemes, and this can pose practical limitations to implementing secret sharing schemes in quantum computing. To see why, consider a valid access structure that satisfies the no-cloning theorem. In such an access structure, each authorized set must intersect \textbf{every} other authorized set. Or in other terms, each pair of authorized sets must have at least one player in common. This is a pretty unnatural constraint to impose on an access structure, and can limit the usefulness of the procedure.
 
 In the next section, we will explore some of the methods that researches have used in the past to try to realize more quantum secret sharing schemes without violating the no-cloning theorem.
 
+\subsection{A Quantum Information Theoretical Model for Quantum Secret Sharing}
+
+In \cite{} Nascimento et. al. proposed the following model for quantum secret sharing that uses quantum information theory. The quantum secret $S$ can take on the possible states: $\{\ket{S_i}\}$ each with probability $p_i$. The density operator representing the secret is then:
+
+\begin{align*}
+    \rho_s &= \sum_i p_i \ket{S_i} \bra{S_i}
+\end{align*}
+
+Then $\mathcal{P} = \{P_1,P_2,...,P_n\}$ is the set of players, where we will take $P_i$ to represent both the $i$-th player \textbf{and} the shares in possession of $P_i$, for notational simplicity. Similarly, $A \subseteq \mathcal{P}$ will both represent a subset of the players $\mathcal{P}$ and also the set of shares in the possession of those players. We let $R$ be a reference system such that the composite system $RS$ is in a pure state.
+
+A quantum secret sharing scheme is a \textbf{completely positive map} $\Lambda$ (maps positive elements to positive elements) such that:
+
+\begin{align*}
+    \Lambda_D: S(\mathcal{H_S}) \to S(\mathcal{H}_1 \otimes \dots \otimes \mathcal{H}_n)
+\end{align*}
+
+Where $\mathcal{H}_i$ is the Hilbert space containing the shares of player $i$, and $S(\mathcal{H}_A)$ is the state space of quantum system $A$. After the operation, the state $\ket{RS}$ becomes $\ket{RP_1P_2 \dots P_n}$
+
+\begin{definition}{Perfect Quantum Secret Sharing Scheme.}
+    \label{defn:perfect-qss}
+    A \textbf{perfect quantum secret sharing scheme} is one that satisfies the following conditions:
+
+    \begin{enumerate}
+        \item Recoverability requirement: For all $A \in \Gamma$, there exists a recovery map $T_A: \mathcal{H}_A \to \mathcal{H}_S$ such that 
+        \[\rho^{RA} \to \ket{RS}\]
+        and $I(R:A) = I(R:S)$
+        \item Secrecy requirement: For all $B \notin \Gamma$ we have that $I(R:B) = 0$
+    \end{enumerate}
+
+    Intuitively, this means that any authorized set has the same information content as the secret, and any unauthorized set has no information at all about the secret.
+\end{definition}
+
+We make sure to indicate that this scheme is \textit{perfect}, because it is also possible to create schemes that are imperfect, meaning unauthorized sets do have some amount of information about the secret. The following theorem characterizes one kind of scheme that is known to be perfect. This will help us later in analyzing the security of our scheme.
+
+\begin{theorem}
+    A quantum secret sharing scheme in which the unauthorized sets are exactly the complements of the authorized sets is perfect. Specifically, this is a scheme where:
+    
+    \begin{align*}
+        A \in \Gamma \to A^c \notin \Gamma \\ 
+        B \notin \Gamma \to B^c \in \Gamma \\ 
+    \end{align*}
+\end{theorem}
+
+
 \section{Circumventing the No-Cloning Theorem}
-
-% commenting out because it might not be relevant!
-% \subsection{Improvable Secret Sharing}
-% \label{ssec:improvable}
-
-% In 2001, Nascimento presented a scheme that uses a mixture of quantum and classical data to implement secret sharing schemes \cite{nascimento_improving_2001}. His idea combines a method of encrypting quantum data using classical data with the idea of \textit{improvable secret sharing schemes}. The hybrid encryption is presented by Mosca, Tapp, and Wolf \cite{mosca2000private}. They use a classical key $K$ that uses $2n$ bits, where $n$ is the number of qubits in the secret. We encode the state $\ket{\Psi}$ as so. Each pair of bits corresponds to a unitary operator performed on the corresponding qubit. A $00$ means that we apply the $I$ operator, $01$ means $X$, $10$ means $Y$ and $11$ means $Z$. We can then apply a classical secret sharing scheme on the classical key $K$, and a quantum secret sharing scheme on the encrypted quantum state $\ket{\Psi'}$.
-
-% Nascimento defines an improvable quantum secret sharing scheme as follows:
-
-% \begin{definition}{Improvable Secret Sharing Scheme.}
-%     \label{defn:improvable}
-%     An improvable secret sharing scheme is a quantum secret sharing scheme that can be implemented with fewer quantum shares than the number of participants in $\mathcal{P}$.
-% \end{definition}
-
-% Let us say that you would like to implement the access structure $\Gamma$. If possible, restrict the access structure $\Gamma$ to a set of players $B \subsetneq \mathcal{P}$. He uses a clever construction where you take the secret $\ket{\psi}$ and encode it using the classical key $K$ and the encryption we describe above to get an encrypted state $\ket{\widetilde{\psi}}$. We use a classical secret sharing scheme to realize $\Gamma$, and a quantum secret sharing scheme to realize $\Gamma |_B$. Now, an authorized set $A \in \Gamma$ can access the key $K$, and the set $A \cap B$ can access the encrypted quantum state. Putting these together allows reconstruction of the original secret $\ket{\psi}$. This scheme only requires $|B|$ quantum shares. While this construction does not immediately lend itself to being able to implement schemes that violate the no-cloning theorem, we will see that it can become useful later.
 
 \subsection{Assisted Quantum Secret Sharing}
 \label{ssec:aqss}
@@ -249,15 +416,12 @@ Each authorized set it the access structure corresponds to a vertex in the graph
 
 However, if our AS graph is not a complete graph, then that is still okay. We separate the graph into sets of cliques, or as Singh and Srikanth call them, \textit{partially linked classes}. Each clique/class represents a subset of $\Gamma$ that would satisfy the no-cloning theorem alone. Let us say that we can separate the graph into $\lambda$ partially linked classes. Then we only need $\lambda - 1$ resident shares to realize the original access structure. Actually computing the minimum number of resident shares needed to implement a given assisted quantum threshold scheme is equivalent to the minimum clique-cover problem in graph theory, and is NP-hard.
 
-% TODO: spirit of the game here, or elsewhere?
 Although this approach does have the promising result of entirely removing the restriction of the no-cloning theorem, we are not entirely satisfied with this scheme. One reason is that there is no easy way to find the minimum number of resident shares that are needed to implement an arbitrary access structure, from its equivalence to the minimum clique-cover problem.
 
 Another reason comes from the idea of involving the dealer so heavily in reconstructing the secret. This aspect seems to go against the spirit of the game, if you will, of quantum secret sharing. One might imagine a more extreme version of the scenario as follows. The dealer holds onto the quantum secret, and has a list of all of the authorized sets that can access the secret. For any group that would like to reconstruct the secret, the dealer simply checks to see if that group of players is present in the access structure. If it is, it returns the quantum state, and if it is not, then it does nothing. There is nothing inherently quantum about the procedure, and in a way, it defeats the purpose of secret sharing altogether.
 
-% TODO: refresh on this, and possibly add more clarity/explain why this is relevant or necessary (might not be)
-\subsection{New Improvable Quantum Secret Sharing Schemes}
-\label{ssec:niqss}
+One final problem with the scheme is if two authorized sets which are disjoint try to recover the secret, then by the no-cloning theorem they cannot both obtain the secret. This introduces an unintended and artificial limitation in the scheme. Given an implementation to an access structure, it does not seem correct that there should be an unwritten condition that if one authorized set recovers the secret, then another authorized set cannot. 
 
-In 2016, Bai published two papers. The first presents a generalized information theoretic model for quantum secret sharing, and the second uses that model to analyze access structures \cite{bai_generalized_2016} \cite{bai_quantum_2017}. In 2017, Xu presents an extension to Nascimento's \cite{nascimento_improving_2001} work using Bai's generalized model \cite{xu_new_2017}. Xu is able to implement any secret sharing scheme using this generalized hybrid model, which he calls a New Improving Secret Sharing Scheme. One thing to note about this scheme is that it makes use of classical and quantum information in order to implement certain access structures.
+Observe that such a situation would not happen in an access structure that satisfies the no-cloning theorem. Imagine that there are two authorized sets $A_1,A_2$ that would both like to recover the secret. Let's say $A_1$ does so. Because they must have a non-empty intersection ($A_1 \cap A_2 \neq \emptyset$), then those players in the intersection $A_1 \cap A_2$ would then be able to share access to the secret with $A_2$, based on the assumption that the members of $A_2$ have agreed to work together.
 
-In \cref{ch:good-stuff}, we will explore our own ideas that have the potential to relax the constraint imposed by the no-cloning theorem.
+In \chref{ch:good-stuff}, we will explore our own idea that has the potential to relax the constraint imposed by the no-cloning theorem.
