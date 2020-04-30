@@ -8,9 +8,11 @@ Access structures lend themselves naturally to graphical representations. Here, 
     A \textbf{graph} $G=(V,E)$ is composed of a set of vertices and a set of edges. Each edge is incident to two vertices.
 \end{definition}
 
+We say that two vertices are \textbf{adjacent} if they are incident to the same edge.
+
 \begin{definition}{Vertex Induced Subgraph.}
     \label{defn:vert-induced-subgraph}
-    A \textbf{vertex-induced subgraph} of $G=(V,E)$ by the vertex set $V'$ is the graph $G'$ with vertex set $V'$ and edge set consisting those edges with both endpoints in $V'$. This is also called an induced subgraph.
+    A \textbf{vertex-induced subgraph} of $G=(V,E)$ by the vertex set $V'$ is the graph $G'$ with vertex set $V'$ and edge set consisting those edges with both endpoints in $V'$. This is also called an \textit{induced subgraph}.
 \end{definition}
 
 \begin{definition}{Complement.}
@@ -20,7 +22,7 @@ Access structures lend themselves naturally to graphical representations. Here, 
 
 \begin{definition}{Stable Set.}
     \label{defn:stable-set}
-    A \textbf{stable set} in a graph $G(V,E)$ is a subset of vertices $V_s \subseteq  V$ where there are no edges $e \in E$ that have both endpoints in $V_s$.
+    A \textbf{stable set} in a graph $G=(V,E)$ is a subset of vertices $V_s \subseteq  V$ where there are no edges $e \in E$ that have both endpoints in $V_s$.
 \end{definition}
 
 \begin{definition}{Bipartite Graph.}
@@ -28,7 +30,7 @@ Access structures lend themselves naturally to graphical representations. Here, 
 	A \textbf{bipartite graph} is a graph in which the vertices can be separated into two stable sets.
 \end{definition}
 
-Bipartite graphs are an important class of graphs because of their wide applicability, but because of their relatively simple structure, there exist numerous results regarding them. One elementary result provides both a necessary and sufficient condition for bipartite graphs.
+Bipartite graphs are an important class of graphs because of their wide applicability, and because of their relatively simple structure, there exist numerous results regarding them. One elementary result provides both a necessary and sufficient condition for bipartite graphs.
 
 \begin{nonumtheorem}
     \label{thm:bipartite-odd}
@@ -37,12 +39,12 @@ Bipartite graphs are an important class of graphs because of their wide applicab
 
 \begin{definition}{Complete Graph.}
     \label{defn:clique}
-    A \textbf{complete graph} is a graph where each node has an edge with every single other node. A complete graph with $n$ nodes is often denoted as $K_n$. Another name for a complete graph is a clique, and a clique with $n$ nodes might be referred to as a $n$-clique.
+    A \textbf{complete graph} is a graph where each vertex is adjacent to every other vertex. A complete graph with $n$ nodes is often denoted as $K_n$. Another name for a complete graph is a clique, and a clique with $n$ nodes might be referred to as an $n$-clique.
 \end{definition}
 
 \begin{definition}{Chromatic Number.}
     \label{defn:colors}
-	The \textbf{chromatic number} of a graph $\chi(G)$ is the minimum number of colors needed to color the vertices of $G$ in such a way that vertices of the same color are not adjacent.
+	A vertex coloring of a graph $G$ is assigning each vertex in $V$ a color such that two vertices of the same color are not adjacent. The \textbf{chromatic number} of a graph $\chi(G)$ is the minimum number of colors needed to do a vertex coloring on $G$.
 \end{definition}
 
 \begin{remark}
@@ -71,10 +73,10 @@ The following definition will be useful in our analysis in later chapters.
 
 \begin{definition}{Kneser Graph.}
     \label{defn:kneser-graph}
-    A \textbf{Kneser Graph}, denoted $K(a,b)$, is a graph with the set of all $b$-subsets of $a$ as the vertex set, and an edge between two vertices if they are disjoint. This graph has $\binom{a}{b}$ vertices.  
+    A \textbf{Kneser Graph}, denoted $K(a,b)$, is a graph with the set of all $b$-subsets of $a$ as the vertex set. There is an edge between two vertices if the subsets that they represent are disjoint. This graph has $\binom{a}{b}$ vertices.  
 \end{definition}
 
-These graphs were introduced by Lova\'{s}z in 1978 \cite{lovasz_knesers_1978}, which he used to prove Kneser's Conjecture, originally posed by Martin Kneser in 1955.
+This class of graphs was introduced by Lova\'{s}z in 1978 \cite{lovasz_knesers_1978}, which he used to prove Kneser's Conjecture, originally posed by Martin Kneser in 1955.
 
 \begin{kneserconjecture}
     \label{thm:kneser-conjecture}
@@ -90,5 +92,5 @@ The above conjecture, which has now been proven, is stated as a set theoretical 
 
 % This will be the shortest proof ever in the history of proofs.
 \begin{proof}
-     This result follows directly from the definition of a Kneser Graph. A $K(2t-1+k,t)$ has a vertex for every $t$-subset of $2t-1+k$. There is an edge between two vertices if they are disjoint. Consider a minimum coloring on this graph. If two vertices represent disjoint sets, and therefore are adjacent, then they cannot be the same color. \hyperref[thm:kneser-conjecture]{Kneser's Conjecture}  states that if we attempt to split the vertices of the graph into $k$ separate groups, then there must be at least one pair of adjacent vertices that end up in the same group. This is exactly what a $k$ coloring is, so $K(2t-1+k,t)$ is not $k$-colorable.
+     This result follows directly from the definition of a Kneser Graph. A $K(2t-1+k,t)$ has a vertex for every $t$-subset of $2t-1+k$. There is an edge between two vertices if they are disjoint. Consider a minimum vertex coloring on this graph. If two vertices represent disjoint sets, then they must be adjacent. So in the vertex coloring, they cannot be the same color. \hyperref[thm:kneser-conjecture]{Kneser's Conjecture}  states that if we attempt to split the vertices of the graph into $k$ separate groups, then there must be at least one pair of adjacent vertices that end up in the same group. Therefore, a $k$-coloring cannot exist for this graph, so $K(2t-1+k,t)$ is not $k$-colorable.
 \end{proof}
