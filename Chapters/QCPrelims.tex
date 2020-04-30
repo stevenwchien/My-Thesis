@@ -1,136 +1,37 @@
-\chapter{Background}
-\label{ch:background}
+\chapter{Quantum Computing Preliminaries}
+\label{ch:qc-prelim}
 
-\section{Classical Secret Sharing}
-\label{sec:css}
-
-In this section we will describe secret sharing schemes and talk about some of its properties and definitions. A secret sharing scheme allows some \textit{secret} $\mathcal{S}$ to be divided into shares and distributed by some \textit{dealer} $\mathcal{D}$ to a set of \textit{participants} or \textit{players} $\mathcal{P}$. Each secret sharing scheme has a corresponding \textit{access structure} denoted by $\Gamma$. $\Gamma$ defines the set of \textit{authorized subsets} of $\mathcal{P}$ that have access to the secret. A subset of participants $A \in \Gamma$ should be able to reconstruct the original secret in its entirety, but a a set $B \notin \Gamma$ should have \textbf{no} information about the secret, in the sense that all possible values of the secret are equally likely. It is this final condition that makes implementing secret sharing schemes more difficult and interesting than just, say, taking a string and dividing it into equal chunks and giving one chunk to each person. Let us present some more formalized definitions:
-
-\theoremstyle{definition}
-\begin{definition}{Access Structure.}
-    \label{defn:access-structure}
-    An \textbf{access structure} is often denoted as $\Gamma$. An access structure specifies the set of all authorized subsets of players that are able to recover the secret.
-\end{definition}
-
-\theoremstyle{definition}
-\begin{definition}{Authorized Set.}
-    \label{defn:authorized-set}
-    An \textbf{authorized set} is a subset $A \subseteq \mathcal{P}$ such that $A \in \Gamma$ for an access structure $\Gamma$.
-\end{definition}
-
-\theoremstyle{definition}
-\begin{definition}{Monotone Access Structure.}
-    \label{defn:monotone}
-    An access structure $\Gamma$ is \textbf{monotone} if $B \in \Gamma$ and $B \subseteq C$ implies $C \in \Gamma$.
-\end{definition}
-
-\defref{defn:monotone} is particularly useful to us. Essentially, if some subset of participants satisfies the access structure, then all supersets of that subset should also satisfy the access structure. For the task of secret sharing, this definition is intuitive, if not necessary. Indeed, it would be difficult to imagine a procedure that implements an access structure that is \textit{not} monotone. Later on, we will see that the property of monotonicity is not only necessary for the realizability of an access structure, but it is also one of two sufficient conditions.
-
-% TODO: include minimal authorized set???
-
-\theoremstyle{definition}
-\begin{definition}{Minimal Access Structure.}
-    \label{defn:minimal-as}
-    An access structure $\Gamma$ is \textbf{minimal} if $A \in \Gamma$ implies for every $A' \in \Gamma \setminus \{A\}$, $A' \not\subset A$. Another name for this is an access structure's \textbf{basis}.
-\end{definition}
-
-\theoremstyle{definition}
-\begin{definition}{Minimal Authorized Set.}
-    \label{defn:minimal-authorized-set}
-    A \textbf{minimal authorized set} is simply one of the authorized sets in the minimal access structure.
-\end{definition}
-
-Observe that any monotone access structure has a \textbf{unique minimal access structure}. If we assume that all of the access structures we are talking about are monotone, then this gives us a much simpler way to analyze access structures.
-
-\begin{example}
-    Let $\mathcal{P} = \{A,B,C,D\}$. Let $\Gamma_1 = \{(A,B), (A,C), (A,D)\}$. Let $\Gamma_2 = \{(A,B), (A,C), (A,D), (A,B,C)\}$. Assuming both access structures are monotone, then $\Gamma_1$ and $\Gamma_2$ represent the same access structure, because $(A,C) \subset (A,B,C)$. However, $\Gamma_1$ is a minimal access structure, and in fact, it is the \textbf{unique} minimal access structure of $\Gamma_2$. We say that $\Gamma_1$ and $\Gamma_2$ each has 3 minimal authorized sets.
-\end{example}
-
-% maximal access structure
-
-\theoremstyle{definition}
-\begin{definition}{Threshold Scheme.}
-    \label{defn:threshold-scheme}
-    A \textbf{$(t,n)$-threshold secret sharing scheme}, or just "threshold scheme" is a secret sharing scheme among $n$ players such that at least $t$ of those players must combine their respective shares in order to access the secret. The access structure for this scheme is composed of every subset of $\mathcal{P}$ of size $t$. This is also referred to as the set of all $t$-subsets of $n$.
-\end{definition}
-
-So, for our $(t,n)$ threshold scheme defined above, the \textit{access structure} can be defined more formally as such: $\Gamma = \{A | A \subseteq \mathcal{P} , |A| = t\}$.
-
-\begin{example}
-    Take the set of participants $\mathcal{P} = \{p_1,p_2,p_3\}$ might be $\Gamma = \{p_1p_2,p_2p_3,p_3p_1\}$. This access structure describes a $(2,3)$-threshold scheme.
-\end{example}
-
-As we mentioned above, Shamir developed one of the first implementations for a perfect threshold scheme based on polynomial interpolation \cite{shamir}. A perfect secret sharing scheme is defined as one where authorized subsets have access to the secret, and unauthorized subsets have no information at all, in an information-theoretical sense, of the secret. Despite their shares, all possible values of the secret are possible.
-
-Shamir's scheme is a $(t,n)$-threshold scheme. The scheme works as so. First, encode the secret as some number. Then, randomly generate a $(t-1)$-degree polynomial such that the constant term is number which encodes the secret. For each of the $n$ players, generate and distribute one of the pairs $i, p(i)$, where $i \in [1, \cdots, n]$. Each pair acts as a player's "share" of the secret. If $t$ or more players get together and pool together their shares, they can reconstruct the unique $(t-1)-$degree polynomial $p$ that generated those pairs, and then $p(0)$ reveals the secret. Note that having only $t-1$ or fewer pairs gives no information about the secret, because there would be infinitely many polynomials of degree $t-1$ passing through those $t-1$ or fewer pairs.
-
-\section{Graphs}
-\label{sec:graphs}
-
-Access structures lend themselves naturally to graphical representations. Let us define some common terms from graph theory, as they will become useful later in this paper. 
-
-\begin{definition}{Graph.}
-    \label{defn:graph}
-    A \textbf{graph} $G=(V,E)$ is composed of a set of vertices and a set of edges. Each edge is incident to two vertices.
-\end{definition}
-
-% \begin{definition}{Line Graph.}
-%     \label{defn:line-graph}
-%     The \textbf{line graph} $L(G)$ of a graph $G$ is the graph where each vertex of $L(G)$ corresponds to one edge in $G$. Two vertices in $L(G)$ are adjacent if they are incident to the same vertex in $G$. 
-% \end{definition}
-
-\begin{definition}{Chromatic Number.}
-    \label{defn:colors}
-	The \textbf{chromatic number} of a graph $\chi(G)$ is the maximum number of colors needed in order to color the vertices of the graph in such a way that vertices of the same color are not adjacent.
-\end{definition}
-
-\begin{definition}{Stable Set.}
-    \label{defn:stable-set}
-    A \textbf{stable set} in a graph $G(V,E)$ is a subset of vertices $V_s \subseteq  V$ where there are no edges $e \in E$ that have both endpoints in $V_s$.
-\end{definition}
-
-\begin{definition}{Bipartite Graph.}
-    \label{defn:bipartite}
-	A \textbf{bipartite graph} is a graph in which the vertices can be separated into two stable sets.
-\end{definition}
-
-\begin{definition}{Complete Graph.}
-    \label{defn:clique}
-    A \textbf{complete graph} is a graph where each node has an edge with every single other node. A complete graph with $n$ nodes is often denoted as $K_n$. These graphs are also called cliques. A clique with $n$ nodes might be called an $n$-clique.
-\end{definition}
-
-\section{Quantum Computing Preliminaries}
+\section{Quantum Computation}
 \label{sec:qc}
 
 \subsection{Quantum States and Operations}
 
 The basic unit of information in a quantum computer is the qubit, or the "quantum bit". A qubit is represented as a \textbf{quantum state}:
 
-\begin{align*}
-    \ket{\psi} &= \sum_{i=1}^n \alpha_i\ket{i} \\ 
-\end{align*}
+\begin{align}
+    \ket{\psi} &= \sum_{i=1}^n \alpha_i\ket{i}
+\end{align}
 
 The states $\ket{i}$ for $i \in \{1,...,n\}$ represent an orthonormal basis, and the constants $\alpha_1,...,\alpha_n$ are complex numbers normalized such that $\sum_{i=1}^n \alpha_i = 1$.
 
 We say that the quantum state $\ket{\psi}$ is in a \textbf{superposition} of the states: $\{\ket{i}\}$.
 
 
-The above formulation is known as a state vector. Another formulation that represents a quantum state is a \textbf{density operator} or \textbf{density matrix}, generally denoted as $\rho$. This is mathematically identical to the state vector formulation, but it has benefits when handling certain operations on quantum states. 
-One application where the density operator shines is in describing \textbf{mixed states}. A mixed state describes a situation where there is uncertainty in the state of the quantum system. These are also known as ensembles of pure states. Consider a system that can be in a number of states: $\{\ket{\psi_i}\}$. The corresponding probability that the system is in state $\ket{\psi}$ is $p_i$. Then, the density operator for this quantum system is:
+The above formulation is known as a state vector. Another formulation that represents a quantum state is a \textbf{density operator} or \textbf{density matrix}, generally denoted as $\rho$. One application where the density operator shines is in describing \textbf{mixed states}. A mixed state describes a quantum system in which there is uncertainty about its state. These are also known as ensembles of pure states: $\{\ket{\psi_i}, p_i\}$. $\ket{\psi_i}$ is one of the possible states the system is in, and the corresponding probability that the system is in state $\ket{\psi_i}$ is $p_i$. Then, the density operator describing this quantum system is:
 
-\begin{align*}
-    \rho &= \sum_{i} p_i * \ket{\psi_i}\bra{\psi_i} \\ 
-\end{align*}
+\begin{align}
+    \rho &= \sum_{i} p_i * \ket{\psi_i}\bra{\psi_i}
+\end{align}
 
 Note that a mixed state is different than a superposition of states. A mixed state has to do with uncertainty about which state a quantum system is in. However, if a system is known to be in a superposition state, then there is no uncertainty. That state would be a pure state.
 
-One of the most important applications of the density operator is to be able to describe quantum subsystems. Say that we have a density operator $\rho^{XY}$ that represents the composite of two quantum systems $X$ and $Y$. Then, the density operator representing just the quantum system $X$ is:
+One of the most important applications of the density operator is to be able to describe quantum subsystems. Say that we have a density operator $\rho$ that represents the composite of two quantum systems $X$ and $Y$. Then, the density operator representing just the quantum system $X$ is:
 
-\begin{align*}
-    \rho^X &= tr_Y(\rho^{XY}) \\ 
-\end{align*}
+\begin{align}
+    \rho^X &= \trace[Y]{\rho}
+\end{align}
 
-This is known as the \textbf(partial trace) over system $Y$, and the resulting $\rho^X$ is known as the \textbf{reduced density operator}.
+This is known as the \textbf(partial trace) over system $Y$, and the resulting $\rho^X$ is known as the \textbf{reduced density operator}. Note that if we perform a partial trace over subsystem $Y$, then we obtain the reduced density operator describing the subsystem $X$. The importance of the reduced density operator is that it returns the correct measurements statistics for measurements done on subsystem $X$.
 
 Another important technique in that takes advantage of the density operator formulation is \textbf{purification}. This is a procedure by which we begin with some quantum system $A$ which is in a mixed state. We introduce a "reference" system $R$ such that the composite system $AR$ is in a pure state. Furthermore, the pure state $\ket{AR}$ reduces to $\rho^A$ when we trace over the reference system $R$.
 
@@ -139,16 +40,16 @@ A \textbf{quantum operation} is a unitary operator $U$ that acts on a quantum st
 \begin{definition}{Unitary Operator.}
     A \textbf{unitary operator} $U;\mathcal{H} \to \mathcal{H}$ is a linear operator on a Hilbert space $\mathcal{H}$ that satisfies:
     
-    \begin{align*}
-        U^*U = UU^* = I \\ 
-    \end{align*}
+    \begin{align}
+        U^*U = UU^* = I
+    \end{align}
     
     Where $U^*$ is the adjoint of $U$.
 \end{definition}
 
 Examples of some commonly used operators are the 4 Pauli operators:
 
-\begin{align*}
+\begin{align}
     I &= \begin{pmatrix}
         1 & 0 \\ 
         0 & 1 \\ 
@@ -164,26 +65,26 @@ Examples of some commonly used operators are the 4 Pauli operators:
     Z &= \begin{pmatrix}
         1 & 0 \\ 
         0 & -1 \\ 
-    \end{pmatrix} \\ 
-\end{align*}
+    \end{pmatrix}
+\end{align}
 
 If the evolution of a closed quantum system is described by the unitary operator $U$, and the system was originally in the state $\ket{\psi}$, then we denote the evolved system as:
 
-\begin{align*}
-    \ket{\psi} \xrightarrow{U} U \ket{\psi} \\    
-\end{align*}
+\begin{align}
+    \ket{\psi} \xrightarrow{U} U \ket{\psi}
+\end{align}
 
 In the density operator formulation, describing the ensemble of states where the system was originally in state $\ket{\psi_i}$ with probability, $p_i$, the evolution is described as:
 
-\begin{align*}
+\begin{align}
     \rho = \sum_i p_i \ket{\psi_i}\bra{\psi_i} &\xrightarrow{U} \sum_i p_i U\ket{\psi_i}\bra{\psi_i}U^{\dagger} \\
     &\xrightarrow{U} U \left(\sum_i p_i \ket{\psi_i}\bra{\psi_i} \right)U^{\dagger} \\
-    &\xrightarrow{U} U \rho U^{\dagger} \\
-\end{align*}
+    &\xrightarrow{U} U \rho U^{\dagger}
+\end{align}
 
 \subsection{No Cloning}
 
-One of the most important theorems that has a significant effect on quantum computing algorithms is the \textbf{no-cloning theorem}. Here, we present the no-cloning theorem with proof referencing Mermin's 2007 text \cite{merlin}.
+One of the most important theorems that has a significant effect on quantum computing algorithms is the \textbf{no-cloning theorem}. Here, we present the no-cloning theorem with proof referencing Mermin's 2007 text \cite{mermin_quantum_2007}.
 
 \begin{noclonetheorem}{}
     \label{thm:no-cloning-thm}
@@ -193,24 +94,23 @@ One of the most important theorems that has a significant effect on quantum comp
 \begin{proof}
     Assume for the sake of contradiction that there is such an operator. Then $U(\ket{\psi} \ket{0}) = \ket{\psi}\ket{\psi}$ and $U(\ket{\phi} \ket{0}) = \ket{\phi}\ket{\phi}$, for arbitrary quantum states $\ket{\psi}, \ket{\phi}$. Then:
     
-    \begin{align*}
+    \begin{align}
         U(\alpha \ket{\psi} + \beta \ket{\phi})\otimes\ket{0} &= (\alpha \ket{\psi} + \beta \ket{\phi})\otimes (\alpha \ket{\psi} + \beta \ket{\phi}) \\ 
-        &= \alpha^2\braket{\phi|\phi} + \beta^2\braket{\psi|\psi} + \alpha \beta \braket{\phi|\psi} + \alpha \beta \braket{\psi|\phi} \numberthis \label{eqn:no-clone-1}\\ 
-    \end{align*}
+        &= \alpha^2\braket{\phi|\phi} + \beta^2\braket{\psi|\psi} + \alpha \beta \braket{\phi|\psi} + \alpha \beta \braket{\psi|\phi} \numberthis \label{eqn:no-clone-1}
+    \end{align}
     
     But by linearity, we also have:
     
-    \begin{align*}
+    \begin{align}
         U(\alpha \ket{\psi} + \beta \ket{\phi})\otimes\ket{0} &= \alpha U \ket{\psi}\ket{0} + \beta U \ket{\phi}\ket{0} \\ 
-        &= \alpha \ket{\psi}\ket{\psi} + \beta \ket{\phi}\ket{\phi} \numberthis \label{eqn:no-clone-2}\\ 
-    \end{align*}
+        &= \alpha \ket{\psi}\ket{\psi} + \beta \ket{\phi}\ket{\phi} \numberthis \label{eqn:no-clone-2}
+    \end{align}
     
     \eqnref{eqn:no-clone-1} and \eqnref{eqn:no-clone-2} can only be the same if one of $\alpha$ or $\beta$ is equal to 0, which contradicts the assumption that $\ket{\psi}, \ket{\phi}$ are arbitrary.
 \end{proof}
 
-\theoremstyle{remark}
 \begin{remark}
-    Note that the theorem statement can also be made replacing $\ket{0}$ with an arbitrary state $\ket{e}$. What is important is that there is no unitary operator that acts as a "general purpose copier". For example, it would be easy to create an operator that can copy a state $\ket{\phi}$ if we know for a fact that the state is either $\ket{0}$ or $\ket{1}$ \cite{merlin}. In general, 
+    Note that the theorem statement can also be made replacing $\ket{0}$ with an arbitrary state $\ket{e}$. What is important is that there is no unitary operator that acts as a "general purpose copier". For example, it would be easy to create an operator that can copy a state $\ket{\phi}$ if we know for a fact that the state is either $\ket{0}$ or $\ket{1}$ \cite{mermin_quantum_2007}. In general, 
 \end{remark}
 
 \section{Quantum Information Theory}
@@ -225,26 +125,31 @@ Classical information theory uses Shannon entropy. The quantum analogue for Shan
 \begin{definition}{von Neumann Entropy.}
     The \textbf{von Neumann Entropy} of a quantum system $\rho$ is defined as:
     
-    \begin{align*}
-        S(\rho) = -tr(\rho \log(\rho)) \\
-    \end{align*}
+    \begin{align}
+        S(\rho) = -\trace{\rho \log(\rho)}
+    \end{align}
 \end{definition}
 
-Because entropy is a measure of uncertainty, the von Neumann entropy of a pure state, where there is no uncertainty about the state of the system, is 0. The maximum entropy that a quantum system can have is if it is in a \textbf{maximally mixed state}, just as we would expect the Shannon entropy to be maximized on a uniform distribution. If a quantum system is in one of $d$ possible pure states, each with equal probability, then we say that it is in a \textit{maximally mixed state}. The density operator for this system is $\rho = \tfrac{1}{d}I$, and the von Neumann entropy is:
+Because entropy is a measure of uncertainty, the von Neumann entropy of a pure state, where there is no uncertainty about the state of the system, is 0. The maximum entropy that a quantum system can have is if it is in a \textbf{maximally mixed state}, just as we would expect the Shannon entropy to be maximized on a uniform distribution. If a quantum system is in one of $d$ possible pure states, each with equal probability, then we say that it is in a \textit{maximally mixed state}. The density operator for this system is:
 
-\begin{align*}
-    S(\rho) &= S(\tfrac{1}{d}I) \\ 
-    &= \log(d)
-\end{align*}
+\begin{align}
+    \rho = \sum_{i=0}^{d-1} \frac{1}{d}\ket{i}\bra{i} = \frac{1}{d} I
+\end{align}
 
-Just as important as it is to define a measure of information, it is important to be able to compare this measure of information. This is where relative entropy comes in. Relative entropy is a entropy-like definition that measures the closeness of two probability distributions, or in the quantum case, quantum systems. We define quantum relative entropy below:
+And the von Neumann entropy:
+
+\begin{align}
+    S(\rho) &= S(\tfrac{1}{d}I) = \log(d)
+\end{align}
+
+Just as important defining a measure of information is being able to compare it aptly. Relative entropy is a entropy-like definition that measures the closeness of two probability distributions, or in the quantum case, quantum systems. We define quantum relative entropy below:
 
 \begin{definition}{Quantum Relative Entropy.}
     Suppose you have two density operators $\rho$ and $\sigma$. The \textbf{relative entropy} of $\rho$ to $\sigma$ is:
     
-    \begin{align*}
-        S(\rho||\sigma) = tr(\rho \log(\rho)) - tr(\rho \log (\sigma)) \\
-    \end{align*}
+    \begin{align}
+        S(\rho||\sigma) = \trace{\rho \log(\rho)} - \trace{\rho \log (\sigma)}
+    \end{align}
 \end{definition}
 
 In quantum mechanics, we often work with two more quantum systems that interact with each other. Consider two quantum systems $X$ and $Y$. We denote the composite system of them to be $XY$, and their density operator to be $\rho^{XY}$. The entropy of the composite system is called the joint entropy:
@@ -252,9 +157,9 @@ In quantum mechanics, we often work with two more quantum systems that interact 
 \begin{definition}{Joint Entropy.}
     The \textbf{joint entropy} of a composite system $XY$ is simply the entropy defined on the density operator of the composite system:
     
-    \begin{align*}
-        S(X,Y) = S(\rho^{XY}) &= -tr(\rho^{XY} \log(\rho^{XY}))
-    \end{align*}
+    \begin{align}
+        S(X,Y) = S(\rho^{XY}) &= -\trace{\rho^{XY} \log(\rho^{XY})}
+    \end{align}
 \end{definition}
 
 As one might expect, the joint entropy can also be defined as function of the entropies of each system separately. To talk about that, we need to provide a couple more important definitions that describe the interactions of two or more systems.
@@ -262,18 +167,18 @@ As one might expect, the joint entropy can also be defined as function of the en
 \begin{definition}{Conditional Entropy.}
     Say that we have two quantum systems $X,Y$, but we have full information about $Y$. Then we define the entropy of $X$ \textbf{conditional} on knowing $Y$ to be: 
     
-    \begin{align*}
-        S(X|Y) = S(X,Y) - S(Y) \\
-    \end{align*}
+    \begin{align}
+        S(X|Y) = S(X,Y) - S(Y)
+    \end{align}
 \end{definition}
 
 \begin{example}
     If we have a composite system $XY$ in a product state, that is, the state of the system can be written as $\rho \otimes \sigma$, then the joint entropy is:
 \end{example}
 
-\begin{align*}
-    S(X,Y) &= S(X) + S(Y) \\ 
-\end{align*}
+\begin{align}
+    S(X,Y) &= S(X) + S(Y)
+\end{align}
 
 This implies that the conditional entropy $S(X|Y) = 0$, which makes sense. If a composite system is in a product state, then there is no entanglement between the two systems. Information about one system does not give any information about the other.
 
@@ -282,25 +187,25 @@ Another quantity that relates to the information content of two systems is the \
 \begin{definition}{Mutual Information}
     The \textbf{mutual information} of two quantum systems $X,Y$ is defined as:
     
-    \begin{align*}
-        I(X:Y) = S(X) + S(Y) - S(X,Y) \\ 
-    \end{align*}
+    \begin{align}
+        I(X:Y) = S(X) + S(Y) - S(X,Y)
+    \end{align}
 \end{definition}
 
 Using our definitions, one can see that the mutual information is also closely tied to the conditional entropy:
 
-\begin{align*}
+\begin{align}
         I(X:Y) &= S(X) + S(Y) - S(X,Y) \\ 
         &= S(X) - S(X|Y) \\ 
-        &= S(Y) - S(Y|X) \\ 
-\end{align*}
-    
-For a more detailed and rigorous treatment of quantum information theory and computation, please see \cite{}.    
+        &= S(Y) - S(Y|X)
+\end{align}
+
+For a more detailed and rigorous treatment of quantum information theory and computation, please see \cite{nielsen_quantum_2010}.
 
 \section{Quantum Secret Sharing}
 \label{section:qss}
 
-A quantum secret sharing scheme is the quantum analogue of a normal (classical) secret sharing scheme. In these schemes, the information to be shared is quantum, and takes the form of a quantum state $\ket{\psi}$. This idea was first introduced by Hillery et al. in 1998 \cite{Hillery_1999}. In their paper, they give an example of a $((2,3))$-threshold quantum secret sharing scheme implemented using GHZ states. This was then extended by the work of Cleve, Gottesman, and Lo \cite{Cleve_1999}. They introduce the idea of a quantum access structure, and propose implementations for general quantum secret sharing schemes.
+A quantum secret sharing scheme is the quantum analogue of a normal (classical) secret sharing scheme. In these schemes, the information to be shared is quantum, and takes the form of a quantum state $\ket{\psi}$. This idea was first introduced by Hillery et al. in 1998 \cite{hillery_quantum_1999}. In their paper, they give an example of a $((2,3))$-threshold quantum secret sharing scheme implemented using GHZ states. This was then extended by the work of Cleve, Gottesman, and Lo \cite{cleve_how_1999}. They introduce the idea of a quantum access structure, and propose implementations for general quantum secret sharing schemes.
 
 One implementation of a secret sharing scheme has come as an extension from quantum error correction. This is natural because the goal of quantum error correction is to encode a quantum state in such a way that we are able to recover the entirety of the original quantum state in the absence of some part of the encoding. Note that this is exactly what is needed to implement secret sharing schemes where the number of people needed to recover the secret is less than the number of people involved in the scheme. In light of the no-cloning theorem, the fact that this is possible at all is surprising. 
 
@@ -342,19 +247,20 @@ In the next section, we will explore some of the methods that researches have us
 
 \subsection{A Quantum Information Theoretical Model for Quantum Secret Sharing}
 
-In \cite{} Nascimento et. al. proposed the following model for quantum secret sharing that uses quantum information theory. The quantum secret $S$ can take on the possible states: $\{\ket{S_i}\}$ each with probability $p_i$. The density operator representing the secret is then:
+% Todo: cite Imai
+In \cite{imai_quantum_2003} Imai et al. proposed the following model for quantum secret sharing that uses quantum information theory. The quantum secret $S$ can take on the possible states: $\{\ket{S_i}\}$ each with probability $p_i$. The density operator representing the secret is then:
 
-\begin{align*}
+\begin{align}
     \rho_s &= \sum_i p_i \ket{S_i} \bra{S_i}
-\end{align*}
+\end{align}
 
 Then $\mathcal{P} = \{P_1,P_2,...,P_n\}$ is the set of players, where we will take $P_i$ to represent both the $i$-th player \textbf{and} the shares in possession of $P_i$, for notational simplicity. Similarly, $A \subseteq \mathcal{P}$ will both represent a subset of the players $\mathcal{P}$ and also the set of shares in the possession of those players. We let $R$ be a reference system such that the composite system $RS$ is in a pure state.
 
 A quantum secret sharing scheme is a \textbf{completely positive map} $\Lambda$ (maps positive elements to positive elements) such that:
 
-\begin{align*}
+\begin{align}
     \Lambda_D: S(\mathcal{H_S}) \to S(\mathcal{H}_1 \otimes \dots \otimes \mathcal{H}_n)
-\end{align*}
+\end{align}
 
 Where $\mathcal{H}_i$ is the Hilbert space containing the shares of player $i$, and $S(\mathcal{H}_A)$ is the state space of quantum system $A$. After the operation, the state $\ket{RS}$ becomes $\ket{RP_1P_2 \dots P_n}$
 
@@ -364,23 +270,28 @@ Where $\mathcal{H}_i$ is the Hilbert space containing the shares of player $i$, 
 
     \begin{enumerate}
         \item Recoverability requirement: For all $A \in \Gamma$, there exists a recovery map $T_A: \mathcal{H}_A \to \mathcal{H}_S$ such that 
-        \[\rho^{RA} \to \ket{RS}\]
-        and $I(R:A) = I(R:S)$
-        \item Secrecy requirement: For all $B \notin \Gamma$ we have that $I(R:B) = 0$
+        \begin{align} 
+            \rho^{RA} &\to \ket{RS} \\
+            I(R:A) &= I(R:S)
+        \end{align}
+        \item Secrecy requirement: For all $B \notin \Gamma$ we have that:
+        \begin{align}
+            I(R:B) = 0
+        \end{align}
     \end{enumerate}
 
     Intuitively, this means that any authorized set has the same information content as the secret, and any unauthorized set has no information at all about the secret.
 \end{definition}
 
-We make sure to indicate that this scheme is \textit{perfect}, because it is also possible to create schemes that are imperfect, meaning unauthorized sets do have some amount of information about the secret. The following theorem characterizes one kind of scheme that is known to be perfect. This will help us later in analyzing the security of our scheme.
+We make sure to indicate that this scheme is \textit{perfect}, because it is also possible to create schemes that are imperfect, meaning unauthorized sets do have some amount of information about the secret, or in the above formulation, $I(R:B) \neq 0$. The following theorem characterizes schemes that are known to be perfect. This will help us later in analyzing the security of our implementation.
 
 \begin{theorem}
     A quantum secret sharing scheme in which the unauthorized sets are exactly the complements of the authorized sets is perfect. Specifically, this is a scheme where:
     
-    \begin{align*}
+    \begin{align}
         A \in \Gamma \to A^c \notin \Gamma \\ 
-        B \notin \Gamma \to B^c \in \Gamma \\ 
-    \end{align*}
+        B \notin \Gamma \to B^c \in \Gamma
+    \end{align}
 \end{theorem}
 
 

@@ -51,7 +51,7 @@ Signed: \hrulefill
 
 \textbf{Steven Chien}
 
-\clearpage  % Declaration ended, now start a new page
+\clearpage % end of declaration
 
 %% ----------------------------------------------------------------
 
@@ -60,14 +60,14 @@ Signed: \hrulefill
 \abstract{
 \addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
 
-Many of the restrictions on quantum secret sharing schemes are derived from the no-cloning theorem. In this paper, we explore the potential benefit of implementing quantum secret sharing schemes using two or more identical copies of a secret quantum state. The hope is that this can be used to circumvent the no-cloning theorem. Our approach involves taking the union of two or more access structures, one for each quantum state, in order to implement an access structure that would otherwise not be realizable. Using this method, we find that we are indeed able to implement more access structures than we did before, but only one new threshold scheme for every new copy of the share, given a fixed size of the pool of players.
+Many of the restrictions on quantum secret sharing schemes are derived from the no-cloning theorem. In this thesis, we explore quantum threshold schemes, which are a secret sharing schemes with access structures based on the number of participants recovering the secret. We investigate the potential benefit of implementing quantum threshold schemes using two or more identical copies of a secret quantum state. The hope is that the availability of multiple copies of the secret can circumvent the restrictions imposed by the no-cloning theorem. Our approach takes advantage of the multiple copies by taking the union of two or more access structures involves taking the union of two or more access structures, one for each quantum state, in order to implement an access structure that would otherwise not be realizable. We find that we are indeed able to implement more access structures than we did before, but we show that we can only realize one new threshold scheme for every new copy of the share, given a fixed size of the pool of players.
 
 }
 
 \clearpage  % Abstract ended, start a new page
 %% ----------------------------------------------------------------
 
-\setstretch{1.3}  % Reset the line-spacing to 1.3 for body text (if it has changed)
+\setstretch{1}  % Reset the line-spacing to 1.3 for body text (if it has changed)
 
 % The Acknowledgements page, for thanking everyone
 \acknowledgements{
@@ -75,33 +75,25 @@ Many of the restrictions on quantum secret sharing schemes are derived from the 
 
 Thank you very much.
 
-% I would like to thank Mark Zhandry for all of his help in advising me for this thesis. I would like to thank Andrew Houck for being my academic advisor and second reader for this thesis. I would also like to thank Jean Bausmith for her help and support throughout my ELE career at Princeton. Finally, I would like to shoutout the homies for keepin it real.
 
-% vayne for cheering me on
-% Dora - Thesis fairy
-% Aaron - Thesis fairy
-% Jerry - Proofread
-% Karen - proofread
-% Michelle - proofread
-% Bill, Daniel, Pranav, Jason, Jerry, Yang, Jorge for friendship
-% Clockwork
-% Cap? for community
-% PUO 
-% Family
-% Friends within the department! Abby, Alex, Clare, Trisha, Kevin, Jess
+\vfill
 
+\textit{``If computers that you build are quantum,}
 
-% \null
-% \vfill
+\textit{Then spies of all factions will want 'em.}
 
-% \textit{``Mama told me save that money -- bank accounts -- don't spend that bread.''}
+\textit{Our codes will all fail,}
 
-% \begin{flushright}
-% A\$AP Ant
-% \end{flushright}
+\textit{And they'll read our email,}
+
+\textit{Till we've crypto that's quantum, and daunt 'em.''}
+
+ \quad -- Jennifer and Peter Shor
+
 
 }
 \clearpage  % End of the Acknowledgements
+\setstretch{1.3} 
 %% ----------------------------------------------------------------
 
 \pagestyle{fancy}  %The page style headers have been "empty" all this time, now use the "fancy" headers as defined before to bring them back
@@ -123,23 +115,31 @@ Thank you very much.
 \listofnomenclature{lll}  % Include a list of Symbols (a three column table)
 {
 % symbol & name \\
+$\ket{\Psi}$ & quantum state \\
+$\rho$ & density operator or density matrix \\
+$U$ & unitary operator \\
+$\trace{\rho}$ & trace \\ 
+$\trace[Y]{\rho}$ & partial trace over $Y$ \\ 
+$S(\rho)$ & von Neumann entropy \\ 
+$S(X,Y)$ & joint entropy \\
+$S(X|Y)$ & conditional entropy \\ 
+$I(X:Y)$ & mutual information \\
+$G$ & graph \\
+$G^c$ & complement of graph \\ 
+$K(a,b)$ & Kneser graph \\ 
+$K_n$ & complete graph on $n$ vertices \\
+$\chi(G)$ & chromatic number of $G$ \\ 
+$\theta(G)$ & clique cover number of $G$ \\ 
 $\mathcal{D}$ & dealer \\
 $\mathcal{S}$ & secret \\
 $\mathcal{P}$ & players \\ 
 $\Gamma$ & access structure \\
-$\ket{\Psi}$ & quantum state \\
-$U$ & unitary operator \\
-$G$ & graph \\ 
-$G^c$ & complement of graph \\ 
-$K(a,b)$ & Kneser graph \\ 
-$\chi(G)$ & chromatic number of $G$ \\ 
-$\theta(G)$ & clique cover number of $G$ \\ 
+$((t,n))$ & quantum $t$-out-of-$n$ threshold scheme \\ 
  \textbf{QSS} & Quantum Secret Sharing \\ 
  \textbf{QTS} & Quantum Threshold Scheme \\ 
 }
 %% ----------------------------------------------------------------
-% End of the pre-amble, contents and lists of things
-% Begin the Dedication page
+% end of symbols
 
 \setstretch{1.3}  % Return the line spacing back to 1.3
 
@@ -153,14 +153,25 @@ $\theta(G)$ & clique cover number of $G$ \\
 % Include the chapters of the thesis, as separate files
 % Just uncomment the lines as you write the chapters
 
+\lhead{\emph{Introduction}}
 \input{Chapters/Introduction.tex} % Introduction
 
-\input{Chapters/Background.tex} % Background Theory 
+\lhead{\emph{Quantum Computing Preliminaries}}
+\input{Chapters/QCPrelims.tex} % QC Preliminaries
 
-\input{Chapters/BreadnButter.tex} % The Augmented Quantum Threshold Scheme
+\lhead{\emph{Graphs}}
+\input{Chapters/Graphs.tex} % Graph Theory
 
-% \input{Chapters/More.tex} % More???
+\lhead{\emph{Secret Sharing}}
+\input{Chapters/SecretSharing.tex} % Secret Sharing
 
+\lhead{\emph{Augmented Quantum Secret Sharing}}
+\input{Chapters/Augmented.tex} % The Augmented Quantum Threshold Scheme
+
+\lhead{\emph{General Augmented Quantum Secret Sharing}}
+\input{Chapters/GeneralResults.tex} % The General Results
+
+\lhead{\emph{Conclusion}}
 \input{Chapters/Conclusion.tex} % Conclusion
 
 %% ----------------------------------------------------------------
@@ -171,10 +182,6 @@ $\theta(G)$ & clique cover number of $G$ \\
 \appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
 
 %\input{Appendices/AppendixA}	% Appendix Title
-
-%\input{Appendices/AppendixB} % Appendix Title
-
-%\input{Appendices/AppendixC} % Appendix Title
 
 \addtocontents{toc}{\vspace{2em}}  % Add a gap in the Contents, for aesthetics
 \backmatter

@@ -78,7 +78,7 @@
 \if@twocolumn\hbox{}\newpage\fi\fi\fi}
 \usepackage{amsmath,amsfonts,amssymb,amscd,amsthm,xspace}
 \theoremstyle{plain}
-\newtheorem{theorem}{Theorem}[section]
+\newtheorem{theorem}{Theorem}[chapter]
 \newtheorem*{nonumtheorem}{Theorem}
 \newtheorem*{noclonetheorem}{No-Cloning Theorem}
 \newtheorem*{kneserconjecture}{Kneser's Conjecture}
@@ -88,15 +88,16 @@
 \newtheorem{axiom}[theorem]{Axiom}
 
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}[section]
-\newtheorem{conjecture}{Conjecture}[section]
-\newtheorem{example}{Example}[section]
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{conjecture}{Conjecture}[chapter]
+\newtheorem{example}{Example}[chapter]
 
 \theoremstyle{remark}
 \newtheorem*{remark}{Remark}
 
 \usepackage[centerlast,small,sc]{caption}
 \setlength{\captionmargin}{20pt}
+\newcommand{\trace}[2][]{\text{tr}_{#1}\left( {#2} \right)}
 \newcommand{\fref}[1]{Figure~\ref{#1}}
 \newcommand{\tref}[1]{Table~\ref{#1}}
 \newcommand{\eref}[1]{Equation~\ref{#1}}
