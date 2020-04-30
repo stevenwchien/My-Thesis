@@ -1,6 +1,22 @@
 \chapter{Introduction}
 \label{introduction}
 
+\setstretch{0.5}
+
+\textit{``If computers that you build are quantum,}
+
+\textit{Then spies of all factions will want 'em.}
+
+\textit{Our codes will all fail,}
+
+\textit{And they'll read our email,}
+
+\textit{Till we've crypto that's quantum, and daunt 'em.''}
+
+ \quad -- Jennifer and Peter Shor
+
+\setstretch{1.3}
+
 Secret sharing is a cryptographic procedure by which we take some sensitive data and distribute it among participants in such a way that access to the secret requires sufficiently large subsets of those participants to come together. There are many situations in which these schemes are useful, and they are often characterized by: information that is too sensitive for just one person to have access; mutual distrust, yet a need to cooperate among members of a group; or the need to distribute power among multiple people. Some examples include giving a group of bank executives access to a vault, requiring multiple officials to launch nuclear warheads, or creating secure voting procedures for a board of directors. For these reasons, developing secure and efficient methods of sharing secrets is an important task. 
 
 The moment that quantum computers become viable ways to store and perform operations on information, quantum computing algorithms and quantum cryptography will become extremely important. There is concern that quantum computers will enable us to break certain encryption schemes, and to an extent, this is true. A popular example of a potentially insecure encryption scheme is RSA, whose security depends on the computational complexity of factoring large numbers. The concern is that there exists an efficient \textit{quantum} algorithm for factoring integers, rendering RSA insecure.
