@@ -123,18 +123,16 @@ One of the most important theorems that has a significant effect on quantum comp
 \section{Quantum Information Theory}
 \label{section:qit}
 
-When designing cryptographic schemes, it is important to work with quantitative definitions of information. This allows us to rigorously prove claims about the security of our procedures. An important concept in classical information theory is \textbf{entropy}. Entropy can be thought of as the amount of uncertainty you have about a quantity's value. In classical information theory, entropy is defined over probability distributions, which give you the probabilities that a quantity, like a random variable, takes on certain values.
+When designing cryptographic schemes, it is important to work with quantitative definitions of information. This allows us to rigorously prove claims about the security of our procedures. An important concept in classical information theory is \textbf{entropy}. Entropy can be thought of as the amount of uncertainty associated with the value of a quantity. In classical information theory, entropy is defined over probability distributions. These give us the probabilities that a quantity, like a random variable, takes on certain values. Classical information theory uses a measure of entropy called \textbf{Shannon entropy}:
 
-This idea is transferable to quantum information, because quantum systems can be modelled as probability distributions, where the ``values'' that the system can take on are quantum states, and their associated probabilities are encoded in the density operator that represents the system.
-
-Classical information theory uses \textbf{Shannon entropy}. The Shannon entropy of a probability distribution is defined as:
-
-\begin{align}
+\begin{definition}{Shannon Entropy.}
+    The \textbf{Shannon entropy} of a probability distribution is defined as:
+    \begin{align}
     H(X) &\equiv \sum_x p_x \log (p_x)
 \end{align}
+\end{definition}
 
-
-The quantum analogue of Shannon entropy is called \textbf{von Neumann entropy}, and is defined below:
+This idea is transferable to quantum information. Quantum systems can be modelled as probability distributions, where the ``values'' that the system can take on are quantum states, and their associated probabilities are encoded in the density operator that represents the system. The quantum analogue of Shannon entropy is called \textbf{von Neumann entropy}, and is defined below:
 
 \begin{definition}{von Neumann Entropy.}
     The \textbf{von Neumann Entropy} of a quantum system $\rho$ is defined as:
@@ -169,7 +167,7 @@ And the von Neumann entropy of the maximally mixed state:
 In quantum mechanics, we often work with two more quantum systems that interact with each other. An important entropy-like definition involving two or more systems is called the \textbf{relative entropy}, which measures the closeness of two probability distributions. In the case of quantum information, it measures the closeness of two quantum systems. We define quantum relative entropy below:
 
 \begin{definition}{Quantum Relative Entropy.}
-    Suppose you have two density operators $\rho$ and $\sigma$. The \textbf{relative entropy} of $\rho$ to $\sigma$ is:
+    Suppose there are two density operators $\rho$ and $\sigma$. The \textbf{relative entropy} of $\rho$ to $\sigma$ is:
     
     \begin{align}
         S(\rho||\sigma) &\equiv \trace{\rho \log(\rho)} - \trace{\rho \log (\sigma)}
@@ -223,7 +221,5 @@ Another quantity that relates to the information content of two systems is the \
 Using our definitions, one can see that the mutual information is also closely tied to the conditional entropy:
 
 \begin{align}
-        I(X:Y) &\equiv S(X) + S(Y) - S(X,Y) \\ 
-        &= S(X) - S(X|Y) \\ 
-        &= S(Y) - S(Y|X)
+        I(X:Y) = S(X) - S(X|Y) = S(Y) - S(Y|X)
 \end{align}

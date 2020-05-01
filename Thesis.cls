@@ -169,7 +169,7 @@
 \newcommand*{\subject}[1]{\def\subjectname{#1}}
 \newcommand*{\keywords}[1]{\def\keywordnames{#1}}
 
-\deftitle      {Augmenting \texorpdfstring{$((t,n))$}{((t,n))}-threshold Quantum Secret Sharing Schemes}
+\deftitle      {Augmented \texorpdfstring{$((t,n))$}{((t,n))}-threshold Quantum Secret Sharing Schemes}
 \secondreader  {Andrew Houck}
 \examiner      {}
 \degree        {Bachelor of Science in Engineering}
@@ -250,7 +250,7 @@
     \setlength{\parskip}{0pt}
     {\normalsize PRINCETON UNIVERSITY \par}
     \bigskip
-    {\huge{Augmenting $((t,n))$-threshold Quantum Secret Sharing Schemes} \par}
+    {\huge{Augmented $((t,n))$-threshold Quantum Secret Sharing Schemes} \par}
     \bigskip
     {\normalsize by Steven Chien \par}
     {\normalsize Department of Electrical Engineering \par}
