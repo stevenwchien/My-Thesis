@@ -71,14 +71,14 @@ Let the two copies of our quantum secret be $\ket{\psi_1}$ and $\ket{\psi_2}$, a
 
 The two access structures are as follows: $\Gamma_1 = \{p_1p_2,p_2p_3,p_3p_1\}$ and $\Gamma_2 = \{p_1p_4,p_2p_4,p_3p_4\}$. Observe that each access structure satisfies is monotone and satisfies the no-cloning theorem, so a $((2,4,2))$ scheme exists. Also, note that in this scheme, it would be possible for, say, players 1 and 2 to recover the secret together \textbf{AND} players 3 and 4 to recover the secret together, and for the two pairs to do so separately. This is allowed. Each pair would recover a different copy of the state, and there is no way for the two pairs to recover the same copy, which satisfies the no-cloning theorem.
 
-We have shown that we can implement a QTS that would otherwise not be possible in the normal construction. We call any augmented QTS that can be implemented in this way a valid scheme.
+We have shown that we can implement a QTS that would otherwise not be possible in the normal construction. We call any augmented QTS that can be implemented in this way a valid augmented QTS.
 
 \subsection{A Graphical Representation}
 \label{ssec:graphical-rep}
 
 Our next step will be to generalize this implementation. We can start off by observing that, in the case of our $((2,4,2))$ scheme, we need the union $\Gamma_1 \cup \Gamma_2$ to consist of all subsets of size 2 from a pool of 4 players. Each of these access structures must satisfy Theorem \ref{thm:qss-disjoint}. So, in general, a $((t,n,2))$ scheme is realizable if we can take all subsets of size $t$ of the $n$ participants and divide them into $2$ groups, where each group consists of an access structure that satisfies Theorem \ref{thm:qss-disjoint}. 
 
-Such a combinatorial problem lends itself easily to a graphical representation, albeit one that is different than the one we used above. By letting each vertex represent a player, we run into the problem where it is difficult to represent authorized sets of size greater than 2. In these cases, we would need an edge that has as its endpoints 3 or more vertices. These extensions of edges, called \textbf{hyperedges} do exist, but they would be more difficult to reason about, simply because of the lack of literature.
+Such a combinatorial problem lends itself easily to a graphical representation, albeit one that is different than the one we used in \fref{fig:2-4-2}. By letting each vertex represent a player, we run into a problem where it is difficult to represent authorized sets of size greater than 2. In these cases, we would need an edge that has as its endpoints 3 or more vertices. These extensions of edges, called \textbf{hyperedges} do exist, but they would be more difficult to reason about, simply because of the lack of literature.
 
 So, instead of representing the participants as vertices and the authorized subsets as edges between them, we take inspiration from Singh and Srikanth's AS graph representation, which we define above in \defref{defn:access-structure-graph} \cite{singh_assisted_2004}. In an AS graph, each vertex in the graph represents an authorized set, and there is an edge between two vertices if the authorized sets which they represent have a non-empty intersection. Now this is where our representation will differ slightly from Singh and Srikanth. Our representation will have edges between two vertices if they \textbf{do not intersect}. In other words, we consider the \textit{complement} of the AS graph.
 
@@ -90,7 +90,7 @@ So, instead of representing the participants as vertices and the authorized subs
 \subsection{Generalization of \texorpdfstring{$((t,n,2))$}{((t,n,2))} Schemes}
 \label{ssec:generalize-t-n-2}
 
-In the following subsection, we will explore the results that we can reach when $k=2$ by using our new formulation. The access structure graph complement for \fref{fig:2-4-2} is shown in \fref{fig:2-4-2-graph}:
+In this subsection, we will explore the results that we can reach when $k=2$ by using our new formulation. The access structure graph complement for \fref{fig:2-4-2} is shown in \fref{fig:2-4-2-graph}:
 
 \begin{figure}[H]
     \centering
@@ -133,7 +133,7 @@ By combining \lemref{lem:2-color-access} and \thmref{thm:bipartite-odd}, we get 
 
 We can use \corref{cor:oddcycle-valid} to also show that $((3,6,2))$ is also a valid scheme, but that $((2,5,2))$ and $((3,7,2))$ are \textbf{not} valid schemes.
 
-For the $((2,5,2))$ scheme, rather than try to draw an access structure, we find an odd cycle in the AS graph complement by listing an ordering of vertices that have edges connecting them: $(1,2), (3,4), (5,1), (2,3), (4,5), (1,2)$. Each integer represents a player, and each pairing of integers represents an size-2 subset. This cycle has length 5, so the graph is not bipartite. Therefore, $((2,5,2))$ does not represent a valid augmented quantum threshold scheme. A similar approach with $((3,7,2))$ leads us to the same conclusion.
+For the $((2,5,2))$ scheme, rather than try to draw an access structure, we find an odd cycle in the AS graph complement by listing an ordering of vertices that have edges connecting them: $(1,2), (3,4), (5,1), (2,3), (4,5), (1,2)$. Each integer represents a player, and each pairing of integers represents an size-2 subset. This cycle has length 5, so the AS graph complement of $((2,5,2))$ is not bipartite. Therefore, $((2,5,2))$ does not represent a valid augmented quantum threshold scheme. A similar approach with $((3,7,2))$ leads us to the same conclusion.
 
 From the simple cases we have studied so far, we notice a pattern beginning to emerge. It seems like schemes of the form $((t,2t,2))$ are valid, but $((t,2t+1,2))$ are not. This turns out to be true. Using the theorems that we have developed, we will formally prove these results: that all augmented QTS of the form $((t,2t,2))$ are valid, and all augmented QTS of the form $((t, 2t+1, 2))$ are not valid. Therefore, the best that we can do with two copies of a quantum secret is $((t,2t,2))$. 
 
@@ -147,7 +147,7 @@ From the simple cases we have studied so far, we notice a pattern beginning to e
 \end{theorem}
 
 \begin{proof}
-    We are given an augmented quantum threshold scheme of the form $((t,2t,2))$ where $t \geq 1$. We will show that any scheme of this form cannot have any odd cycles in its access structure graph complement. And then, by \corref{cor:oddcycle-valid}, we are done. Consider one of the authorized sets, and without loss of generality, let this set have the participants: $\{p_1,\dots,p_t\}$. Then, there is only one possible authorized set that is disjoint from this one: $\{p_{t+1},\dots,p_{2t}\}$. Note that this is true for every single authorized set (of size $t$). Therefore in the AS graph complement, each vertex has degree exactly equal to 1. Such a graph must be bipartite, and therefore cannot have any odd cycles.
+    We are given an augmented quantum threshold scheme of the form $((t,2t,2))$ where $t \geq 1$. We will show that the AS graph complement of any scheme of this form is bipartite. And then, by \lemref{lem:2-color-access}, we are done. Consider one of the authorized sets, and without loss of generality, let this set have the participants: $\{p_1,\dots,p_t\}$. Then, there is only one possible authorized set that is disjoint from this one: $\{p_{t+1},\dots,p_{2t}\}$. Note that this is true for every single authorized set (of size $t$). Therefore in the AS graph complement, each vertex has degree exactly equal to 1. Such a graph must be bipartite, so $((t,2t,2))$ is valid.
 \end{proof}
 
 \begin{theorem}

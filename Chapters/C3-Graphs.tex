@@ -39,12 +39,18 @@ Bipartite graphs are an important class of graphs because of their wide applicab
 
 \begin{definition}{Complete Graph.}
     \label{defn:clique}
-    A \textbf{complete graph} is a graph where each vertex is adjacent to every other vertex. A complete graph with $n$ nodes is often denoted as $K_n$. Another name for a complete graph is a clique, and a clique with $n$ nodes might be referred to as an $n$-clique.
+    A \textbf{complete graph} is a graph where each vertex is adjacent to every other vertex. A complete graph with $n$ nodes is often denoted as $K_n$.
 \end{definition}
+
+If a vertex-induced subgraph is a complete graph, then we call that induced subgraph a \textbf{clique}.
+
+\begin{remark}
+    Any induced subgraph of a complete graph is a clique.
+\end{remark}
 
 \begin{definition}{Chromatic Number.}
     \label{defn:colors}
-	A vertex coloring of a graph $G$ is assigning each vertex in $V$ a color such that two vertices of the same color are not adjacent. The \textbf{chromatic number} of a graph $\chi(G)$ is the minimum number of colors needed to do a vertex coloring on $G$.
+	A vertex coloring of a graph $G$ assigns each vertex in $V$ a color such that two vertices of the same color are not adjacent. The \textbf{chromatic number} of a graph $\chi(G)$ is the minimum number of colors needed to do a vertex coloring on $G$.
 \end{definition}
 
 \begin{remark}
@@ -53,7 +59,7 @@ Bipartite graphs are an important class of graphs because of their wide applicab
 
 \begin{definition}{Clique Cover Number.}
     \label{defn:clique-cover-num}
-    The \textbf{clique cover number} is the minimum number of cliques needed to cover the vertex set $V$ of $G$, where each clique is a vertex-induced subgraph on $G$.
+    The \textbf{clique cover number} is the minimum number of cliques needed to cover the vertex set $V$ of $G$.
 \end{definition}
 
 \begin{proposition}

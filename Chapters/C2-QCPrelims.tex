@@ -34,13 +34,13 @@ One of the most important applications of the density operator is the ability to
 \end{align}
 This is known as the \textbf(partial trace) over system $Y$, and the resulting $\rho^X$ is known as the \textbf{reduced density operator}. Note that if we perform a partial trace over subsystem $Y$, then we obtain the reduced density operator describing the subsystem $X$. The importance of the reduced density operator comes from the fact that it returns the correct measurements statistics for measurements done on subsystem $X$.
 
-Another important technique that takes advantage of the density operator formulation is \textbf{purification}. This is a procedure in which we begin with some quantum system $A$ which is in a mixed state. We introduce a ``reference'' system $R$ such that the composite system $AR$ is in a pure state. Furthermore, the pure state $\ket{AR}$ reduces to $\rho^A$ when we trace over the reference system $R$.
+Another important technique that takes advantage of the density operator formulation is \textbf{purification}. This is a procedure in which we begin with some quantum system $A$ which is in a mixed state. We introduce a ``reference'' system $R$ such that the composite system $AR$ is in a pure state, and $\ket{AR}$ reduces to $\rho^A$ when we trace over the reference system $R$. It is always possible to do this.
 
 It is important to note that both the state vector and density operator formulations are equally valid ways of describing a quantum system. Now, having talked about mathematical descriptions of quantum systems, it is only natural to then consider how we can manipulate those systems. 
 
 \subsection{Quantum Operations}
 
-Quantum systems evolve via \textbf{quantum operations}. A quantum operation is a unitary operator $U$ that acts on a quantum system denoted $\ket{\psi}$.
+The evolution of a quantum system can be described using \textbf{quantum operations}. A quantum operation is a unitary operator $U$ that acts on a quantum system denoted $\ket{\psi}$.
 
 \begin{definition}{Unitary Operator.}
     A \textbf{unitary operator} $U;\mathcal{H} \to \mathcal{H}$ is a linear operator on a Hilbert space $\mathcal{H}$ that satisfies:
@@ -49,6 +49,7 @@ Quantum systems evolve via \textbf{quantum operations}. A quantum operation is a
     \end{align}
     where $U^*$ is the adjoint of $U$.
 \end{definition}
+Any unitary matrix $U$ describes a valid quantum operation that can be used to evolve a quantum system. This specific constraint comes from the requirement that quantum operations be reversible. We know that any unitary matrix $U$ is reversible because if we apply $U$ to a quantum state $\ket{\psi}$, and then apply $U^{\dagger}$ to the evolved state $U\ket{\psi}$, we get $U^{\dagger}U\ket{\psi} = \ket{\psi}$.
 
 Examples of some commonly used operators are the 4 Pauli operators:
 \begin{align}
@@ -73,13 +74,12 @@ If the evolution of a closed quantum system is described by the unitary operator
 \begin{align}
     \ket{\psi} \xrightarrow{U} U \ket{\psi}
 \end{align}
-In the density operator formulation, describing the ensemble of states where the closed quantum system was originally in state $\ket{\psi_i}$ with probability, $p_i$, the evolution is described as:
+Using the density operator formulation, let $\rho$ describe the ensemble of states where the closed quantum system was originally in state $\ket{\psi_i}$ with probability, $p_i$, the evolution is described as:
 \begin{align}
     \rho = \sum_i p_i \ket{\psi_i}\bra{\psi_i} &\xrightarrow{U} \sum_i p_i U\ket{\psi_i}\bra{\psi_i}U^{\dagger} \\
     &\xrightarrow{U} U \left(\sum_i p_i \ket{\psi_i}\bra{\psi_i} \right)U^{\dagger} \\
     &\xrightarrow{U} U \rho U^{\dagger}
 \end{align}
-Any unitary matrix $U$ describes a valid quantum operation that can be used to evolve a quantum system. This specific constraint comes from the requirement that quantum operations be reversible. We know that any unitary matrix $U$ is reversible because if we apply $U$ to a quantum state $\ket{\psi}$, and then apply $U^{\dagger}$ to the evolved state $U\ket{\psi}$, we get $U^{\dagger}U\ket{\psi} = \ket{\psi}$.
 
 \subsection{Entanglement}
 \label{ssec:entanglement}
@@ -94,9 +94,9 @@ The more interesting way that two quantum systems can interact with each other i
 \begin{align*}
     \ket{\Psi} &= \frac{1}{\sqrt{2}}\left( \ket{01} + \ket{10} \right) \\ 
 \end{align*}
-This state is one of four states that form the "Bell basis", which were named after John S. Bell for his famous 1964 paper \cite{bell1964einstein}. The state describes a system of two qubits, where the individual states of each qubit cannot be separated via a tensor product. What is even more interesting is that the two qubits are anti-correlated. By performing a measurement on one of the two qubits, you can know, with certainty, the state of the other qubit, even if the two qubits are separated over a large distance.
+This state is one of four states that form the "Bell basis", which was named after John S. Bell for his famous 1964 paper \cite{bell1964einstein}. The state describes a system of two qubits, where the individual states of each qubit cannot be separated with a tensor product. What is even more interesting is that the two qubits are anti-correlated. By performing a measurement on one of the two qubits, you can know, with certainty, the state of the other qubit, even if the two qubits are separated over a large distance.
 
-Quantum entanglement is one of the main features of quantum computation that allows for the development of novel algorithms and novel cryptographic procedures. It is at the heart of almost every quantum secret sharing scheme, which we will talk about more in later chapters.
+Quantum entanglement is one of the main features of quantum computation that allows for the development of novel algorithms and novel cryptographic procedures. It is used in many quantum computing algorithms and is at the heart of almost every quantum secret sharing scheme, which we will talk about more in later chapters.
 
 \section{The No-Cloning Theorem}
 
@@ -209,7 +209,7 @@ As one might expect, the joint entropy can also be defined as function of the en
 
 This implies that the conditional entropy $S(X|Y) = S(X)$, which makes sense. If a composite system is in a product state, then there is no entanglement between the two systems. Information about one system does not give any information about the other.
 
-In cases where there is entanglement, we can reach some interesting results. Again, consider the composite system $XY$ of $X$ and $Y$, and this time assume that $XY$ is in a pure entangled state. The entropy of $XY$ is actually \textit{smaller} than the entropy of either $X$ or $Y$ alone. Moreover, by \defref{defn:conditional-entropy}, the conditional entropy $S(X|Y)$ is actually negative. This seems incorrect -- how could a larger system possibly have less uncertainty than one of its subsystems, and what does negative conditional entropy even mean? The short answer is that knowledge of one system can give complete information about the other system, like we saw for the Bell state in \ssref{ssec:entanglement}. This is just one of the many counterintuitive results that come from quantum entanglement.
+In cases where there is entanglement, we can reach some interesting results. Again, consider the composite system $XY$ of $X$ and $Y$, and this time assume that $XY$ is in a pure entangled state. The entropy of $XY$ is actually \textit{smaller} than the entropy of either $X$ or $Y$ alone. Moreover, by \defref{defn:conditional-entropy}, the conditional entropy $S(X|Y)$ is actually negative. This seems incorrect -- how could a larger system possibly have less uncertainty than one of its subsystems, and what does negative conditional entropy even mean? The short answer is that knowledge of one system can give complete information about another system, like we saw for the Bell state in \ssref{ssec:entanglement}. This is just one of the many counterintuitive results that come from quantum entanglement.
 
 Another quantity that relates to the information content of two systems is the \textbf{mutual information}. This is a measure of how much information the two systems have in common.
 
