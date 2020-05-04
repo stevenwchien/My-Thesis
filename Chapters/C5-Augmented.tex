@@ -1,7 +1,7 @@
 \chapter{An Augmented Quantum Threshold Scheme}
 \label{ch:good-stuff}
 
-In this section, we introduce our own idea to circumvent the no-cloning theorem, beginning with the following questions: What can we do if we were to start with two identical copies of a quantum state? What if we have $k$ copies? Can we create a scheme that circumvents the limitations imposed by the no-cloning theorem? If so, what schemes are realizable using this new formulation? In this section, we will explore the properties of such a scheme. We will call this an \textbf{augmented quantum threshold scheme}. Let us formalize this idea and explore its consequences below:
+In this section, we introduce our own idea to circumvent the no-cloning theorem, beginning with the following questions: What can we do if we were to start with two identical copies of a quantum state? What if we have $k$ copies? Can we create a scheme that circumvents the limitations imposed by the no-cloning theorem? If so, what schemes are realizable using this new formulation? In this section, we will explore the properties of such a scheme. We will call this an \textbf{augmented quantum threshold scheme}. Let us formalize this idea before exploring its properties below:
 
 \theoremstyle{definition}
 \begin{definition}{Augmented Quantum Threshold Scheme.}
@@ -11,7 +11,7 @@ In this section, we introduce our own idea to circumvent the no-cloning theorem,
 
 \section{A Loose Upper Bound}
 
-Based on the analysis done in \sref{section:qss}, it would be most natural to begin our analysis of an augmented QTS by considering the consequences of the no-cloning theorem. Let us begin with the case where $k=2$. Then, we can extend \thmref{thm:qss-disjoint} in the following way:
+Based on the results presented in \sref{section:qss}, it would be most natural to begin our analysis of an augmented QTS by considering the consequences of the no-cloning theorem. Let us begin with the case where $k=2$. Then, we can extend \thmref{thm:qss-disjoint} in the following way:
 
 \begin{theorem}
     \label{thm:three-authorized}
@@ -42,7 +42,7 @@ Just as Theorems \ref{thm:three-authorized} and \ref{thm:k-authorized} extend \t
 \section{A Union of Access Structures Approach}
 \label{sec:union-access-structures}
 
-The simplest non-trivial case to implement is a $((2,4,2))$ scheme. Using 2 identical copies of a quantum state, we ask the question of whether or not it is possible to implement a scheme among 4 individuals such that only 2 or more people need to come together to recover the secret. The answer is yes.
+The simplest non-trivial case to implement is a $((2,4,2))$ scheme. Using two identical copies of a quantum state, we ask the following question: Is it possible to implement a scheme among four individuals such that only two or more people need to come together to recover the secret. The answer is yes.
 
 To construct this scheme, we will use the following approach: we take the access structure that we want to implement and split it up into two smaller access structures, each of which are valid access structures, which means that on their own, they are monotone and satisfy the no-cloning theorem. By \thmref{thm:monotone-gamma}, we assume that there exists an implementation of a quantum secret sharing scheme that corresponds to our valid access structures, and we assign one copy to each of them. We will call this procedure the union of access structures approach.
 

@@ -75,7 +75,7 @@ An analysis of a cryptographic scheme would not be complete without an analysis 
     Note that any scheme of the form $((r,2r-1))$ is maximal, as is any scheme of the form $((t,t))$. The authorized sets are the complements of the unauthorized sets. So, we have found a way to construct $\Gamma_{k+1}$ using only maximal access structures. Therefore, $\Gamma_{k+1}$ corresponds to a perfect secret sharing scheme, so by induction $((t,2t-2+k,k))$ is a perfect quantum threshold scheme.
 \end{proof}
 
-\section{Assisted Quantum Secret Sharing and Augmented Quantum Secret Sharing}
+\section{Back to Assisted Quantum Secret Sharing}
 \label{sec:aqss-and-aqss}
 
 In this section, we give a short result on that provides a closed form solution for the number of resident shares needed in an assisted QSS implementation of a threshold scheme. Recall the assisted quantum secret sharing scheme presented by Singh and Srikanth \cite{singh_assisted_2004}. They show that, by using a system of resident shares and player shares, they are able to realize any quantum secret sharing scheme corresponding to a monotone access structure. The number of resident shares needed is $\lambda-1$, where $\lambda$ is the minimum number of partially linked classes there are in the AS graph of the access structure $\Gamma$. The question that is left open is finding a way to compute $\lambda$. We show that our results from the previous section can provide a closed form answer to this question when the access structure corresponds to a threshold scheme.

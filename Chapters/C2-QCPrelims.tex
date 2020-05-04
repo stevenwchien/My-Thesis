@@ -4,7 +4,7 @@
 \section{Quantum Computation}
 \label{sec:qc}
 
-Before we talk about quantum cryptographic schemes, it is important to cover a few important concepts in quantum computation. This section will give a mathematical description of quantum systems and discuss some important properties about them. Much of this section comes from Nielsen and Chuang's text on quantum computation and quantum information. For a more comprehensive treatment, please refer to their text \cite{nielsen_quantum_2010}.
+Before we talk about quantum cryptography, it is important to cover a few important concepts in quantum computation. This section will give a mathematical description of quantum systems and discuss some of their important properties. Much of this section comes from Nielsen and Chuang's book on quantum computation and quantum information. For a more comprehensive treatment, please refer to their text \cite{nielsen_quantum_2010}.
 
 \subsection{Quantum States}
 
@@ -209,7 +209,7 @@ As one might expect, the joint entropy can also be defined as function of the en
 
 This implies that the conditional entropy $S(X|Y) = S(X)$, which makes sense. If a composite system is in a product state, then there is no entanglement between the two systems. Information about one system does not give any information about the other.
 
-In cases where there is entanglement, we can reach some interesting results. Consider the composite system $XY$ of $X$ and $Y$ again, and this time assume that $XY$ is in a pure entangled state. The entropy of $XY$ is actually smaller than the entropy of $X$ alone, or $Y$ for that matter. Moreover, by \defref{defn:conditional-entropy}, the conditional entropy $S(X|Y)$ is actually negative. This seems incorrect -- how could a larger system possibly have less uncertainty than one of its subsystems, and what does negative conditional entropy even mean? The short answer is that knowledge of one system can give complete information about the other system, like we saw for the Bell state in \ssref{ssec:entanglement}. This is just one of the many counterintuitive results that come from quantum entanglement.
+In cases where there is entanglement, we can reach some interesting results. Again, consider the composite system $XY$ of $X$ and $Y$, and this time assume that $XY$ is in a pure entangled state. The entropy of $XY$ is actually \textit{smaller} than the entropy of either $X$ or $Y$ alone. Moreover, by \defref{defn:conditional-entropy}, the conditional entropy $S(X|Y)$ is actually negative. This seems incorrect -- how could a larger system possibly have less uncertainty than one of its subsystems, and what does negative conditional entropy even mean? The short answer is that knowledge of one system can give complete information about the other system, like we saw for the Bell state in \ssref{ssec:entanglement}. This is just one of the many counterintuitive results that come from quantum entanglement.
 
 Another quantity that relates to the information content of two systems is the \textbf{mutual information}. This is a measure of how much information the two systems have in common.
 
