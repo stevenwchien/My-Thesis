@@ -45,9 +45,9 @@ The evolution of a quantum system can be described using \textbf{quantum operati
 \begin{definition}{Unitary Operator.}
     A \textbf{unitary operator} $U;\mathcal{H} \to \mathcal{H}$ is a linear operator on a Hilbert space $\mathcal{H}$ that satisfies:
     \begin{align}
-        U^*U = UU^* = I
+        U^{\dagger}U = UU^{\dagger} = I
     \end{align}
-    where $U^*$ is the adjoint of $U$.
+    where $U^{\dagger}$ is the adjoint of $U$.
 \end{definition}
 Any unitary matrix $U$ describes a valid quantum operation that can be used to evolve a quantum system. This specific constraint comes from the requirement that quantum operations be reversible. We know that any unitary matrix $U$ is reversible because if we apply $U$ to a quantum state $\ket{\psi}$, and then apply $U^{\dagger}$ to the evolved state $U\ket{\psi}$, we get $U^{\dagger}U\ket{\psi} = \ket{\psi}$.
 
@@ -62,8 +62,8 @@ Examples of some commonly used operators are the 4 Pauli operators:
         1 & 0 \\ 
     \end{pmatrix} \\ 
     Y &= \begin{pmatrix}
-        0 & i \\ 
-        -i & 0 \\ 
+        0 & -i \\ 
+        i & 0 \\ 
     \end{pmatrix} \\ 
     Z &= \begin{pmatrix}
         1 & 0 \\ 
