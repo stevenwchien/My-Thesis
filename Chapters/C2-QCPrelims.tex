@@ -4,56 +4,53 @@
 \section{Quantum Computation}
 \label{sec:qc}
 
-An isolated \textbf{quantum system} is associated with a \textbf{Hilbert space} $\mathcal{H}$. The system is described completely by its \textbf{state vector}, which is a unit vector in its \textbf{state space} $\mathcal{H}$.
+Before we talk about quantum cryptographic schemes, it is important to cover a few important concepts in quantum computation. This section will give a mathematical description of quantum systems and discuss some important properties about them. Much of this section comes from Nielsen and Chuang's text on quantum computation and quantum information. For a more comprehensive treatment, please refer to their text \cite{nielsen_quantum_2010}.
+
+\subsection{Quantum States}
+
+An isolated \textbf{quantum system} is associated with a \textbf{Hilbert space} $\mathcal{H}$. The system is described completely by its \textbf{state vector}, which is a unit vector in the \textbf{state space} $\mathcal{H}$.
 
 The simplest, but most applicable quantum mechanical system that we will use is the \textbf{qubit}, or the ``quantum bit''. The qubit lies in a two-dimensional Hilbert space, and is denoted as:
-
 \begin{align}
     \ket{\psi} &= \alpha \ket{0} + \beta \ket{1}
 \end{align}
-
 where $|\alpha|^2 + |\beta|^2 = 1$. The normalization of the constant terms ensure that $\ket{\psi}$ is a unit vector. $\ket{0}$ and $\ket{1}$ form an orthonormal basis for the two-dimensional hilbert space. A general state vector in an $n$ dimensional Hilbert space is denoted:
-
 \begin{align}
     \ket{\psi} &= \sum_{i=1}^n \alpha_i\ket{i}
 \end{align}
-
 The states $\ket{i}$ for $i \in \{1,...,n\}$ represent an orthonormal basis, and the constants $\alpha_1,...,\alpha_n$ are complex numbers normalized such that $\sum_{i=1}^n \alpha_i = 1$.
 
 We say that the quantum state $\ket{\psi}$ is in a \textbf{superposition} of the states: $\{\ket{i}\}$.
 
 The above formulation is called a state vector. Another formulation that represents a quantum state is a \textbf{density operator} or \textbf{density matrix}, generally denoted as $\rho$. One application where the density operator shines is in describing \textbf{mixed states}. A mixed state describes a quantum system in which there is uncertainty about its exact state. These are also known as ensembles of pure states: $\{\ket{\psi_i}, p_i\}$. $\ket{\psi_i}$ is one of the possible states the system is in, and the corresponding probability that the system is in state $\ket{\psi_i}$ is $p_i$. Then, the density operator describing this quantum subsystem is:
-
 \begin{align}
     \rho &= \sum_{i} p_i * \ket{\psi_i}\bra{\psi_i}
 \end{align}
-
 Note that a mixed state is different than a superposition of states. A mixed state has to do with uncertainty about which state a quantum system is in. However, if a system is known to be in a superposition state, then there is no uncertainty. That state would be a pure state.
 
 One of the most important applications of the density operator is the ability to describe quantum subsystems. Say that we have a density operator $\rho$ that represents the composite of two quantum systems $X$ and $Y$. Then, the density operator representing just the quantum system $X$ is:
-
 \begin{align}
     \rho^X &\equiv \trace[Y]{\rho}
 \end{align}
-
 This is known as the \textbf(partial trace) over system $Y$, and the resulting $\rho^X$ is known as the \textbf{reduced density operator}. Note that if we perform a partial trace over subsystem $Y$, then we obtain the reduced density operator describing the subsystem $X$. The importance of the reduced density operator comes from the fact that it returns the correct measurements statistics for measurements done on subsystem $X$.
 
 Another important technique that takes advantage of the density operator formulation is \textbf{purification}. This is a procedure in which we begin with some quantum system $A$ which is in a mixed state. We introduce a ``reference'' system $R$ such that the composite system $AR$ is in a pure state. Furthermore, the pure state $\ket{AR}$ reduces to $\rho^A$ when we trace over the reference system $R$.
 
-A \textbf{quantum operation} is a unitary operator $U$ that acts on a quantum system denoted $\ket{\psi}$.
+It is important to note that both the state vector and density operator formulations are equally valid ways of describing a quantum system. Now, having talked about mathematical descriptions of quantum systems, it is only natural to then consider how we can manipulate those systems. 
+
+\subsection{Quantum Operations}
+
+Quantum systems evolve via \textbf{quantum operations}. A quantum operation is a unitary operator $U$ that acts on a quantum system denoted $\ket{\psi}$.
 
 \begin{definition}{Unitary Operator.}
     A \textbf{unitary operator} $U;\mathcal{H} \to \mathcal{H}$ is a linear operator on a Hilbert space $\mathcal{H}$ that satisfies:
-    
     \begin{align}
         U^*U = UU^* = I
     \end{align}
-    
-    Where $U^*$ is the adjoint of $U$.
+    where $U^*$ is the adjoint of $U$.
 \end{definition}
 
 Examples of some commonly used operators are the 4 Pauli operators:
-
 \begin{align}
     I &= \begin{pmatrix}
         1 & 0 \\ 
@@ -72,26 +69,38 @@ Examples of some commonly used operators are the 4 Pauli operators:
         0 & -1 \\ 
     \end{pmatrix}
 \end{align}
-
 If the evolution of a closed quantum system is described by the unitary operator $U$, and the system was originally in the state $\ket{\psi}$, then we denote the evolved system as:
-
 \begin{align}
     \ket{\psi} \xrightarrow{U} U \ket{\psi}
 \end{align}
-
 In the density operator formulation, describing the ensemble of states where the closed quantum system was originally in state $\ket{\psi_i}$ with probability, $p_i$, the evolution is described as:
-
 \begin{align}
     \rho = \sum_i p_i \ket{\psi_i}\bra{\psi_i} &\xrightarrow{U} \sum_i p_i U\ket{\psi_i}\bra{\psi_i}U^{\dagger} \\
     &\xrightarrow{U} U \left(\sum_i p_i \ket{\psi_i}\bra{\psi_i} \right)U^{\dagger} \\
     &\xrightarrow{U} U \rho U^{\dagger}
 \end{align}
+Any unitary matrix $U$ describes a valid quantum operation that can be used to evolve a quantum system. This specific constraint comes from the requirement that quantum operations be reversible. We know that any unitary matrix $U$ is reversible because if we apply $U$ to a quantum state $\ket{\psi}$, and then apply $U^{\dagger}$ to the evolved state $U\ket{\psi}$, we get $U^{\dagger}U\ket{\psi} = \ket{\psi}$.
 
-Any unitary matrix $U$ describes a valid quantum operation that can be used to evolve a quantum system. The unitary constraint comes from the requirement that quantum operations must be reversible.
+\subsection{Entanglement}
+\label{ssec:entanglement}
+
+So far, our discussion has focused on quantum systems describing just a single qubit. In general, we can extend this description to systems that contain multiple qubits. Let a system $X$ correspond to a qubit in the state $\ket{\psi}$, and a system $Y$ correspond to a qubit in the state $\ket{\phi}$. Then, we say that $XY$ denotes a \textbf{composite system}, which, in this case, is a system containing both $X$ and $Y$. These systems can interact in a number of ways. One of these ways is for $X$ and $Y$ to remain independent and uncorrelated. Then, the mathematical representation of $XY$ is:
+\begin{align}
+    \ket{\psi} \otimes \ket{\phi}
+\end{align}
+This is also called a \textbf{product state}, and it means that the composite system $XY$ can be decomposed into smaller parts via a tensor product. We can treat these smaller systems as if they are independent of one another.
+
+The more interesting way that two quantum systems can interact with each other is called \textbf{quantum entanglement}. This is a fascinating and unique phenomenon in quantum mechanics, and is often considered a hallmark of the field. Consider the state:
+\begin{align*}
+    \ket{\Psi} &= \frac{1}{\sqrt{2}}\left( \ket{01} + \ket{10} \right) \\ 
+\end{align*}
+This state is one of four states that form the "Bell basis", which were named after John S. Bell for his famous 1964 paper \cite{bell1964einstein}. The state describes a system of two qubits, where the individual states of each qubit cannot be separated via a tensor product. What is even more interesting is that the two qubits are anti-correlated. By performing a measurement on one of the two qubits, you can know, with certainty, the state of the other qubit, even if the two qubits are separated over a large distance.
+
+Quantum entanglement is one of the main features of quantum computation that allows for the development of novel algorithms and novel cryptographic procedures. It is at the heart of almost every quantum secret sharing scheme, which we will talk about more in later chapters.
 
 \section{The No-Cloning Theorem}
 
-One of the most important theorems that has a significant effect on quantum computing algorithms is the \textbf{no-cloning theorem}. Here, we present the no-cloning theorem with proof referencing Mermin's 2007 text \cite{mermin_quantum_2007}.
+One of the most important theorems in quantum computing is the \textbf{no-cloning theorem}. Here, we present the theorem with proof referencing Mermin's 2007 text \cite{mermin_quantum_2007}.
 
 \begin{noclonetheorem}{}
     \label{thm:no-cloning-thm}
@@ -100,14 +109,12 @@ One of the most important theorems that has a significant effect on quantum comp
 
 \begin{proof}
     Assume for the sake of contradiction that there is such an operator. Then $U(\ket{\psi} \ket{0}) = \ket{\psi}\ket{\psi}$ and $U(\ket{\phi} \ket{0}) = \ket{\phi}\ket{\phi}$, for arbitrary quantum states $\ket{\psi}, \ket{\phi}$. Then:
-    
     \begin{align}
         U(\alpha \ket{\psi} + \beta \ket{\phi})\otimes\ket{0} &= (\alpha \ket{\psi} + \beta \ket{\phi})\otimes (\alpha \ket{\psi} + \beta \ket{\phi}) \\ 
         &= \alpha^2\braket{\phi|\phi} + \beta^2\braket{\psi|\psi} + \alpha \beta \braket{\phi|\psi} + \alpha \beta \braket{\psi|\phi} \numberthis \label{eqn:no-clone-1}
     \end{align}
     
     But by linearity, we also have:
-    
     \begin{align}
         U(\alpha \ket{\psi} + \beta \ket{\phi})\otimes\ket{0} &= \alpha U \ket{\psi}\ket{0} + \beta U \ket{\phi}\ket{0} \\ 
         &= \alpha \ket{\psi}\ket{\psi} + \beta \ket{\phi}\ket{\phi} \numberthis \label{eqn:no-clone-2}
@@ -135,14 +142,12 @@ When designing cryptographic schemes, it is important to work with quantitative 
 This idea is transferable to quantum information. Quantum systems can be modelled as probability distributions, where the ``values'' that the system can take on are quantum states, and their associated probabilities are encoded in the density operator that represents the system. The quantum analogue of Shannon entropy is called \textbf{von Neumann entropy}, and is defined below:
 
 \begin{definition}{von Neumann Entropy.}
-    The \textbf{von Neumann Entropy} of a quantum system $\rho$ is defined as:
-    
+    The \textbf{von Neumann entropy} of a quantum system $\rho$ is defined as:
     \begin{align}
         S(\rho) &\equiv -\trace{\rho \log(\rho)}
     \end{align}
     
     where $\trace{\rho}$ is the \textbf{trace} over $\rho$. The von Neumann entropy has an alternative definition using the eigenvalues of $\rho$:
-
     \begin{align}
         S(\rho) &= -\sum_x \lambda_x \log(\lambda_x)
     \end{align}
@@ -153,13 +158,11 @@ This idea is transferable to quantum information. Quantum systems can be modelle
 \end{remark}
 
 Because entropy is a measure of uncertainty, the von Neumann entropy of a pure state, where there is no uncertainty about the state of the system, is 0. On the other hand, the maximum entropy that a quantum system can have is when it is in a \textbf{maximally mixed state}, just as we would expect the Shannon entropy to be maximized over a uniform distribution. If a quantum system is in one of $d$ possible pure states, each with equal probability, then we say that it is in a maximally mixed state. The density operator for this system is:
-
 \begin{align}
     \rho = \sum_{i=0}^{d-1} \frac{1}{d}\ket{i}\bra{i} = \frac{1}{d} I
 \end{align}
 
 And the von Neumann entropy of the maximally mixed state:
-
 \begin{align}
     S(\rho) &= S(\tfrac{1}{d}I) = \log(d)
 \end{align}
@@ -168,7 +171,6 @@ In quantum mechanics, we often work with two more quantum systems that interact 
 
 \begin{definition}{Quantum Relative Entropy.}
     Suppose there are two density operators $\rho$ and $\sigma$. The \textbf{relative entropy} of $\rho$ to $\sigma$ is:
-    
     \begin{align}
         S(\rho||\sigma) &\equiv \trace{\rho \log(\rho)} - \trace{\rho \log (\sigma)}
     \end{align}
@@ -182,7 +184,6 @@ Another definition related to the interaction between systems is the \textbf{joi
 
 \begin{definition}{Joint Entropy.}
     The \textbf{joint entropy} of a composite system $XY$ is simply the entropy defined on the density operator of the composite system:
-    
     \begin{align}
         S(X,Y) = S(\rho^{XY}) &= -\trace{\rho^{XY} \log(\rho^{XY})}
     \end{align}
@@ -191,8 +192,8 @@ Another definition related to the interaction between systems is the \textbf{joi
 As one might expect, the joint entropy can also be defined as function of the entropies of each system separately. To talk about that, we need to provide a couple more important definitions.
 
 \begin{definition}{Conditional Entropy.}
+    \label{defn:conditional-entropy}
     Say that we have two quantum systems $X,Y$, but we have full information about $Y$. Then we define the entropy of $X$ \textbf{conditional} on knowing $Y$ to be: 
-    
     \begin{align}
         S(X|Y) &\equiv S(X,Y) - S(Y)
     \end{align}
@@ -208,18 +209,18 @@ As one might expect, the joint entropy can also be defined as function of the en
 
 This implies that the conditional entropy $S(X|Y) = S(X)$, which makes sense. If a composite system is in a product state, then there is no entanglement between the two systems. Information about one system does not give any information about the other.
 
+In cases where there is entanglement, we can reach some interesting results. Consider the composite system $XY$ of $X$ and $Y$ again, and this time assume that $XY$ is in a pure entangled state. The entropy of $XY$ is actually smaller than the entropy of $X$ alone, or $Y$ for that matter. Moreover, by \defref{defn:conditional-entropy}, the conditional entropy $S(X|Y)$ is actually negative. This seems incorrect -- how could a larger system possibly have less uncertainty than one of its subsystems, and what does negative conditional entropy even mean? The short answer is that knowledge of one system can give complete information about the other system, like we saw for the Bell state in \ssref{ssec:entanglement}. This is just one of the many counterintuitive results that come from quantum entanglement.
+
 Another quantity that relates to the information content of two systems is the \textbf{mutual information}. This is a measure of how much information the two systems have in common.
 
-\begin{definition}{Mutual Information}
+\begin{definition}{Mutual Information.}
     The \textbf{mutual information} of two quantum systems $X,Y$ is defined as:
-    
     \begin{align}
         I(X:Y) &\equiv S(X) + S(Y) - S(X,Y)
     \end{align}
 \end{definition}
 
 Using our definitions, one can see that the mutual information is also closely tied to the conditional entropy:
-
 \begin{align}
         I(X:Y) = S(X) - S(X|Y) = S(Y) - S(Y|X)
 \end{align}

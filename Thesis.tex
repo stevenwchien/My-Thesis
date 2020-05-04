@@ -41,15 +41,14 @@
 % Declaration Page required for the Thesis, your institution may give you a different text to place here
 \pagestyle{empty}
 
-\vspace*{\fill}
-
 I hereby declare that this Independent work represents my own work in accordance with University regulations.
  
-\hfill 
- 
-Signed: \hrulefill
-
-\textbf{Steven Chien}
+\begin{flushright}
+    \begin{figure}[ht]
+        \includegraphics[width=0.28\textwidth, right]{Images/steven_signature.png}
+    \end{figure}
+    Steven Chien
+\end{flushright}
 
 \clearpage % end of declaration
 
@@ -58,10 +57,9 @@ Signed: \hrulefill
 % The Abstract Page
 \addtotoc{Abstract}  % Add the "Abstract" page entry to the Contents
 \abstract{
-\addtocontents{toc}{\vspace{0em}}  % Add a gap in the Contents, for aesthetics
+\addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
 
-Threshold secret sharing schemes are a class of secret sharing schemes in which groups of individuals of a sufficient size can recover a secret if they work together. In this thesis, we analyze quantum threshold schemes, which are threshold secret sharing schemes applied to quantum information. Many of the restrictions on quantum secret sharing schemes arise from the no-cloning theorem. We investigate the potential benefit of implementing quantum threshold schemes using two or more identical copies of a secret quantum state. The hope is that the availability of multiple copies of the secret can circumvent the restrictions imposed by the no-cloning theorem. Our approach takes advantage of the availability of multiple copies by using the union of two or more access structures, one for each quantum state, in order to implement secret sharing schemes that would otherwise not be realizable. We find that we are indeed able to implement a wider range of access structures, but we show that we can only realize one new threshold scheme for every new copy of the share, given a fixed number of players.
-
+\input{FrontMatter/Abstract.tex} % Abstract
 }
 
 \clearpage  % Abstract ended, start a new page
@@ -71,29 +69,9 @@ Threshold secret sharing schemes are a class of secret sharing schemes in which 
 
 % The Acknowledgements page, for thanking everyone
 \acknowledgements{
-\addtocontents{toc}{\vspace{0em}}  % Add a gap in the Contents, for aesthetics
+\addtocontents{toc}{\vspace{1em}}  % Add a gap in the Contents, for aesthetics
 
-Filler
-% To my advisor, Professor Zhandry, thank you for all of your guidance this year. My discussions with you were engaging and thought-provoking, and this thesis would not have been possible without your help;
-
-% To Ruth Ochs, thank you for always checking in on me to see how I was doing. Thank you for an amazing semester and amazing class. Thank you for exposing me to so many different composers and pieces. I know that these symphonies will stay a part of me for the rest of my life;
-
-% To Vayne, thank you for cheering me on in the final stretches of this thesis. Your motivation and energy pushed me through this last week;
-
-% To my thesis fairies, Dora and Aaron, thank you for being the best thesis fairies ever! Thank you for your words of encouragement and the delicious snacks. For the past few weeks, I was a machine that turned cookies into thesis;
-
-% To Jerry, Karen, and Mary, thank you for taking the time to read my thesis and help me revise it;
-
-% To PU PERC, and especially my fellow seniors, Henry and Reilly, thank you for being there since day one. Thank you for four years of music, five countries travelled, six PU PERC hang out lounges, and over 30 concerts together! Though you will both be on the other coast next year, I know that it will only be a matter of time before we see each other again;
-
-% To Clockwork Ultimate, thank you for being my family at Princeton. Thank you for giving me a place to learn and grow as a person and as a player. Thank you for the long drives and fun conversations, for the morning practices and team brunches, and of course, thank you for the Party Bus;
-
-% To Bill, Daniel, Jason, Jerry, Jorge, Pranav, and Yang, thank you for accompanying me through my Princeton journey, and for the many laughs along the way. Our weekly zoom calls during these more isolated times have lifted my spirits and made everything so much more bearable;
-
-% To my classmates and my friends in ELE, Abby, Alex, Clare, Jess, Kevin, and Trisha, thank you for making our ELE classes fun to attend, thank you for the late nights spent together on psets, and thank you for the countless hours together in the lab;
-
-% To my family, Mom, Dad, and Mei Mei, thank you for all of the home-cooked meals, sliced fruit, desserts. Thank you for your love and support, but most importantly, thank you for not being too loud when I was working.
-
+\input{FrontMatter/Acknowledgements.tex}
 
 }
 \clearpage  % End of the Acknowledgements
@@ -160,25 +138,27 @@ $((t,n))$ & quantum $t$-out-of-$n$ threshold scheme \\
 % Just uncomment the lines as you write the chapters
 
 \lhead{\emph{Introduction}}
-\input{Chapters/Introduction.tex} % Introduction
+\input{Chapters/C1-Introduction.tex} % Introduction
 
 \lhead{\emph{Quantum Computing Preliminaries}}
-\input{Chapters/QCPrelims.tex} % QC Preliminaries
+\input{Chapters/C2-QCPrelims.tex} % QC Preliminaries
 
 \lhead{\emph{Graphs}}
-\input{Chapters/Graphs.tex} % Graph Theory
+\input{Chapters/C3-Graphs.tex} % Graph Theory
 
 \lhead{\emph{Secret Sharing}}
-\input{Chapters/SecretSharing.tex} % Secret Sharing
+\input{Chapters/C4-SecretSharing.tex} % Secret Sharing
 
 \lhead{\emph{Augmented Quantum Secret Sharing}}
-\input{Chapters/Augmented.tex} % The Augmented Quantum Threshold Scheme
+\input{Chapters/C5-Augmented.tex} % The Augmented Quantum Threshold Scheme
 
 \lhead{\emph{General Augmented Quantum Secret Sharing}}
-\input{Chapters/GeneralResults.tex} % The General Results
+\input{Chapters/C6-GeneralResults.tex} % The General Results
 
 \lhead{\emph{Conclusion}}
-\input{Chapters/Conclusion.tex} % Conclusion
+\input{Chapters/C7-Conclusion.tex} % Conclusion
+
+\addtocontents{toc}{\vspace{1em}}
 
 %% ----------------------------------------------------------------
 % Now begin the Appendices, including them as separate files

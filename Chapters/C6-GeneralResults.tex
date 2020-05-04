@@ -2,9 +2,9 @@
 
 \section{Generalizing the Union of Access Structures Approach}
 
-In the previous section, we determined an upper bound on the value of $n$ with respect to $t$ at a fixed $k=2$. In this next section, we ask the question of how $n$ varies with respect to $k$, and we prove more general results about the augmented quantum threshold scheme. 
+In the previous chapter, we determined an upper bound on the value of $n$ with respect to $t$ at a fixed $k=2$. In this section, we ask the question of how $n$ varies with respect to $k$, and we prove more general results about the augmented quantum threshold scheme. 
 
-At this point, there is hardly a pattern associated with the effect of $k$ on the bounds of the values of $n$ and $t$. The approach that worked for us in the previous section was posing this problem as a graph coloring problem, and indeed, that is the approach that we will take in this section as well. Unfortunately, there does not exist a general theorem on the $c$-colorability of arbitrary graphs for $c > 3$ like there is for $c=2$. This problem is NP-hard. Nevertheless, it does not hurt to state clearly the following lemma:
+At this point, there is hardly a pattern associated with the effect of $k$ on the possible values of $n$ and $t$. So we will have to take a different approach. What worked for us in the previous chapter was posing this problem as a graph coloring problem, and indeed, that is what we will do to start. Unfortunately, there does not exist a general theorem on the $c$-colorability of arbitrary graphs for $c > 3$ like there is for $c=2$. This problem is NP-hard. Nevertheless, it does not hurt to state clearly the following lemma:
 
 \begin{lemma}
     \label{lem:k-color-access}
@@ -13,7 +13,7 @@ At this point, there is hardly a pattern associated with the effect of $k$ on th
 
 This theorem and its proof are straightforward generalizations of those of \lemref{lem:2-color-access} from the previous section. In essence, the $k$-colorability of the graph ensures that we can separate it into at least $k$ stable sets, each of which can be assigned to one of the copies of the quantum state.
 
-To continue our analysis, let us consider an example with $k=3$. Drawing on previous examples, we can show that a scheme like $((2,5,3))$ is possible. What is interesting is that this $((t,n))$ pair that would \textbf{not} be possible with $k \leq 2$. One way that we could implement this scheme would be to take our scheme for $((2,4,2))$, and add an extra copy of the state and an additional player $p_5$. Then, the access structure for the newly added state, $\Gamma_3$, contains all authorized subsets that include $p_5$. Observer that this is a valid access structure because each authorized set contains the common player $p_5$. Since our original scheme was valid, then by construction, this new scheme is valid as well. We can extend this specific construction indefinitely:
+To keep our analysis going, let us consider an example with $k=3$ copies. The simplest, non-trivial example to consider is $((2,5,3))$. It is interesting to us because this $((t,n))$ pair is \textbf{not} possible with $k \leq 2$. We will show now that this scheme is indeed possible to construct. One way that we can implement this scheme is to take our implementation of $((2,4,2))$ and add both an additional copy of the state and an additional player $p_5$. Then, we define the access structure for the newly added state, $\Gamma_3$, to contain all authorized subsets that include $p_5$. The access structures corresponding to the first two states stay unchanged from $((2,4,2))$. Observe that this is a valid access structure because each authorized set contains the common player $p_5$. Since our original scheme is valid, then by construction, this new scheme is valid as well. We will now show that we can extend this construction indefinitely:
 
 \begin{theorem}
     \label{thm:build-scheme} 
